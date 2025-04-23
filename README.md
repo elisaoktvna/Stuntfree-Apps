@@ -1,4 +1,4 @@
-# aplikasi pelaporan jalan rusak laravel x flutter
+# aplikasi stunting x flutter
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -8,7 +8,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Aplikasi Pelaporan Jalan Rusak 
+# Aplikasi Stunting
 
 Selamat datang di **Aplikasi Stunting**!  
 Aplikasi ini dibangun menggunakan **Laravel 10** untuk mengelola data dan memprediksi stunting <br>
