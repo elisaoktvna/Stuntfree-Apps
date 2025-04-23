@@ -17,11 +17,11 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Data Admin</h5>
-            <p>Berikut merupakan detail dari data admin </p>
+            <h5 class="card-title">Data Prediksi</h5>
+            <p>Berikut merupakan detail dari data Prediksi</p>
 
             <!-- Table with stripped rows -->
-            <a href="/addpengguna" class="btn btn-success mb-3">Tambah Data Admin</a>
+            <a href="/addpengguna" class="btn btn-success mb-3">Tambah Data Prediksi</a>
             <table class="table datatable">
               <thead>
                 <tr>
@@ -33,18 +33,17 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($pengguna as $p )
                 <tr>
-                    <td>{{ $loop->iteration  }}</td>
-                    <td>{{ $p->name}}</td>
-                    <td>{{ $p->email}}</td>
-                    <td>{{ $p->role}}</td>
+                    {{-- disini diawali foreach ya teman" --}}
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
                       <a href="#" class="btn btn-primary">Edit</a>
                       <a href="#" class="btn btn-danger">Hapus</a>
                     </td>
                   </tr>
-                @endforeach
               </tbody>
             </table>
 
