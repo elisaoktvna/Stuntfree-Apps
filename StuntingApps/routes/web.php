@@ -32,8 +32,13 @@ Route::get('/pengguna', [PenggunaController::class, 'index']);
 Route::get('/addpengguna', [PenggunaController::class, 'create']);
 
 // route anak
-Route::get('/anak', [AnakController::class, 'index']);
-Route::get('/addanak', [AnakController::class, 'create']);
+Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
+Route::get('/addanak', [AnakController::class, 'create'])->name('anak.create');
+Route::post('/addanakcreate', [AnakController::class, 'store'])->name('anak.store');
+Route::get('/anak/edit/{anak}', [AnakController::class, 'edit'])->name('anak.edit');
+Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
+Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
+
 
 // route edukasi
 Route::get('/edukasi', [EdukasiController::class, 'index']);
