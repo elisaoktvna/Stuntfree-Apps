@@ -40,14 +40,16 @@
                     <td>{{ $edukasi->content }}</td>
                     <td>
                         @if ($edukasi->image)
-                        <img src="{{ asset('storage/' . $edukasi->gambar) }}" width="100">
+                        <img src="{{ Storage::url($edukasi->image) }}" alt="Gambar Edukasi" width="100">
                         @else
-                        Tidak ada gambar
+                            Tidak Ada Gambar
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('edukasi.edit', $edukasi->id) }}" class="btn btn-primary">Edit</a>
-                        <form action="{{ url('edukasi/delete/' . $edukasi->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('edukasi.edit', $edukasi->id) }}" class="btn btn-primary">
+                            <i class="bx bx-edit"></i>
+                        </a>
+                        <form action="{{ route('edukasi.destroy', $edukasi->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus?')">

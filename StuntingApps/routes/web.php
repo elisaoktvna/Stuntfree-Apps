@@ -46,7 +46,7 @@ Route::get('/edukasi/create', [EdukasiController::class, 'create'])->name('eduka
 Route::post('/edukasi', [EdukasiController::class, 'store'])->name('edukasi.store'); // Menyimpan data edukasi baru
 Route::get('edukasi/edit/{id}', [EdukasiController::class, 'edit'])->name('edukasi.edit');
 Route::put('edukasi/update/{id}', [EdukasiController::class, 'update'])->name('edukasi.update');
-Route::delete('/edukasi/delete{id}', [EdukasiController::class, 'destroy']);
+Route::delete('/edukasi/{id}', [EdukasiController::class, 'destroy'])->name('edukasi.destroy');
 
 
 // route pengukuran

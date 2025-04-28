@@ -34,7 +34,7 @@
                 <div class="row mb-3">
                   <label for="content" class="col-sm-2 col-form-label">Konten</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="konten" value="{{ old('konten') }}">
+                    <input type="text" class="form-control" name="content" value="{{ old('konten') }}">
                     @error('konten')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -43,7 +43,7 @@
                 <div class="row mb-3">
                   <label for="image" class="col-sm-2 col-form-label">Gambar</label>
                   <div class="col-sm-10">
-                    <input type="file" name="gambar" class="form-control">
+                    <input type="file" name="image" class="form-control">
                     @error('gambar')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
