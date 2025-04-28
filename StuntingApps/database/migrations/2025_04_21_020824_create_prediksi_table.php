@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('prediksi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_pengukuran')->constrained('pengukuran')->onDelete('cascade');
+            $table->string('zs_tbu');
             $table->date('tanggal_prediksi');
             $table->string('hasil', 50);
             $table->timestamps();

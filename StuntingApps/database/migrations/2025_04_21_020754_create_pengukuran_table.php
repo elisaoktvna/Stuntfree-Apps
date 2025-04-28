@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('id_anak')->constrained('anak')->onDelete('cascade');
             $table->float('berat_badan');
             $table->float('tinggi_badan');
+            $table->float('lila');
             $table->date('tanggal_pengukuran');
             $table->timestamps();
         });
