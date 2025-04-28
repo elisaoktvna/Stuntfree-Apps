@@ -15,19 +15,34 @@
     <div class="card">
             <div class="card-body">
               <h5 class="card-title">General Form Elements</h5>
-                
+
 
               <!-- General Form Elements -->
               <form action="{{ route('anak.store') }}" method="POST">
                 @csrf
-              
+
+                {{-- @if (Auth::user()->role == 'admin') --}}
+                <div class="row mb-4">
+                    <label class="col-sm-2 col-form-label">Pilih Data ortu</label>
+                    <div class="col-sm-10">
+                      <select name="id_user" class="form-select" aria-label="Default select example" >
+                        <option selected>Pilih Orang Tua</option>
+                       @foreach ($ortu as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+
+                       @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  {{-- @endif --}}
+
                 <div class="row mb-3">
-                  <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                  <label for="nama" class="col-sm-2 col-form-label">Nama Anak</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" required>
                   </div>
                 </div>
-              
+
                 <div class="row mb-3">
                     <label for="jenis_kelamin" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                     <div class="col-sm-10">
@@ -38,33 +53,30 @@
                         </select>
                     </div>
                 </div>
-              
+
                 <div class="row mb-3">
                   <label for="umur" class="col-sm-2 col-form-label">Umur</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="umur" name="umur" placeholder="Umur" required>
                   </div>
                 </div>
-              
+
                 <div class="row mb-3">
                   <label for="tanggallahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                   <div class="col-sm-10">
                     <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
                   </div>
                 </div>
-              
+
                 <div class="row mb-3">
                   <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat" required>
                   </div>
                 </div>
-              
-                {{-- <div class="text-end">
-                  <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-              </form> --}}
-              
+
+
+
                 <div class="row mb-3">
                   <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">Simpan</button>

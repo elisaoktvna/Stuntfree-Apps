@@ -24,7 +24,7 @@
                         <div class="alert alert-info">
                             {{ session('success') }}
                         </div>
-                    @endif  
+                    @endif
 
             <!-- Table with stripped rows -->
             <a href="/addanak" class="btn btn-success mb-3">Tambah Data Anak</a>
@@ -33,7 +33,8 @@
               <thead>
                 <tr>
                   <th>No</th>
-                  <th>Nama</th>
+                  <th>Nama Ortu</th>
+                  <th>Nama Anak</th>
                   <th>Jenis Kelamin</th>
                   <th>Umur</th>
                   <th>Tanggal Lahir</th>
@@ -45,6 +46,7 @@
                 @foreach ($anak as $index => $an)
                   <tr>
                     <td>{{ $index + 1 }}</td>
+                    <td>{{ $an->user->name }}</td>
                     <td>{{ $an->nama }}</td>
                     <td>{{ $an->jenis_kelamin }}</td>
                     <td>{{ $an->umur }}</td>

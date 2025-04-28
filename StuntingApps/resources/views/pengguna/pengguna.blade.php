@@ -19,7 +19,11 @@
           <div class="card-body">
             <h5 class="card-title">Data Admin</h5>
             <p>Berikut merupakan detail dari data admin </p>
-
+            @if(session('success'))
+            <div class="alert alert-info">
+                {{ session('success') }}
+            </div>
+            @endif
             <!-- Table with stripped rows -->
             <a href="/addpengguna" class="btn btn-success mb-3">Tambah Data Admin</a>
             <table class="table datatable">

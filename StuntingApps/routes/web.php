@@ -30,6 +30,7 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 // route pengguna
 Route::get('/pengguna', [PenggunaController::class, 'index']);
 Route::get('/addpengguna', [PenggunaController::class, 'create']);
+Route::post('/addpenggunacreate', [PenggunaController::class, 'store']);
 
 // route anak
 Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');

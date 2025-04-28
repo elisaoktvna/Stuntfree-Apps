@@ -3,46 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anak;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnakController extends Controller
 {
-    public function index() 
+    public function index()
     {
-        $anak = Anak::all();
+        $anak = Anak::with('user')->get();
         return view('anak.anak', compact('anak'));
     }
 
     public function create()
     {
-        return view('anak.addanak');
+        $ortu = User::where('role', 'orang tua')->get();
+        return view('anak.addanak', compact('ortu'));
     }
 
-    // validasi input
     public function store(Request $request)
     {
-        $request->validate([
-            'nama' => 'required',
-            'jenis_kelamin' => 'required',
-            'umur' => 'required',
-            'tanggal_lahir' => 'required',
-            'alamat' => 'required',
-        ]);
+    $validated = $request->validate([
+        'nama' => 'required|max:100',
+        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+        'umur' => 'required',
+        'tanggal_lahir' => 'required|date',
+        'alamat' => 'required',
+        'id_user' => 'required',
+    ]);
 
-    // simpan data ke database
-    $anak = new Anak();
-    $anak->nama = $request->nama;
-    $anak->jenis_kelamin = $request->jenis_kelamin;
-    $anak->umur = $request->umur;
-    $anak->tanggal_lahir = $request->tanggal_lahir;
-    $anak->alamat = $request->alamat;
-    $anak->id_user = 1;
-    //$anak->id_user = auth()->user()->id;
-    $anak->save();
+    // if (Auth::user()->role == 'admin') {
+    //     // Admin bisa pilih id_user
+    //     $validated['id_user'] = $request->validate([
+    //         'id_user' => 'required|exists:users,id',
+    //     ])['id_user'];
+    // } else {
+    //     // Ortu otomatis pakai id yang login
+    //     $validated['id_user'] = Auth::id();
+    // }
 
-    // redirect pesan sukses
+    Anak::create($validated);
+
     return redirect('/anak')->with('success', 'Data anak berhasil ditambahkan');
     }
+
 
     public function edit(Anak $anak)
    {
@@ -65,7 +69,7 @@ class AnakController extends Controller
     $anak->tanggal_lahir = $request->tanggal_lahir;
     $anak->alamat = $request->alamat;
     $anak->save();
-    
+
     return redirect()->route('anak.index')->with('success', 'Data anak berhasil diperbarui');
    }
 
