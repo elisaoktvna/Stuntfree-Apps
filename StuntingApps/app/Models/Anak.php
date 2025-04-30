@@ -12,6 +12,7 @@ class Anak extends Model
     protected $table = 'anak';
 
     protected $fillable = [
+        'nik',
         'nama',
         'jenis_kelamin',
         'umur',

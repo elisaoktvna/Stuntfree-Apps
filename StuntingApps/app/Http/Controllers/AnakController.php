@@ -24,6 +24,7 @@ class AnakController extends Controller
     public function store(Request $request)
     {
     $validated = $request->validate([
+        'nik' => 'required',
         'nama' => 'required|max:100',
         'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
         'umur' => 'required',
@@ -56,6 +57,7 @@ class AnakController extends Controller
    public function update(Request $request, Anak $anak)
    {
     $request->validate([
+        'nik' => 'required',
         'nama' => 'required',
         'jenis_kelamin' => 'required',
         'umur' => 'required',
@@ -63,6 +65,7 @@ class AnakController extends Controller
         'alamat' => 'required',
     ]);
 
+    $anak->nik = $request->nik;
     $anak->nama = $request->nama;
     $anak->jenis_kelamin = $request->jenis_kelamin;
     $anak->umur = $request->umur;
