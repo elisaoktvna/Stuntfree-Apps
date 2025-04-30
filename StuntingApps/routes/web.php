@@ -4,6 +4,7 @@ use App\Http\Controllers\AnakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EdukasiController;
+use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PengukuranController;
 use App\Http\Controllers\PrediksiController;
@@ -28,9 +29,6 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 
 
 // route pengguna
-Route::get('/pengguna', [PenggunaController::class, 'index']);
-Route::get('/addpengguna', [PenggunaController::class, 'create']);
-Route::post('/addpenggunacreate', [PenggunaController::class, 'store']);
 
 // route anak
 Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');

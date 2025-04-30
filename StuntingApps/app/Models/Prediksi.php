@@ -2,11 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Prediksi extends Model
 {
     use HasFactory;
     protected $table = 'prediksi';
+
+    protected $fillable = [
+        'id_pengukuran',
+        'prediksi',
+        'probility'
+    ];
+
+    public function pengukuran()
+    {
+        return $this->belongsTo(Pengukuran::class, 'id_orangtua');
+    }
 }
