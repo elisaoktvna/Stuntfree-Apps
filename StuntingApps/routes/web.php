@@ -9,6 +9,7 @@ use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PengukuranController;
 use App\Http\Controllers\PrediksiController;
 use App\Http\Controllers\RekomendasiController;
+use App\Http\Controllers\KecamatanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
+// route kecamatan
+route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
+route::get('/addkecamatan', [KecamatanController::class, 'create'])->name('kecamatan.create');
+route::post('/addkecamatancreate', [KecamatanController::class, 'store'])->name('kecamatan.store');
+route::get('/kecamatan/edit/{kecamatan}', [KecamatanController::class, 'edit'])->name('kecamatan.edit');
+route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update'])->name('kecamatan.update');
+route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 // route pengguna
 

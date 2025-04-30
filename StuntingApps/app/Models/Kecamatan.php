@@ -9,9 +9,7 @@ class Kecamatan extends Model
 {
     use HasFactory;
     protected $table = 'kecamatan';
-
-    protected $fillable = [
-        'nama'
-    ];
-
+    protected $fillable = ['nama'];
+    public $timestamps = false;
+    protected $guarded = [];
 }
