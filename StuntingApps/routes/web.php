@@ -8,8 +8,9 @@ use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PengukuranController;
 use App\Http\Controllers\PrediksiController;
-use App\Http\Controllers\RekomendasiController;
+use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\KecamatanController;
+use App\Models\PaketGizi;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,11 @@ Route::get('/addpengukuran', [PengukuranController::class, 'create']);
 Route::get('/prediksi', [PrediksiController::class, 'index']);
 Route::get('/addprediksi', [PrediksiController::class, 'create']);
 
-// route rekomendasi
-Route::get('/rekomendasi', [RekomendasiController::class, 'index']);
-Route::get('/addrekomendasi', [RekomendasiController::class, 'create']);
+
+// Route Paket Gizi
+Route::get('/paketgizi', [PaketGiziController::class, 'index'])->name('paketgizi.index');
+Route::get('/paketgizi/create', [PaketGiziController::class, 'create'])->name('paketgizi.create');
+Route::post('/paketgizi', [PaketGiziController::class, 'store'])->name('paketgizi.store');
+Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('paketgizi.edit');
+Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
+Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
