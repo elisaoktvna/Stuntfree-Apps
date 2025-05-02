@@ -4,6 +4,7 @@ use App\Http\Controllers\AnakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EdukasiController;
+use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\PenggunaController;
 use App\Http\Controllers\PengukuranController;
 use App\Http\Controllers\PrediksiController;
@@ -61,3 +62,14 @@ Route::get('/addprediksi', [PrediksiController::class, 'create']);
 // route rekomendasi
 Route::get('/rekomendasi', [RekomendasiController::class, 'index']);
 Route::get('/addrekomendasi', [RekomendasiController::class, 'create']);
+
+// route faskes
+Route::get('/faskes', [FaskesController::class, 'index'])->name('faskes.index');
+Route::get('/faskes/create', [FaskesController::class, 'create'])->name('faskes.create'); // Menampilkan form tambah edukasi
+Route::post('/faskes', [FaskesController::class, 'store'])->name('faskes.store'); // Menyimpan data edukasi baru
+Route::get('faskes/edit/{id}', [FaskesController::class, 'edit'])->name('faskes.edit');
+Route::put('faskes/update/{id}', [FaskesController::class, 'update'])->name('faskes.update');
+Route::delete('/faskes/{id}', [FaskesController::class, 'destroy'])->name('faskes.destroy');
+
+
+

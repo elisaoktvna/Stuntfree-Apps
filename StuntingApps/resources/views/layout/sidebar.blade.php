@@ -52,6 +52,13 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="/faskes">
+          <i class="bi bi-file-play-fill"></i>
+          <span>Faskes</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="/rekomendasi">
           <i class="bi bi-hand-thumbs-up-fill"></i>
           <span>Rekomendasi Gizi</span>
