@@ -1,9 +1,8 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Stunting Apps</span>
+      <a href="index.html" class="navbar-brand fw-bold" style="font-size: 1.5rem; color: #5d78fd;"> StuntFree
+        <span class="text-info">.</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

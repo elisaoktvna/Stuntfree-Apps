@@ -22,6 +22,20 @@ use App\Http\Controllers\KecamatanController;
 |
 */
 
+// routes/web.php
+Route::get('/landingpage', function () {
+    return view('landingpage'); // Replace with your actual login view file path
+})->name('landingpage');
+
+Route::get('/login', function () {
+    return view('login'); // Replace with your actual login view file path
+})->name('login');
+
+Route::get('/signup', function () {
+    return view('signup'); // Replace with your actual login view file path
+})->name('signup');
+
+
 Route::get('/', function () {
     return view('welcome');
 });
