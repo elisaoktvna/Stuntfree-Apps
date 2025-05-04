@@ -17,7 +17,7 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Data Admin</h5>
+            <h5 class="card-title">Data Ortu</h5>
             <p>Berikut merupakan detail dari data admin </p>
             @if(session('success'))
             <div class="alert alert-info">
@@ -25,26 +25,29 @@
             </div>
             @endif
             <!-- Table with stripped rows -->
-            <a href="/addpengguna" class="btn btn-success mb-3">Tambah Data Admin</a>
+            <a href="/addortu" class="btn btn-success mb-3">Tambah Data Ortu</a>
             <table class="table datatable">
               <thead>
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
                   <th>Email</th>
-                  <th>Role</th>
+                  <th>Password</th>
+                  <th>Kecamatan</th>
+                  <th>Alamat</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
               <tbody>
-                @foreach ($pengguna as $p )
+                @foreach ($ortu as $p )
                 <tr>
                     <td>{{ $loop->iteration  }}</td>
-                    <td>{{ $p->name}}</td>
+                    <td>{{ $p->nama}}</td>
                     <td>{{ $p->email}}</td>
-                    <td>{{ $p->role}}</td>
+                    <td>{{ $p->kecamatan->nama}}</td>
+                    <td>{{ $p->alamat}}</td>
                     <td>
-                      <a href="#" class="btn btn-primary">Edit</a>
+                      <a href="/editortu/{{ $p->id }}" class="btn btn-primary">Edit</a>
                       <a href="#" class="btn btn-danger">Hapus</a>
                     </td>
                   </tr>
