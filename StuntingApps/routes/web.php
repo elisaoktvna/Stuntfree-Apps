@@ -44,6 +44,9 @@ route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update
 route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 // route pengguna
+Route::get('/orangtua', [OrtuController::class, 'index']);
+Route::get('/addortu', [OrtuController::class, 'create']);
+Route::post('/addortucreate', [OrtuController::class, 'store']);
 
 // route anak
 Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
