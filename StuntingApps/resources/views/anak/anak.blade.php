@@ -34,6 +34,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama Ortu</th>
+                  <th>NIK</th>
                   <th>Nama Anak</th>
                   <th>Jenis Kelamin</th>
                   <th>Umur</th>
@@ -47,6 +48,7 @@
                   <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $an->user->name }}</td>
+                    <td>{{ $anp->nik}}</td>
                     <td>{{ $an->nama }}</td>
                     <td>{{ $an->jenis_kelamin }}</td>
                     <td>{{ $an->umur }}</td>

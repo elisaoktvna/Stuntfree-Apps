@@ -10,6 +10,13 @@
       </li>
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="/kecamatan">
+          <i class="bi bi-person-circle"></i>
+          <span>Kecamatan</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
         <a class="nav-link collapsed" href="/pengguna">
           <i class="bi bi-person-circle"></i>
           <span>Pengguna</span>
@@ -55,13 +62,6 @@
         <a class="nav-link collapsed" href="/faskes">
           <i class="bi bi-file-play-fill"></i>
           <span>Faskes</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="/rekomendasi">
-          <i class="bi bi-hand-thumbs-up-fill"></i>
-          <span>Rekomendasi Gizi</span>
         </a>
       </li>
 

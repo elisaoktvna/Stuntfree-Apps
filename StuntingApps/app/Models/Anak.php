@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Ortu;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Anak extends Model
 {
@@ -12,17 +13,15 @@ class Anak extends Model
     protected $table = 'anak';
 
     protected $fillable = [
+        'nik',
         'nama',
         'jenis_kelamin',
-        'umur',
-        'tanggal_lahir',
-        'alamat',
-        'id_user'
+        'tanggal_lahir'
     ];
 
-    public function user()
+    public function ortu()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(Ortu::class, 'id_orangtua');
     }
 
     public $timestamps = false;
