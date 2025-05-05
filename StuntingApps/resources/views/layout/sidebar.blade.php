@@ -24,7 +24,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="/pengguna">
+        <a class="nav-link collapsed" href="/ortu">
           <i class="bi bi-people"></i>
           <span>Orang Tua</span>
         </a>
