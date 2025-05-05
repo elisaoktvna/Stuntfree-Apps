@@ -38,16 +38,16 @@ Route::get('/signup', function () {
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landingpage');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
-Route::get('/ortu', [OrtuController::class, 'index']);
-Route::get('/addortu', [OrtuController::class, 'create']);
-Route::post('/addortucreate', [OrtuController::class, 'store']);
-Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
-Route::put('/update/{id}', [OrtuController::class, 'update']);
+// Route::get('/ortu', [OrtuController::class, 'index']);
+// Route::get('/addortu', [OrtuController::class, 'create']);
+// Route::post('/addortucreate', [OrtuController::class, 'store']);
+// Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
+// Route::put('/update/{id}', [OrtuController::class, 'update']);
 
 
 // route kecamatan
@@ -59,9 +59,9 @@ route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update
 route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 // route pengguna
-Route::get('/orangtua', [OrtuController::class, 'index']);
-Route::get('/addortu', [OrtuController::class, 'create']);
-Route::post('/addortucreate', [OrtuController::class, 'store']);
+// Route::get('/orangtua', [OrtuController::class, 'index']);
+// Route::get('/addortu', [OrtuController::class, 'create']);
+// Route::post('/addortucreate', [OrtuController::class, 'store']);
 
 // route anak
 Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
@@ -88,8 +88,6 @@ Route::get('/addpengukuran', [PengukuranController::class, 'create']);
 // route prediksi
 Route::get('/prediksi', [PrediksiController::class, 'index']);
 Route::get('/addprediksi', [PrediksiController::class, 'create']);
-
-
 
 // route faskes
 Route::get('/faskes', [FaskesController::class, 'index'])->name('faskes.index');
