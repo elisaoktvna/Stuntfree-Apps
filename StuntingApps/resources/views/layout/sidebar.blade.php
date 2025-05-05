@@ -58,6 +58,13 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/faskes">
+          <i class="bi bi-file-play-fill"></i>
+          <span>Faskes</span>
+        </a>
+      </li>
+
 
     </ul>
 

@@ -4,12 +4,13 @@ use App\Http\Controllers\AnakController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EdukasiController;
-use App\Http\Controllers\OrtuController;
 use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\PengukuranController;
 use App\Http\Controllers\PrediksiController;
-use App\Http\Controllers\RekomendasiController;
+use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\KecamatanController;
+use App\Models\PaketGizi;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,20 @@ use App\Http\Controllers\KecamatanController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// routes/web.php
+Route::get('/landingpage', function () {
+    return view('landingpage'); // Replace with your actual login view file path
+})->name('landingpage');
+
+Route::get('/login', function () {
+    return view('login'); // Replace with your actual login view file path
+})->name('login');
+
+Route::get('/signup', function () {
+    return view('signup'); // Replace with your actual login view file path
+})->name('signup');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -74,6 +89,15 @@ Route::get('/addpengukuran', [PengukuranController::class, 'create']);
 Route::get('/prediksi', [PrediksiController::class, 'index']);
 Route::get('/addprediksi', [PrediksiController::class, 'create']);
 
-// route rekomendasi
-Route::get('/rekomendasi', [RekomendasiController::class, 'index']);
-Route::get('/addrekomendasi', [RekomendasiController::class, 'create']);
+
+
+// route faskes
+Route::get('/faskes', [FaskesController::class, 'index'])->name('faskes.index');
+Route::get('/faskes/create', [FaskesController::class, 'create'])->name('faskes.create'); // Menampilkan form tambah edukasi
+Route::post('/faskes', [FaskesController::class, 'store'])->name('faskes.store'); // Menyimpan data edukasi baru
+Route::get('faskes/edit/{id}', [FaskesController::class, 'edit'])->name('faskes.edit');
+Route::put('faskes/update/{id}', [FaskesController::class, 'update'])->name('faskes.update');
+Route::delete('/faskes/{id}', [FaskesController::class, 'destroy'])->name('faskes.destroy');
+
+
+
