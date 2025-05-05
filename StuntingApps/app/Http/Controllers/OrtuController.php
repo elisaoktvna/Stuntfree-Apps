@@ -47,5 +47,4 @@ class OrtuController extends Controller
         $ortu = Ortu::findOrFail($id);
         return view('orangtua.editortu', compact('ortu'));
     }
-
 }

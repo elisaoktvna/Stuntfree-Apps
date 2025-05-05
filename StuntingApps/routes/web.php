@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\AnakController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EdukasiController;
-use App\Http\Controllers\PenggunaController;
-use App\Http\Controllers\FaskesController;
-use App\Http\Controllers\PengukuranController;
-use App\Http\Controllers\PrediksiController;
-use App\Http\Controllers\PaketGiziController;
-use App\Http\Controllers\KecamatanController;
 use App\Models\PaketGizi;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnakController;
+use App\Http\Controllers\OrtuController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FaskesController;
+use App\Http\Controllers\EdukasiController;
+use App\Http\Controllers\PrediksiController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\PaketGiziController;
+use App\Http\Controllers\PengukuranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,13 +25,11 @@ use App\Models\PaketGizi;
 */
 
 // routes/web.php
-Route::get('/landingpage', function () {
-    return view('landingpage'); // Replace with your actual login view file path
-})->name('landingpage');
 
-Route::get('/login', function () {
-    return view('login'); // Replace with your actual login view file path
-})->name('login');
+Route::get('/login', [AdminController::class, 'loginForm'])->name('login');
+Route::post('/masuk', [AdminController::class, 'login']);
+Route::get('/logout', [AdminController::class, 'logout']);
+
 
 Route::get('/signup', function () {
     return view('signup'); // Replace with your actual login view file path
@@ -38,10 +37,15 @@ Route::get('/signup', function () {
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('landingpage');
+})->name('landingpage');
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
+
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/addadmin', [AdminController::class, 'create']);
+Route::post('/addadmincreate', [AdminController::class, 'store']);
+Route::delete('/deleteadmin/{id}', [AdminController::class, 'destroy']);
 
 Route::get('/ortu', [OrtuController::class, 'index']);
 Route::get('/addortu', [OrtuController::class, 'create']);
@@ -98,6 +102,14 @@ Route::post('/faskes', [FaskesController::class, 'store'])->name('faskes.store')
 Route::get('faskes/edit/{id}', [FaskesController::class, 'edit'])->name('faskes.edit');
 Route::put('faskes/update/{id}', [FaskesController::class, 'update'])->name('faskes.update');
 Route::delete('/faskes/{id}', [FaskesController::class, 'destroy'])->name('faskes.destroy');
+
+// Route Paket Gizi
+Route::get('/paketgizi', [PaketGiziController::class, 'index'])->name('paketgizi.index');
+Route::get('/paketgizi/create', [PaketGiziController::class, 'create'])->name('paketgizi.create');
+Route::post('/paketgizi', [PaketGiziController::class, 'store'])->name('paketgizi.store');
+Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('paketgizi.edit');
+Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
+Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
 
 
 
