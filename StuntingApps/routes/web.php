@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EdukasiController;
 use App\Http\Controllers\PenggunaController;
+use App\Http\Controllers\FaskesController;
 use App\Http\Controllers\PengukuranController;
 use App\Http\Controllers\PrediksiController;
 use App\Http\Controllers\RekomendasiController;
