@@ -29,6 +29,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index']);
 
+Route::get('/ortu', [OrtuController::class, 'index']);
+Route::get('/addortu', [OrtuController::class, 'create']);
+Route::post('/addortucreate', [OrtuController::class, 'store']);
+Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
+Route::put('/update/{id}', [OrtuController::class, 'update']);
+
+
 // route kecamatan
 route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
 route::get('/addkecamatan', [KecamatanController::class, 'create'])->name('kecamatan.create');
@@ -38,6 +45,9 @@ route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update
 route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 // route pengguna
+Route::get('/orangtua', [OrtuController::class, 'index']);
+Route::get('/addortu', [OrtuController::class, 'create']);
+Route::post('/addortucreate', [OrtuController::class, 'store']);
 
 // route anak
 Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
