@@ -12,6 +12,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\PengukuranController;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\RouteGroup;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,20 +40,9 @@ Route::get('/signup', function () {
 
 Route::get('/', function () {
     return view('landingpage');
-<<<<<<< HEAD
-});
-
-Route::get('/dashboard', [DashboardController::class, 'index']);
-
-// Route::get('/ortu', [OrtuController::class, 'index']);
-// Route::get('/addortu', [OrtuController::class, 'create']);
-// Route::post('/addortucreate', [OrtuController::class, 'store']);
-// Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
-// Route::put('/update/{id}', [OrtuController::class, 'update']);
-=======
 })->name('landingpage');
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/addadmin', [AdminController::class, 'create']);
@@ -63,7 +54,6 @@ Route::get('/addortu', [OrtuController::class, 'create']);
 Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
 Route::put('/update/{id}', [OrtuController::class, 'update']);
->>>>>>> 50c9a139212e87bf68b37324d77f7ebe199bf5c5
 
 
 // route kecamatan
@@ -121,5 +111,7 @@ Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('
 Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
 Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
 
-
+Route::group(['middleware' => ['auth','ceklevel:']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+});
 
