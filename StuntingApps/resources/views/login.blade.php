@@ -123,14 +123,15 @@
         <div class="card shadow-lg animated" style="animation-delay: 1s;">
           <h3 class="text-center fw-bold mb-4 text-primary animated" style="animation-delay: 0.5s;">Selamat Datang</h3>
           <p class="text-center text-muted mb-4 animated" style="animation-delay: 0.7s;">Silakan masuk untuk melanjutkan</p>
-          <form>
+          <form action="/masuk" method="POST">
+            @csrf
             <div class="mb-3 animated" style="animation-delay: 0.9s;">
               <label for="email" class="form-label text-muted">Email</label>
-              <input type="email" class="form-control rounded-3" id="email" placeholder="Masukkan email Anda">
+              <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="Masukkan email Anda">
             </div>
             <div class="mb-3 animated" style="animation-delay: 1.1s;">
               <label for="password" class="form-label text-muted">Password</label>
-              <input type="password" class="form-control rounded-3" id="password" placeholder="Masukkan password Anda">
+              <input type="password" class="form-control rounded-3" id="password" name="password" placeholder="Masukkan password Anda">
             </div>
             <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3 animated" style="animation-delay: 1.3s;">Masuk</button>
           </form>
@@ -152,6 +153,6 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  
+
 </body>
 </html>

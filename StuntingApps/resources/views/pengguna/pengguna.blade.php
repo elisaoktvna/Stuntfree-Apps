@@ -25,7 +25,7 @@
             </div>
             @endif
             <!-- Table with stripped rows -->
-            <a href="/addpengguna" class="btn btn-success mb-3">Tambah Data Admin</a>
+            <a href="/addadmin" class="btn btn-success mb-3">Tambah Data Admin</a>
             <table class="table datatable">
               <thead>
                 <tr>
@@ -37,15 +37,19 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($pengguna as $p )
+                @foreach ($admin as $p )
                 <tr>
                     <td>{{ $loop->iteration  }}</td>
                     <td>{{ $p->name}}</td>
                     <td>{{ $p->email}}</td>
                     <td>{{ $p->role}}</td>
                     <td>
-                      <a href="#" class="btn btn-primary">Edit</a>
-                      <a href="#" class="btn btn-danger">Hapus</a>
+                        <form action="/deleteadmin/{{ $p->id }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger"><i class="bx bxs-trash"></i></button>
+                        </form>
+
                     </td>
                   </tr>
                 @endforeach

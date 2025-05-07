@@ -20,7 +20,7 @@
             <h5 class="card-title">General Form Elements</h5>
 
             <!-- General Form Elements -->
-            <form action="/addpenggunacreate" method="POST">
+            <form action="/addadmincreate" method="POST">
                 @csrf
               <div class="row mb-3">
                 <label for="inputText" class="col-sm-2 col-form-label">Nama</label>
@@ -38,16 +38,6 @@
                 <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
                   <input type="password" class="form-control" name="password">
-                </div>
-              </div>
-              <div class="row mb-4">
-                <label class="col-sm-2 col-form-label">Role</label>
-                <div class="col-sm-10">
-                  <select class="form-select" aria-label="Default select example" name="role">
-                    <option selected>Pilih Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="orang tua">Orang tua</option>
-                  </select>
                 </div>
               </div>
               <div class="row mb-3">
