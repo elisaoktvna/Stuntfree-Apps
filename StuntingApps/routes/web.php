@@ -12,6 +12,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\PengukuranController;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Routing\RouteGroup;
 
 
 /*
@@ -44,7 +46,7 @@ Route::get('/', function () {
     return view('landingpage');
 })->name('landingpage');
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/addadmin', [AdminController::class, 'create']);
@@ -70,9 +72,9 @@ route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update
 route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 // route pengguna
-Route::get('/orangtua', [OrtuController::class, 'index']);
-Route::get('/addortu', [OrtuController::class, 'create']);
-Route::post('/addortucreate', [OrtuController::class, 'store']);
+// Route::get('/orangtua', [OrtuController::class, 'index']);
+// Route::get('/addortu', [OrtuController::class, 'create']);
+// Route::post('/addortucreate', [OrtuController::class, 'store']);
 
 // route anak
 Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
@@ -100,8 +102,6 @@ Route::get('/addpengukuran', [PengukuranController::class, 'create']);
 Route::get('/prediksi', [PrediksiController::class, 'index']);
 Route::get('/addprediksi', [PrediksiController::class, 'create']);
 
-
-
 // route faskes
 Route::get('/faskes', [FaskesController::class, 'index'])->name('faskes.index');
 Route::get('/faskes/create', [FaskesController::class, 'create'])->name('faskes.create'); // Menampilkan form tambah edukasi
@@ -118,5 +118,7 @@ Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('
 Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
 Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
 
-
+Route::group(['middleware' => ['auth','ceklevel:']], function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+});
 
