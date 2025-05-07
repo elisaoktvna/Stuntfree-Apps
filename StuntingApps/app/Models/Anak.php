@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Ortu;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Ortu; // ganti pakai model Ortu
 
 class Anak extends Model
 {
@@ -16,7 +16,8 @@ class Anak extends Model
         'nik',
         'nama',
         'jenis_kelamin',
-        'tanggal_lahir'
+        'tanggal_lahir',
+        'id_orangtua',
     ];
 
     public function ortu()

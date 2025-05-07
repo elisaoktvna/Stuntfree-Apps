@@ -10,7 +10,7 @@ class Ortu extends Model
 {
     use HasFactory;
 
-    protected $table = 'orangtua';
+    protected $table = 'ortu';
 
     protected $fillable = [
         'nama',
