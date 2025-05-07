@@ -17,7 +17,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="/pengguna">
+        <a class="nav-link collapsed" href="/admin">
           <i class="bi bi-person-circle"></i>
           <span>Pengguna</span>
         </a>

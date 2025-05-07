@@ -2,54 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ortu;
-use App\Models\Kecamatan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class OrtuController extends Controller
+class AdminController extends Controller
 {
     public function index() {
-        $ortu = Ortu::with('kecamatan')->get();
-        return view('orangtua.ortu', compact('ortu'));
+        $admin = User::all();
+        return view('pengguna.pengguna', compact('admin'));
     }
 
-    public function create()  {
-        $kec = Kecamatan::all();
-        return view('orangtua.addortu', compact('kec'));
-
+    public function create() {
+        return view('pengguna.addpengguna');
     }
 
     public function store (Request $request) {
         // dd($request->all());
         $request->validate([
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required|email',
             'password' => 'required|min:8',
-            'id_kecamatan' => 'required',
-            'alamat' => 'required',
         ]);
 
-        $ortu = new Ortu;
-        $ortu->nama = $request->nama;
+        $ortu = new User;
+        $ortu->name = $request->name;
         $ortu->email = $request->email;
         $ortu->password = Hash::make($request->password);
-        $ortu->id_kecamatan = $request->id_kecamatan;
-        $ortu->alamat = $request->alamat;
+        $ortu->role = 'admin';
         $ortu->save();
 
-        return redirect('/ortu')->with('success', 'Data berhasil ditambahkan');
-
+        return redirect('/admin')->with('success', 'Data berhasil ditambahkan');
     }
 
-    public function edit ($id) {
-        $ortu = Ortu::findOrFail($id);
-        return view('orangtua.editortu', compact('ortu'));
+    public function destroy($id)
+    {
+        $faskes = User::findOrFail($id);
+
+        $faskes->delete();
+
+        return redirect('/admin')->with('success', 'Data berhasil dihapus.');
     }
 
     public function loginForm() {
-        return view('dashboard');
+        return view('login');
     }
 
     public function login(Request $request)
@@ -80,4 +77,5 @@ class OrtuController extends Controller
         Auth::logout();
         return redirect('/login')->with('success', 'Berhasil logout');
    }
+
 }

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('lila');
             $table->string('usia');
             $table->decimal('zs_tbu');
+            $table->string('hasil');
+
             $table->timestamps();
         });
     }
