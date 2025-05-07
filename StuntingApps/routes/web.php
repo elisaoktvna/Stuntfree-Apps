@@ -13,6 +13,7 @@ use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\PengukuranController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +31,9 @@ Route::get('/login', [AdminController::class, 'loginForm'])->name('login');
 Route::post('/masuk', [AdminController::class, 'login']);
 Route::get('/logout', [AdminController::class, 'logout']);
 
+Route::get('/login', [OrtuController::class, 'loginForm'])->name('login');
+Route::post('/masuk', [OrtuController::class, 'login']);
+Route::get('/logout', [OrtuController::class, 'logout']);
 
 Route::get('/signup', function () {
     return view('signup'); // Replace with your actual login view file path
@@ -53,6 +57,9 @@ Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
 Route::put('/update/{id}', [OrtuController::class, 'update']);
 
+//route login ortu
+// Route::get('/ortu/login', [OrtuAuthController::class, 'showLoginForm'])->name('ortu.login');
+// Route::post('/ortu/login', [OrtuAuthController::class, 'login'])->name('ortu.login.submit');
 
 // route kecamatan
 route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');

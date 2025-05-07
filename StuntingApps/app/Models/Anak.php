@@ -17,7 +17,7 @@ class Anak extends Model
         'nama',
         'jenis_kelamin',
         'tanggal_lahir'
-    ];
+    ]; 
 
     public function ortu()
     {
