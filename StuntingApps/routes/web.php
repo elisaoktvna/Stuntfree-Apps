@@ -55,6 +55,7 @@ Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
 Route::put('/update/{id}', [OrtuController::class, 'update']);
 
+Route::get('/dashboard', [DashboardController::class, 'index']);
 
 // route kecamatan
 route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
@@ -111,7 +112,7 @@ Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('
 Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
 Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
 
-Route::group(['middleware' => ['auth','ceklevel:']], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index']);
-});
+// Route::group(['middleware' => ['auth','ceklevel:']], function () {
+//     Route::get('/dashboard', [DashboardController::class, 'index']);
+// });
 
