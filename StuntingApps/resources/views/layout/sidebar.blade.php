@@ -65,6 +65,13 @@
         </a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/paketgizi">
+          <i class="bi bi-file-play-fill"></i>
+          <span>Tempat Paket Gizi</span>
+        </a>
+      </li>
+
 
     </ul>
 

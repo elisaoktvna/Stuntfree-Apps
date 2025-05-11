@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('anak', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_orangtua')->constrained('orangtua')->onDelete('cascade');
+            $table->foreignId('id_orangtua')->constrained('users')->onDelete('cascade'); // Pastikan ini sesuai
             $table->string('nik')->unique();
             $table->string('nama', 100);
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
