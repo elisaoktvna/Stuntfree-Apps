@@ -59,13 +59,9 @@ Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
 Route::put('/update/{id}', [OrtuController::class, 'update']);
 
-<<<<<<< HEAD
-Route::get('/dashboard', [DashboardController::class, 'index']);
-=======
 //route login ortu
 // Route::get('/ortu/login', [OrtuAuthController::class, 'showLoginForm'])->name('ortu.login');
 // Route::post('/ortu/login', [OrtuAuthController::class, 'login'])->name('ortu.login.submit');
->>>>>>> 978590082b890e08404f6c123c0407b87dd4e982
 
 // route kecamatan
 route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
