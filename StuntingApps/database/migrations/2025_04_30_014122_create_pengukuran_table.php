@@ -16,11 +16,13 @@ return new class extends Migration
             $table->foreignId('id_anak')->constrained('anak')->onDelete('cascade');
             $table->decimal('berat');
             $table->decimal('tinggi');
-            $table->decimal('lila');
-            $table->string('usia');
-            $table->decimal('zs_tbu');
-            $table->string('hasil');
-
+            $table->integer('usia_bulan');
+            $table->decimal('zs_tbu')->nullable();
+            $table->string('hasil')->nullable();
+            $table->decimal('bmi')->nullable();
+            $table->decimal('zs_bmi_u')->nullable();
+            $table->string('status_gizi_bmi')->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

@@ -21,29 +21,48 @@
             <p>Berikut merupakan detail dari data Pengukuran</p>
 
             <!-- Table with stripped rows -->
-            <a href="/addpengguna" class="btn btn-success mb-3">Tambah Data Pengukuran</a>
+            <a href="/addpengukuran" class="btn btn-success mb-3">Tambah Data Pengukuran</a>
             <table class="table datatable">
               <thead>
                 <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Aksi</th>
+                    <th>No</th>
+                    <th>Nama Anak</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Usia (bulan)</th>
+                    <th>BB (kg)</th>
+                    <th>TB (cm)</th>
+                    <th>BMI</th>
+                    <th>Z-Score TB/U</th>
+                    <th>Z-Score BMI/U</th>
+                    <th>Status Gizi BMI</th>
+                    <th>Hasil Model</th>
+                    <th>Catatan</th>
+                    <th>Tanggal</th>
                 </tr>
               </thead>
               <tbody>
+                @forelse($pengukuran as $item)
                 <tr>
-                    {{-- disini diawali foreach ya teman" --}}
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <a href="#" class="btn btn-primary">Edit</a>
-                      <a href="#" class="btn btn-danger">Hapus</a>
-                    </td>
-                  </tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->anak->nama }}</td>
+                    <td>{{ $item->anak->jenis_kelamin == 1 ? 'Laki-laki' : 'Perempuan' }}</td>
+                    <td>{{ $item->usia_bulan }}</td>
+                    <td>{{ $item->berat }}</td>
+                    <td>{{ $item->tinggi }}</td>
+                    <td>{{ $item->bmi ?? '-' }}</td>
+                    <td>{{ $item->zs_tbu ?? '-' }}</td>
+                    <td>{{ $item->zs_bmi_u ?? '-' }}</td>
+                    <td>{{ $item->status_gizi_bmi ?? '-' }}</td>
+                    <td>{{ $item->hasil ?? '-' }}</td>
+                    <td>{{ $item->note ?? '-' }}</td>
+                    <td>{{ $item->created_at->format('d-m-Y') }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="14" class="text-center">Belum ada data pengukuran.</td>
+                </tr>
+            @endforelse
+
               </tbody>
             </table>
 

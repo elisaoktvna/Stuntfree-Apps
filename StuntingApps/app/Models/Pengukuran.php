@@ -15,9 +15,13 @@ class Pengukuran extends Model
         'id_anak',
         'berat',
         'tinggi',
-        'lila',
-        'usia',
-        'zs_tbu'
+        'usia_bulan',
+        'zs_tbu',
+        'hasil',
+        'bmi',
+        'zs_bmi_u',
+        'status_gizi_bmi',
+        'note',
     ];
 
     public function anak()

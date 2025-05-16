@@ -16,7 +16,10 @@ class Anak extends Model
         'nik',
         'nama',
         'jenis_kelamin',
-        'tanggal_lahir'
+        'tanggal_lahir',
+        'alamat',
+        'id_orangtua',
+        'status'
     ];
 
     public function ortu()

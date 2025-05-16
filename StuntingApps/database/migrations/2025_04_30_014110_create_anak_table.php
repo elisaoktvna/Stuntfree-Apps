@@ -16,8 +16,10 @@ return new class extends Migration
             $table->foreignId('id_orangtua')->constrained('orangtua')->onDelete('cascade');
             $table->string('nik')->unique();
             $table->string('nama', 100);
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->integer('jenis_kelamin'); //jadi ini nanti 1 = laki-laki, 0 = perempuan;
             $table->date('tanggal_lahir');
+            $table->string('alamat');
+            $table->string('status');
             $table->timestamps();
         });
     }
