@@ -27,10 +27,9 @@
                   <li class="dropdown-header text-start">
                     <h6>Filter</h6>
                   </li>
-
-                  <li><a class="dropdown-item" href="#">Today</a></li>
-                  <li><a class="dropdown-item" href="#">This Month</a></li>
-                  <li><a class="dropdown-item" href="#">This Year</a></li>
+                  <li><a class="dropdown-item" href="{{ url('/dashboard?filter=today') }}">Hari Ini</a></li>
+                  <li><a class="dropdown-item" href="{{ url('/dashboard?filter=week') }}">Minggu Ini</a></li>
+                  <li><a class="dropdown-item" href="#">{{ url('/dashboard?filter=month') }}Bulan ini</a></li>
                 </ul>
               </div>
 
@@ -280,7 +279,7 @@
             </div>
           </div><!-- End Recent Sales -->
 
-         
+
 
         </div>
       </div><!-- End Left side columns -->
@@ -352,42 +351,16 @@
           </div>
 
           <div class="card-body pb-0">
-            <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+            <h5 class="card-title">Berita &amp; Edukasi <span>| Terkini</span></h5>
 
             <div class="news">
+                @foreach ($edukasis as $edukasi)
               <div class="post-item clearfix">
-                <img src="assets/img/news-1.jpg" alt="">
-                <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
+                <img src="{{ Storage::url($edukasi->image) }}" alt="Gambar Edukasi">
+                <h4><a href="#">{{ $edukasi->judul }}</a></h4>
+                <p>{{ Str::limit($edukasi->content, 100) }}</p>
               </div>
-
-              <div class="post-item clearfix">
-                <img src="assets/img/news-2.jpg" alt="">
-                <h4><a href="#">Quidem autem et impedit</a></h4>
-                <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="assets/img/news-3.jpg" alt="">
-                <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="assets/img/news-4.jpg" alt="">
-                <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="assets/img/news-5.jpg" alt="">
-                <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-              </div>
-
-            </div><!-- End sidebar recent posts-->
-
-          </div>
+              @endforeach
         </div><!-- End News & Updates -->
 
       </div><!-- End Right side columns -->

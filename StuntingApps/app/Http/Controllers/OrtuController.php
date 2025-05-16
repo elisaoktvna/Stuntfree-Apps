@@ -47,4 +47,37 @@ class OrtuController extends Controller
         $ortu = Ortu::findOrFail($id);
         return view('orangtua.editortu', compact('ortu'));
     }
+
+    public function loginForm() {
+        return view('dashboard');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->intended('/dashboard')->with('success', 'Login berhasil sebagai admin');
+            } else {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Akses ditolak. Anda bukan admin.',
+                ]);
+            }
+        }
+
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
+   }
+
+   public function logout() {
+        Auth::logout();
+        return redirect('/login')->with('success', 'Berhasil logout');
+   }
 }

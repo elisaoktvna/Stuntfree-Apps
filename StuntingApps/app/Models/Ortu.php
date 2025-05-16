@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Kecamatan;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ortu extends Model
 {
     use HasFactory;
 
-    protected $table = 'orangtua';
+    protected $table = 'ortu';
 
     protected $fillable = [
         'nama',
@@ -18,6 +17,10 @@ class Ortu extends Model
         'password',
         'id_kecamatan',
         'alamat'
+    ];
+
+    protected $hidden = [
+        'password',
     ];
 
     public function kecamatan()

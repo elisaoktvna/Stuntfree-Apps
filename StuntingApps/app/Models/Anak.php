@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\Ortu;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Ortu; // ganti pakai model Ortu
 
 class Anak extends Model
 {
