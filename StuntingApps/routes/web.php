@@ -83,6 +83,8 @@ Route::post('/addanakcreate', [AnakController::class, 'store'])->name('anak.stor
 Route::get('/anak/edit/{anak}', [AnakController::class, 'edit'])->name('anak.edit');
 Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
 Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
+Route::patch('/anak/{anak}/verifikasi/{status}', [AnakController::class, 'verifikasi'])->name('anak.verifikasi');
+
 
 
 // route edukasi
@@ -97,6 +99,7 @@ Route::delete('/edukasi/{id}', [EdukasiController::class, 'destroy'])->name('edu
 // route pengukuran
 Route::get('/pengukuran', [PengukuranController::class, 'index']);
 Route::get('/addpengukuran', [PengukuranController::class, 'create']);
+Route::post('/addpengukur', [PengukuranController::class, 'store']);
 
 // route prediksi
 Route::get('/prediksi', [PrediksiController::class, 'index']);
@@ -121,4 +124,6 @@ Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name(
 // Route::group(['middleware' => ['auth','ceklevel:']], function () {
 //     Route::get('/dashboard', [DashboardController::class, 'index']);
 // });
+
+
 

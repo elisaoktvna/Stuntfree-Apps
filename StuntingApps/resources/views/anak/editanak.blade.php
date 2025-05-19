@@ -29,35 +29,34 @@
                         <div class="row mb-3">
                             <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                             <div class="col-sm-10">
+                              <input type="text" class="form-control" id="nama" name="nik" value="{{ $anak->nik }}" required>
+                            </div>
+                          </div>
+
+                        <div class="row mb-3">
+                            <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+                            <div class="col-sm-10">
                               <input type="text" class="form-control" id="nama" name="nama" value="{{ $anak->nama }}" required>
                             </div>
                           </div>
-                        
+
                           <div class="row mb-3">
                             <label for="jenis_kelamin" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
                                     <option value="">-- Pilih Jenis Kelamin --</option>
-                                    <option value="Laki-laki" {{ old('jenis_kelamin', $anak->jenis_kelamin) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                    <option value="Perempuan" {{ old('jenis_kelamin', $anak->jenis_kelamin) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    <option value="1" {{ old('jenis_kelamin', $anak->jenis_kelamin) == 1 ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value="0" {{ old('jenis_kelamin', $anak->jenis_kelamin) == 0 ? 'selected' : '' }}>Perempuan</option>
                                 </select>
                             </div>
                         </div>
-                        
-                          <div class="row mb-3">
-                            <label for="umur" class="col-sm-2 col-form-label">Umur</label>
-                            <div class="col-sm-10">
-                              <input type="text" class="form-control" id="umur" name="umur" value="{{ $anak->umur }}" required>
-                            </div>
-                          </div>
-                        
                           <div class="row mb-3">
                             <label for="tanggallahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-10">
                               <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $anak->tanggal_lahir }}" required>
                             </div>
                           </div>
-                        
+
                           <div class="row mb-3">
                             <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                             <div class="col-sm-10">

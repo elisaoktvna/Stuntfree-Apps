@@ -2,11 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anak;
+use App\Models\Pengukuran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PengukuranController extends Controller
 {
     public function index() {
-        return view ('pengukuran.pengukuran');
+        $pengukuran = Pengukuran::with('anak')->latest()->get();
+        return view ('pengukuran.pengukuran', compact('pengukuran'));
+    }
+
+    public function create(){
+        $anak = Anak::where('status', 'diterima')->get();
+        return view('pengukuran.addpengukuran', compact('anak'));
+    }
+
+    public function store(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'id_anak' => 'required|exists:anak,id',
+            'berat' => 'required|numeric',
+            'tinggi' => 'required|numeric',
+            'usia_bulan' => 'required|integer',
+        ]);
+
+        // Mengambil data anak dan jenis kelamin
+        $anak = Anak::find($validatedData['id_anak']);
+        $jenis_kelamin = $anak->jenis_kelamin;
+
+        // Kirim data ke Flask API
+        $response = Http::post('http://localhost:5000/predict_stunting', [
+            'jenis_kelamin' => $jenis_kelamin,
+            'tinggi_badan_cm' => $request->tinggi,
+            'berat_badan_kg' => $request->berat,
+            'umur_bulan' => $request->usia_bulan,
+
+        ]);
+
+        // Periksa apakah response berhasil
+        if (!$response->successful()) {
+            return back()->with('eror', 'Gagal prediksi cek koneksi model flask');
+        }
+
+        $result = $response->json();
+
+            // Simpan pengukuran
+        Pengukuran::create([
+            'id_anak' => $request->id_anak,
+            'berat' => $request->berat,
+            'tinggi' => $request->tinggi,
+            'usia_bulan' => $request->usia_bulan,
+            'zs_tbu' => $result['zscore_tb_u'] ?? null,
+            'hasil' => $result['hasil_model'] ?? null,
+            'bmi' => $result['bmi'] ?? null,
+            'zs_bmi_u' => $result['zscore_bmi_u'] ?? null,
+            'status_gizi_bmi' => $result['status_gizi_bmi'] ?? null,
+            'note' => $result['note'] ?? null,
+        ]);
+
+        return redirect('/pengukuran')->with('success', 'Data pengukuran berhasil disimpan!');
+
+
     }
 }

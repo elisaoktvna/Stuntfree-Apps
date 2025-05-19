@@ -37,9 +37,9 @@
                   <th>NIK</th>
                   <th>Nama Anak</th>
                   <th>Jenis Kelamin</th>
-                  <th>Umur</th>
                   <th>Tanggal Lahir</th>
                   <th>Alamat</th>
+                  <th>Status</th>
                   <th>Aksi</th>
                 </tr>
               </thead>
@@ -47,17 +47,42 @@
                 @foreach ($anak as $index => $an)
                   <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $an->user->name }}</td>
-                    <td>{{ $anp->nik}}</td>
+                    <td>{{ $an->ortu->nama }}</td>
+                    <td>{{ $an->nik}}</td>
                     <td>{{ $an->nama }}</td>
-                    <td>{{ $an->jenis_kelamin }}</td>
-                    <td>{{ $an->umur }}</td>
+                    <td>{{ $an->jenis_kelamin == 1 ? 'Laki-laki' : 'Perempuan' }}</td>
                     <td>{{ $an->tanggal_lahir }}</td>
                     <td>{{ $an->alamat }}</td>
                     <td>
-                      <a href="{{ route('anak.edit', $an->id) }}" class="btn btn-primary">
-                        <i class="bx bx-edit"></i>
-                      </a>
+                        @if ($an->status === 'diterima')
+                            <span class="badge bg-success">{{ $an->status }}</span>
+                        @elseif ($an->status === 'ditolak')
+                            <span class="badge bg-danger">{{ $an->status }}</span>
+                        @elseif ($an->status === 'proses')
+                            <span class="badge bg-warning">{{ $an->status }}</span>
+                        @else
+                            <span>{{ $an->status }}</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($an->status === 'proses')
+                            <form action="{{ route('anak.verifikasi', [$an->id, 'diterima']) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Yakin ingin menyetujui data ini?')">
+                                    <i class="bx bx-check-circle"></i>
+                                </button>
+                             </form>
+
+                             <form action="{{ route('anak.verifikasi', [$an->id, 'ditolak']) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Yakin ingin menolak data ini?')">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                             </form>
+                        @endif
+
                         <form action="{{ route('anak.destroy', $an->id) }}" method="POST" style="display:inline;">
                           @csrf
                           @method('DELETE')

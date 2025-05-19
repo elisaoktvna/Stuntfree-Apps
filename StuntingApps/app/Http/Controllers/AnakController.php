@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anak;
+use App\Models\Ortu;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,41 +12,32 @@ class AnakController extends Controller
 {
     public function index()
     {
-        $anak = Anak::with('user')->get();
+        $anak = Anak::with('ortu')->get();
         return view('anak.anak', compact('anak'));
     }
 
     public function create()
     {
-        $ortu = User::where('role', 'orang tua')->get();
+        $ortu = Ortu::all();
         return view('anak.addanak', compact('ortu'));
     }
 
     public function store(Request $request)
     {
-    $validated = $request->validate([
-        'nik' => 'required',
-        'nama' => 'required|max:100',
-        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-        'umur' => 'required',
-        'tanggal_lahir' => 'required|date',
-        'alamat' => 'required',
-        'id_user' => 'required',
-    ]);
+        $validated = $request->validate([
+            'nik' => 'required',
+            'nama' => 'required|max:100',
+            'jenis_kelamin' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'alamat' => 'required',
+            'id_orangtua' => 'required',
+        ]);
 
-    // if (Auth::user()->role == 'admin') {
-    //     // Admin bisa pilih id_user
-    //     $validated['id_user'] = $request->validate([
-    //         'id_user' => 'required|exists:users,id',
-    //     ])['id_user'];
-    // } else {
-    //     // Ortu otomatis pakai id yang login
-    //     $validated['id_user'] = Auth::id();
-    // }
+        $validated['status'] = 'proses';
 
-    Anak::create($validated);
+        Anak::create($validated);
 
-    return redirect('/anak')->with('success', 'Data anak berhasil ditambahkan');
+        return redirect('/anak')->with('success', 'Data anak berhasil ditambahkan');
     }
 
 
@@ -56,22 +48,17 @@ class AnakController extends Controller
 
    public function update(Request $request, Anak $anak)
    {
-    $request->validate([
+    $validated = $request->validate([
         'nik' => 'required',
-        'nama' => 'required',
+        'nama' => 'required|max:100',
         'jenis_kelamin' => 'required',
-        'umur' => 'required',
-        'tanggal_lahir' => 'required',
-        'alamat' => 'required',
+        'tanggal_lahir' => 'required|date',
+        'alamat' => 'required', // Pastikan id_orangtua juga tervalidasi
+        'status' => 'required',
     ]);
 
-    $anak->nik = $request->nik;
-    $anak->nama = $request->nama;
-    $anak->jenis_kelamin = $request->jenis_kelamin;
-    $anak->umur = $request->umur;
-    $anak->tanggal_lahir = $request->tanggal_lahir;
-    $anak->alamat = $request->alamat;
-    $anak->save();
+    // Memperbarui data anak yang telah tervalidasi
+    $anak->update($validated);
 
     return redirect()->route('anak.index')->with('success', 'Data anak berhasil diperbarui');
    }
@@ -81,4 +68,19 @@ class AnakController extends Controller
      $anak->delete();
      return redirect()->route('anak.index')->with('success', 'Data anak berhasil dihapus');
    }
+
+   public function verifikasi(Anak $anak, $status)
+    {
+        // Validasi status hanya boleh "Diterima" atau "Ditolak"
+        if (!in_array($status, ['diterima', 'ditolak'])) {
+            return redirect()->back()->with('error', 'Status tidak valid');
+        }
+
+        // Update status anak
+        $anak->update([
+            'status' => $status,
+        ]);
+
+        return redirect()->back()->with('success', 'Status anak berhasil diubah menjadi ' . $status);
+    }
 }
