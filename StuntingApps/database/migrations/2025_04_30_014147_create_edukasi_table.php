@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('edukasi', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_anak')->constrained('anak')->onDelete('cascade'); // opsional, kalau mau relasi langsung ke anak
+            $table->foreignId('id_pengukuran')->constrained('pengukuran')->onDelete('cascade'); // relasi ke pengukuran
             $table->string('judul', 150);
             $table->string('content');
+            $table->enum('kategori', ['stunting', 'normal', 'tall']); // filter edukasi
             $table->string('image');
             $table->timestamps();
         });
