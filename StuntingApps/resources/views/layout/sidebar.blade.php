@@ -9,6 +9,7 @@
         </a>
       </li>
 
+      @auth('web')
       <li class="nav-item">
         <a class="nav-link collapsed" href="/kecamatan">
           <i class="bi bi-person-circle"></i>
@@ -71,6 +72,23 @@
           <span>Tempat Paket Gizi</span>
         </a>
       </li>
+      @endauth
+
+      @auth('ortu')
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/anak">
+            <i class="bi bi-menu-button-wide"></i>
+            <span>Data Anak</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/pengukuran">
+            <i class="bi bi-graph-up"></i>
+            <span>Pengukuran</span>
+            </a>
+        </li>
+      @endauth
 
 
     </ul>

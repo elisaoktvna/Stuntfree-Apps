@@ -123,7 +123,7 @@
         <div class="card shadow-lg animated" style="animation-delay: 1s;">
           <h3 class="text-center fw-bold mb-4 text-primary animated" style="animation-delay: 0.5s;">Selamat Datang</h3>
           <p class="text-center text-muted mb-4 animated" style="animation-delay: 0.7s;">Silakan masuk untuk melanjutkan</p>
-          <form action="/masuk" method="POST">
+          <form action="/proseslogin" method="POST">
             @csrf
             <div class="mb-3 animated" style="animation-delay: 0.9s;">
               <label for="email" class="form-label text-muted">Email</label>
@@ -135,14 +135,14 @@
             </div>
             <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3 animated" style="animation-delay: 1.3s;">Masuk</button>
           </form>
-          <div class="text-center mt-4 animated" style="animation-delay: 1.5s;">
+          {{-- <div class="text-center mt-4 animated" style="animation-delay: 1.5s;">
             <a href="#" class="text-muted small">Lupa password?</a>
           </div>
           <hr class="my-4">
           <div class="text-center animated" style="animation-delay: 1.7s;">
             <p class="small text-muted">Belum punya akun? <a href="{{ route('signup') }}" class="text-primary">Daftar</a></p>
           </div>
-        </div>
+        </div> --}}
       </div>
     </div>
   </div>

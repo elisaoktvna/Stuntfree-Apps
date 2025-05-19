@@ -40,7 +40,10 @@
                   <th>Tanggal Lahir</th>
                   <th>Alamat</th>
                   <th>Status</th>
-                  <th>Aksi</th>
+                  @auth('web')
+                       <th>Aksi</th>
+                  @endauth
+
                 </tr>
               </thead>
               <tbody>
@@ -54,6 +57,7 @@
                     <td>{{ $an->tanggal_lahir }}</td>
                     <td>{{ $an->alamat }}</td>
                     <td>
+
                         @if ($an->status === 'diterima')
                             <span class="badge bg-success">{{ $an->status }}</span>
                         @elseif ($an->status === 'ditolak')
@@ -65,6 +69,7 @@
                         @endif
                     </td>
                     <td>
+                        @auth('web')
                         @if ($an->status === 'proses')
                             <form action="{{ route('anak.verifikasi', [$an->id, 'diterima']) }}" method="POST" style="display:inline;">
                                 @csrf
@@ -90,6 +95,7 @@
                             <i class="bx bxs-trash"></i>
                           </button>
                         </form>
+                        @endauth
                       </td>
                     </tr>
                   @endforeach

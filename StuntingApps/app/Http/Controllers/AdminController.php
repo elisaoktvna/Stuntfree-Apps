@@ -46,6 +46,9 @@ class AdminController extends Controller
     }
 
     public function loginForm() {
+        if(Auth::check()) {
+            return redirect('/dashboard');
+        }
         return view('login');
     }
 
@@ -74,8 +77,8 @@ class AdminController extends Controller
    }
 
    public function logout() {
-        Auth::logout();
-        return redirect('/login')->with('success', 'Berhasil logout');
+        Auth::guard('web')->logout();
+        return redirect('/loginadmin')->with('success', 'Berhasil logout');
    }
 
 }

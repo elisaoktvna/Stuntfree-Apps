@@ -62,10 +62,19 @@
 
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="/logout">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
+                @auth('web')
+                    <a class="dropdown-item d-flex align-items-center" href="{{ route('logout.user') }}">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sign Out</span>
+                    </a>
+                @endauth
+                @auth('ortu')
+                    <a class="dropdown-item d-flex align-items-center" href="{{ route('logout.ortu') }}">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sign Out</span>
+                   </a>
+                @endauth
+
             </li>
 
           </ul><!-- End Profile Dropdown Items -->

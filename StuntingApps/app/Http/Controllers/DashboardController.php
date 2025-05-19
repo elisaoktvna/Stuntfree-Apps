@@ -24,7 +24,7 @@ class DashboardController extends Controller
         return view('dashboard', compact('edukasis', 'totalAnak'));
     }
 
-        public function filter(Request $request)
+    public function filter(Request $request)
 {
     $filter = $request->get('filter');
     $query = Edukasi::query();

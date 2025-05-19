@@ -32,7 +32,6 @@
                   <th>No</th>
                   <th>Nama</th>
                   <th>Email</th>
-                  <th>Password</th>
                   <th>Kecamatan</th>
                   <th>Alamat</th>
                   <th>Aksi</th>

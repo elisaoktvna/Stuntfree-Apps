@@ -203,7 +203,7 @@
         <div class="col-md-6 fade-left">
           <h1 class="mb-3 display-5 fw-bold text-dark animated fadeInUp">Pantau Pertumbuhan Anak dan Prediksi Risiko Stunting Sejak Dini</h1>
           <p class="lead text-dark mb-4 animated fadeInUp" style="animation-delay: 0.5s;">Gunakan teknologi untuk membantu memantau tumbuh kembang anak dan mendapatkan rekomendasi gizi serta layanan kesehatan.</p>
-          <a class="btn btn-primary btn-lg mt-3 animated fadeInUp" href="{{ route('signup') }}" style="animation-delay: 1s;">Mulai Sekarang</a>
+          <a class="btn btn-primary btn-lg mt-3 animated fadeInUp" href="{{ route('signuportu') }}" style="animation-delay: 1s;">Mulai Sekarang</a>
         </div>
 
         <!-- Image Content -->
@@ -318,7 +318,7 @@
             justify-content: center;
             align-items: center;
         }
-        
+
         /* Add hover effect */
         .shadow-card:hover {
             box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
