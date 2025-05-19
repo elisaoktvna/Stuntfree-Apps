@@ -29,13 +29,15 @@ use Illuminate\Routing\RouteGroup;
 
 // routes/web.php
 
-Route::get('/login', [AdminController::class, 'loginForm'])->name('login');
-Route::post('/masuk', [AdminController::class, 'login']);
-Route::get('/logout', [AdminController::class, 'logout']);
+Route::get('/loginadmin', [AdminController::class, 'loginForm'])->name('loginadmin');
+Route::post('/proseslogin', [AdminController::class, 'login']);
+Route::get('/logout/user', [AdminController::class, 'logout'])->name('logout.user');
 
-Route::get('/login', [OrtuController::class, 'loginForm'])->name('login');
-Route::post('/masuk', [OrtuController::class, 'login']);
-Route::get('/logout', [OrtuController::class, 'logout']);
+Route::get('/loginortu', [OrtuController::class, 'loginForm'])->name('loginortu');
+Route::post('/prosesloginortu', [OrtuController::class, 'login']);
+Route::get('/logout/ortu', [OrtuController::class, 'logout'])->name('logout.ortu');
+Route::get('/signuportu', [OrtuController::class, 'signup'])->name('signuportu');
+Route::post('/prosessignup', [OrtuController::class, 'prosessignup'])->name('prosessignup');
 
 Route::get('/signup', function () {
     return view('signup'); // Replace with your actual login view file path
@@ -47,6 +49,10 @@ Route::get('/', function () {
 })->name('landingpage');
 
 
+Route::middleware(['user'])->group(function () {
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'filter']);
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/addadmin', [AdminController::class, 'create']);
@@ -59,9 +65,6 @@ Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
 Route::put('/update/{id}', [OrtuController::class, 'update']);
 
-//route login ortu
-// Route::get('/ortu/login', [OrtuAuthController::class, 'showLoginForm'])->name('ortu.login');
-// Route::post('/ortu/login', [OrtuAuthController::class, 'login'])->name('ortu.login.submit');
 
 // route kecamatan
 route::get('/kecamatan', [KecamatanController::class, 'index'])->name('kecamatan.index');
@@ -71,19 +74,15 @@ route::get('/kecamatan/edit/{kecamatan}', [KecamatanController::class, 'edit'])-
 route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update'])->name('kecamatan.update');
 route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
-// route pengguna
-// Route::get('/orangtua', [OrtuController::class, 'index']);
-// Route::get('/addortu', [OrtuController::class, 'create']);
-// Route::post('/addortucreate', [OrtuController::class, 'store']);
 
 // route anak
-Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
-Route::get('/addanak', [AnakController::class, 'create'])->name('anak.create');
-Route::post('/addanakcreate', [AnakController::class, 'store'])->name('anak.store');
-Route::get('/anak/edit/{anak}', [AnakController::class, 'edit'])->name('anak.edit');
-Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
-Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
-Route::patch('/anak/{anak}/verifikasi/{status}', [AnakController::class, 'verifikasi'])->name('anak.verifikasi');
+// Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
+// Route::get('/addanak', [AnakController::class, 'create'])->name('anak.create');
+// Route::post('/addanakcreate', [AnakController::class, 'store'])->name('anak.store');
+// Route::get('/anak/edit/{anak}', [AnakController::class, 'edit'])->name('anak.edit');
+// Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
+// Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
+// Route::patch('/anak/{anak}/verifikasi/{status}', [AnakController::class, 'verifikasi'])->name('anak.verifikasi');
 
 
 
@@ -97,9 +96,9 @@ Route::delete('/edukasi/{id}', [EdukasiController::class, 'destroy'])->name('edu
 
 
 // route pengukuran
-Route::get('/pengukuran', [PengukuranController::class, 'index']);
-Route::get('/addpengukuran', [PengukuranController::class, 'create']);
-Route::post('/addpengukur', [PengukuranController::class, 'store']);
+// Route::get('/pengukuran', [PengukuranController::class, 'index']);
+// Route::get('/addpengukuran', [PengukuranController::class, 'create']);
+// Route::post('/addpengukur', [PengukuranController::class, 'store']);
 
 // route prediksi
 Route::get('/prediksi', [PrediksiController::class, 'index']);
@@ -121,9 +120,24 @@ Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('
 Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
 Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
 
-// Route::group(['middleware' => ['auth','ceklevel:']], function () {
-//     Route::get('/dashboard', [DashboardController::class, 'index']);
-// });
+});
+
+Route::middleware(['auth:web, ortu'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    // route anak
+    Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
+    Route::get('/addanak', [AnakController::class, 'create'])->name('anak.create');
+    Route::post('/addanakcreate', [AnakController::class, 'store'])->name('anak.store');
+    Route::get('/anak/edit/{anak}', [AnakController::class, 'edit'])->name('anak.edit');
+    Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
+    Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
+    Route::patch('/anak/{anak}/verifikasi/{status}', [AnakController::class, 'verifikasi'])->name('anak.verifikasi');
+
+    Route::get('/pengukuran', [PengukuranController::class, 'index']);
+    Route::get('/addpengukuran', [PengukuranController::class, 'create']);
+    Route::post('/addpengukur', [PengukuranController::class, 'store']);
+});
 
 
 

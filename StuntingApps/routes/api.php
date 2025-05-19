@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\api\AnakApiController;
+use App\Http\Controllers\KecamatanApiController;
 
 
 /*
@@ -26,5 +28,11 @@ Route::post('/anak', [AnakApiController::class, 'store']);
 Route::get('/anak/{id}', [AnakApiController::class, 'show']);
 Route::put('/anak/{id}', [AnakApiController::class, 'update']);
 Route::delete('/anak/{id}', [AnakApiController::class, 'destroy']);
-// Route::middleware('auth:sanctum')->post('/anak', [AnakApiController::class, 'store']);
+
+// login
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+
+// kecamatan
+Route::get('/kecamatan', [KecamatanApiController::class, 'index']);
 

@@ -40,6 +40,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'ortu' => [
+            'driver' => 'session',
+            'provider' => 'ortu',
+        ],
+
+        'api_ortu' => [
+            'driver' => 'sanctum',
+            'provider' => 'ortu',
+        ],
     ],
 
     /*
@@ -65,10 +75,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'ortu' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Ortu::class,
+        ],
     ],
 
     /*

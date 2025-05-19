@@ -49,35 +49,53 @@ class OrtuController extends Controller
     }
 
     public function loginForm() {
-        return view('dashboard');
+        if(Auth::guard('ortu')->check()) {
+            return redirect('/dahsboard');
+        }
+        return view('login_ortu');
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            if ($user->role === 'admin') {
-                return redirect()->intended('/dashboard')->with('success', 'Login berhasil sebagai admin');
-            } else {
-                Auth::logout();
-                return back()->withErrors([
-                    'email' => 'Akses ditolak. Anda bukan admin.',
-                ]);
-            }
+        if (Auth::guard('ortu')->attempt($credentials)) {
+            return redirect()->intended('/dashboard/ortu');
         }
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
-        ]);
+        ])->withInput();
    }
 
    public function logout() {
-        Auth::logout();
-        return redirect('/login')->with('success', 'Berhasil logout');
+        Auth::guard('ortu')->logout();
+        return redirect('/loginortu')->with('success', 'Berhasil logout');
    }
+
+   public function signup () {
+      $kec = Kecamatan::all();
+      return view('signup', compact('kec'));
+   }
+
+   public function prosessignup(Request $request) {
+     $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email|unique:ortu,email',
+            'password' => 'required|min:8|confirmed',
+            'id_kecamatan' => 'required',
+            'alamat' => 'required',
+        ]);
+
+        $ortu = new Ortu;
+        $ortu->nama = $request->nama;
+        $ortu->email = $request->email;
+        $ortu->password = Hash::make($request->password);
+        $ortu->id_kecamatan = $request->id_kecamatan;
+        $ortu->alamat = $request->alamat;
+        $ortu->save();
+
+        return redirect('/loginortu')->with('success', 'Daftar berhasil');
+   }
+
 }
