@@ -28,6 +28,18 @@
                                 <textarea class="form-control" name="content">{{ old('content', $edukasi->content) }}</textarea>
                             </div>
                         </div>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="kategori" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="stunting" {{ old('kategori') == 'stunting' ? 'selected' : '' }}>Stunting</option>
+                            <option value="gizi" {{ old('kategori') == 'normal' ? 'selected' : '' }}>Normal</option>
+                            <option value="umum" {{ old('kategori') == 'tall' ? 'selected' : '' }}>Tall</option>
+                            </select>
+                            @error('kategori')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        </div>
                         <div class="row mb-3">
                             <label for="image" class="col-sm-2 col-form-label">Gambar</label>
                             <div class="col-sm-10">

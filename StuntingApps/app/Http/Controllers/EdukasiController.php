@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anak;
 use App\Models\Edukasi;
+use App\Models\Pengukuran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -16,7 +18,10 @@ class EdukasiController extends Controller
 
     public function create()
     {
-        return view('edukasi.create');
+        $anak = Anak::all();
+        $pengukuran = Pengukuran::all();
+
+    return view('edukasi.create', compact('anak', 'pengukuran'));
     }
 
     public function store(Request $request)
@@ -24,6 +29,7 @@ class EdukasiController extends Controller
         $request->validate([
             'judul' => 'required|max:150',
             'content' => 'required',  // Sesuai form
+            'kategori' => 'required',
             'image' => 'required|image|mimes:jpg,jpeg,png',  // Sesuai form
         ]);
 
@@ -36,6 +42,7 @@ class EdukasiController extends Controller
         Edukasi::create([
             'judul' => $request->judul,
             'content' => $request->content,  // Sesuai form
+            'kategori' => $request->kategori,
             'image' => $imagePath,
         ]);
 
@@ -53,6 +60,7 @@ class EdukasiController extends Controller
         $request->validate([
             'judul' => 'required|max:150',
             'content' => 'required',
+            'kategori' => 'required',
             'image' => 'nullable|image|mimes:jpg,jpeg,png'
         ]);
 
@@ -71,6 +79,7 @@ class EdukasiController extends Controller
         $edukasi->update([
             'judul' => $request->judul,
             'content' => $request->content,
+            'kategori' => $request->kategori,
             'image' => $imagePath,
         ]);
 

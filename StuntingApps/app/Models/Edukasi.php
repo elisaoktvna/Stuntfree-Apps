@@ -10,5 +10,5 @@ class Edukasi extends Model
     use HasFactory;
     protected $table = 'edukasi';
 
-    protected $fillable = ['judul', 'content', 'image'];
+    protected $fillable = ['judul', 'content', 'image', 'kategori'];
 }

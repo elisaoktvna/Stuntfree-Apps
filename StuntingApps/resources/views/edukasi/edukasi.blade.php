@@ -28,6 +28,7 @@
                   <th>No</th>
                   <th>Judul</th>
                   <th>Konten</th>
+                  <th>Kategori</th>
                   <th>Gambar</th>
                   <th>Aksi</th>
                 </tr>
@@ -38,6 +39,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $edukasi->judul }}</td>
                     <td>{{ $edukasi->content }}</td>
+                    <td>{{ $edukasi->kategori }}</td>
                     <td>
                         @if ($edukasi->image)
                         <img src="{{ Storage::url($edukasi->image) }}" alt="Gambar Edukasi" width="100">
