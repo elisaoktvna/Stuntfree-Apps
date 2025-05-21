@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('content')
 <div class="pagetitle">
-    <h1>Tambah Data Edukasi</h1>
+    <h1>Tambah Data Template Edukasi</h1>
     <nav>
       {{-- <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -17,33 +17,11 @@
 
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Data Edukasi</h5>
+            <h5 class="card-title">Data Template Edukasi</h5>
 
             <!-- General Form Elements -->
-            <form action="{{ route('edukasi.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('template_edukasi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="row mb-3">
-                    <label for="id_anak" class="col-sm-2 col-form-label">Anak</label>
-                    <div class="col-sm-10">
-                        <select name="id_anak" required>
-                            <option value="">-- Pilih Anak --</option>
-                            @foreach ($anak as $a)
-                                <option value="{{ $a->id }}">{{ $a->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="id_pengukuran" class="col-sm-2 col-form-label">Pengukuran</label>
-                    <div class="col-sm-10">
-                        <select name="id_pengukuran" required>
-                            @foreach ($pengukuran as $p)
-                                <option value="">-- Pilih Pengukuran --</option>
-                                <option value="{{ $p->id }}"> Status: {{ $p->hasil }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
                 <div class="row mb-3">
                   <label for="judul" class="col-sm-2 col-form-label">Judul</label>
                   <div class="col-sm-10">
@@ -54,9 +32,9 @@
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="content" class="col-sm-2 col-form-label">Konten</label>
+                  <label for="konten" class="col-sm-2 col-form-label">Konten</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="content" value="{{ old('konten') }}">
+                    <input type="text" class="form-control" name="konten" value="{{ old('konten') }}">
                     @error('konten')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -81,14 +59,14 @@
                   <label for="image" class="col-sm-2 col-form-label">Gambar</label>
                   <div class="col-sm-10">
                     <input type="file" name="image" class="form-control">
-                    @error('gambar')
+                    @error('image')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
                   </div>
                 </div>
                 <div class="col-sm-10">
                   <button type="submit" class="btn btn-primary">Submit</button>
-                  <a href="{{ route('edukasi.index') }}" class="btn btn-warning">Kembali</a>
+                  <a href="{{ route('templateedukasi.index') }}" class="btn btn-warning">Kembali</a>
                 </div>
             </form><!-- End General Form Elements -->
 

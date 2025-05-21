@@ -19,40 +19,36 @@ class AnakApiController extends Controller
     public function index()
     {
         $anak = Anak::with('ortu')->get();
+
+        // cej 
         return response()->json($anak, 200);
     }
 
     // Menyimpan data anak baru
     public function store(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'nik' => 'required|unique:anak',
-            'nama' => 'required|max:100',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tanggal_lahir' => 'required|date',
-            'id_orangtua' => 'required|exists:ortu,id',
-            // Hapus validasi id_orangtua dari request
-        ]);
+{
+    $validated = $request->validate([
+        'nik' => 'required|unique:anak',
+        'nama' => 'required|max:100',
+        'jenis_kelamin' => 'required|in:0,1', // sesuai kiriman dari Flutter
+        'tanggal_lahir' => 'required|date',
+        'id_orangtua' => 'required|exists:ortu,id',
+        'status' => 'nullable|string', // tambahan kalau mau terima status
+    ]);
 
-        // Ambil id user yang login
-        // $ortu = Auth::guard('ortu')->ortu();
-        // $validated['id_orangtua'] = $ortu->id;
-        
+    $anak = new Anak();
+    $anak->nik = $validated['nik'];
+    $anak->nama = $validated['nama'];
+    $anak->jenis_kelamin = $validated['jenis_kelamin']; // akan disimpan 0 atau 1
+    $anak->tanggal_lahir = $validated['tanggal_lahir'];
+    $anak->id_orangtua = $validated['id_orangtua'];
+    $anak->status = $validated['status'] ?? 'proses'; // default proses jika tidak dikirim
 
-        // $anak = Anak::create($validated);
+    $anak->save();
 
-        $anak = $this->anak;
+    return response()->json(['message' => 'Data anak berhasil ditambahkan', 'data' => $anak], 201);
+}
 
-        $anak->nik = $request->nik;
-        $anak->nama = $request->nama;
-        $anak->jenis_kelamin = $request->jenis_kelamin;
-        $anak->tanggal_lahir = $request->tanggal_lahir;
-        $anak->id_orangtua = $request->id_orangtua;
-
-        $anak->save();
-
-        return response()->json(['message' => 'Data anak berhasil ditambahkan', 'data' => $anak], 200);
-    }
 
 
     // Menampilkan data anak berdasarkan ID
@@ -68,23 +64,34 @@ class AnakApiController extends Controller
     // Memperbarui data anak
     public function update(Request $request, $id)
     {
-        $anak = Anak::find($id);
-        if (!$anak) {
-            return response()->json(['message' => 'Data tidak ditemukan'], 404);
-        }
+            $anak = Anak::find($id);
+            if (!$anak) {
+                return response()->json(['message' => 'Data tidak ditemukan'], 404);
+            }
 
-        $validated = $request->validate([
-            'nik' => 'required|unique:anak,nik,' . $anak->id,
-            'nama' => 'required|max:100',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'tanggal_lahir' => 'required|date',
-            'id_orangtua' => 'required|exists:users,id',
-        ]);
+            $validated = $request->validate([
+                'nik' => 'required|unique:anak,nik,' . $anak->id,
+                'nama' => 'required|max:100',
+                'jenis_kelamin' => 'required|in:0,1',  // sesuai kiriman dari Flutter
+                'tanggal_lahir' => 'required|date',
+                'id_orangtua' => 'required|exists:ortu,id',  // pastikan sesuai tabel ortu
+                'status' => 'nullable|string',
+            ]);
 
-        $anak->update($validated);
+            $anak->nik = $validated['nik'];
+            $anak->nama = $validated['nama'];
+            $anak->jenis_kelamin = $validated['jenis_kelamin'];
+            $anak->tanggal_lahir = $validated['tanggal_lahir'];
+            $anak->id_orangtua = $validated['id_orangtua'];
+            if (isset($validated['status'])) {
+                $anak->status = $validated['status'];
+            }
 
-        return response()->json(['message' => 'Data anak berhasil diperbarui', 'data' => $anak], 200);
-    }
+            $anak->save();
+
+            return response()->json(['message' => 'Data anak berhasil diperbarui', 'data' => $anak], 200);
+      }
+
 
     // Menghapus data anak
     public function destroy($id)

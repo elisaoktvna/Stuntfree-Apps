@@ -57,12 +57,12 @@
                             </div>
                           </div>
 
-                          <div class="row mb-3">
+                          {{-- <div class="row mb-3">
                             <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                             <div class="col-sm-10">
                               <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $anak->alamat }}" required>
                             </div>
-                          </div>
+                          </div> --}}
 
                         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         <a href="{{ route('anak.index') }}" class="btn btn-secondary">Batal</a>

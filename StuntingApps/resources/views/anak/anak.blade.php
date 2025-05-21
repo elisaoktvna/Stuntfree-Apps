@@ -38,7 +38,6 @@
                   <th>Nama Anak</th>
                   <th>Jenis Kelamin</th>
                   <th>Tanggal Lahir</th>
-                  <th>Alamat</th>
                   <th>Status</th>
                   @auth('web')
                        <th>Aksi</th>
@@ -55,7 +54,6 @@
                     <td>{{ $an->nama }}</td>
                     <td>{{ $an->jenis_kelamin == 1 ? 'Laki-laki' : 'Perempuan' }}</td>
                     <td>{{ $an->tanggal_lahir }}</td>
-                    <td>{{ $an->alamat }}</td>
                     <td>
 
                         @if ($an->status === 'diterima')

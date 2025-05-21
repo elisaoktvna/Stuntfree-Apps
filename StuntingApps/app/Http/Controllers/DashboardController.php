@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Anak;
+use App\Models\Ortu;
 use App\Models\Edukasi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,13 +16,9 @@ class DashboardController extends Controller
 
         $totalAnak = Anak::count();
 
-        // $anakBulanIni = Anak::whereMonth('created_at', Carbon::now()->month)->count();
+        $totalOrtu = Ortu::count();
 
-        // $anakStunting = Anak::where('status_gizi', 'Stunting')->count();
-
-        // $anakSehat = Anak::where('status_gizi', 'Normal')->count();
-
-        return view('dashboard', compact('edukasis', 'totalAnak'));
+        return view('dashboard', compact('edukasis', 'totalAnak', 'totalOrtu'));
     }
 
     public function filter(Request $request)

@@ -29,7 +29,6 @@ class AnakController extends Controller
             'nama' => 'required|max:100',
             'jenis_kelamin' => 'required',
             'tanggal_lahir' => 'required|date',
-            'alamat' => 'required',
             'id_orangtua' => 'required',
         ]);
 
@@ -53,7 +52,6 @@ class AnakController extends Controller
         'nama' => 'required|max:100',
         'jenis_kelamin' => 'required',
         'tanggal_lahir' => 'required|date',
-        'alamat' => 'required', // Pastikan id_orangtua juga tervalidasi
         'status' => 'required',
     ]);
 
