@@ -122,7 +122,7 @@ Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name(
 
 });
 
-Route::middleware(['auth:web, ortu'])->group(function () {
+Route::middleware(['auth:web,ortu'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // route anak

@@ -68,12 +68,12 @@
                   </div>
                 </div>
 
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                   <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat" required>
                   </div>
-                </div>
+                </div> --}}
                 <div class="row mb-3">
                   <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">Simpan</button>

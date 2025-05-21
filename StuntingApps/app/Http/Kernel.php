@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'ortu' => \App\Http\Middleware\RedirectIfNotOrtu::class,
         'user' => \App\Http\Middleware\RedirectIfNotUser::class,
+        'multiguard' => \App\Http\Middleware\MultiGuardAuth::class,
     ];
 }

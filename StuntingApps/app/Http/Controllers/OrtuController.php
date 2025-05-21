@@ -60,7 +60,7 @@ class OrtuController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('ortu')->attempt($credentials)) {
-            return redirect()->intended('/dashboard/ortu');
+            return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
