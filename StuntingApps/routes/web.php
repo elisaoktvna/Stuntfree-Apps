@@ -12,6 +12,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\PengukuranController;
+use App\Http\Controllers\TemplateEdukasiController;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\RouteGroup;
 
@@ -122,7 +123,7 @@ Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name(
 
 });
 
-Route::middleware(['auth:web, ortu'])->group(function () {
+Route::middleware(['auth:web,ortu'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // route anak
@@ -139,5 +140,11 @@ Route::middleware(['auth:web, ortu'])->group(function () {
     Route::post('/addpengukur', [PengukuranController::class, 'store']);
 });
 
-
+// route template edukasi
+    Route::get('/templateedukasi', [TemplateEdukasiController::class, 'index'])->name('templateedukasi.index');
+    Route::get('/templateedukasi/create', [TemplateEdukasiController::class, 'create'])->name('template_edukasi.create');
+    Route::post('/templateedukasi', [TemplateEdukasiController::class, 'store'])->name('template_edukasi.store');
+    Route::get('/templateedukasi/edit/{id}', [TemplateEdukasiController::class, 'edit'])->name('template_edukasi.edit');
+    Route::put('/templateedukasi/update/{id}', [TemplateEdukasiController::class, 'update'])->name('template_edukasi.update');
+    Route::delete('/templateedukasi/{id}', [TemplateEdukasiController::class, 'destroy'])->name('template_edukasi.destroy');
 

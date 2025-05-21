@@ -52,6 +52,13 @@
         </a>
       </li>
 
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="/templateedukasi">
+          <i class="bi bi-file-play-fill"></i>
+          <span>Template Edukasi</span>
+        </a>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="/edukasi">
           <i class="bi bi-file-play-fill"></i>
