@@ -18,35 +18,40 @@ class EdukasiController extends Controller
 
     public function create()
     {
-        $anak = Anak::all();
-        $pengukuran = Pengukuran::all();
+            $anak = Anak::all();
+            $pengukuran = Pengukuran::with('anak')->get(); // Jika ingin menampilkan anak juga
 
-    return view('edukasi.create', compact('anak', 'pengukuran'));
+            return view('edukasi.create', compact('anak', 'pengukuran'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'judul' => 'required|max:150',
-            'content' => 'required',  // Sesuai form
-            'kategori' => 'required',
-            'image' => 'required|image|mimes:jpg,jpeg,png',  // Sesuai form
-        ]);
 
-        if ($request->hasFile('image')) {  // Cek file 'image'
+        public function store(Request $request)
+        {
+            $request->validate([
+                'id_anak' => 'required|exists:anak,id',
+                'id_pengukuran' => 'required|exists:pengukuran,id',
+                'judul' => 'required|max:150',
+                'content' => 'required',
+                'image' => 'required|image|mimes:jpg,jpeg,png',
+            ]);
+
+            $pengukuran = Pengukuran::findOrFail($request->id_pengukuran);
+
+            // Misalnya status_gizi: 'stunting', 'normal', atau 'tall'
+            $kategori = $pengukuran->hasil;
+
             $imagePath = $request->file('image')->store('image', 'public');
-        } else {
-            $imagePath = null;
-        }
 
-        Edukasi::create([
-            'judul' => $request->judul,
-            'content' => $request->content,  // Sesuai form
-            'kategori' => $request->kategori,
-            'image' => $imagePath,
-        ]);
+            Edukasi::create([
+                'id_anak' => $request->id_anak,
+                'id_pengukuran' => $request->id_pengukuran,
+                'judul' => $request->judul,
+                'content' => $request->content,
+                'kategori' => $kategori,
+                'image' => $imagePath,
+            ]);
 
-        return redirect()->route('edukasi.index')->with('success', 'Edukasi berhasil ditambahkan.');
+            return redirect()->route('templateedukasi.index')->with('success', 'Edukasi berhasil ditambahkan.');
     }
 
     public function edit($id)

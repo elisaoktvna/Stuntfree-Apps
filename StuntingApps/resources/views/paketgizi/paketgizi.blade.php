@@ -24,6 +24,7 @@
           <table class="table datatable">
             <thead>
               <tr>
+                <th>No</th> 
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Telepon</th>
