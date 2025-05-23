@@ -85,8 +85,24 @@ class AnakController extends Controller
     // tampil detail anak
     public function show($id)
     {
-        $anak = Anak::with('ortu', 'latestEdukasi')->findOrFail($id);
+        $anak = Anak::with(['ortu', 'latestEdukasi', 'pengukuran' => function($q) {
+            $q->orderBy('created_at', 'desc');
+        }])->findOrFail($id);
 
         return view('anak.detailanak', compact('anak'));
+    }
+
+    public function showEdukasi($anakId, $edukasiId)
+    {
+        $anak = Anak::findOrFail($anakId);
+        $edukasi = $anak->edukasi()->findOrFail($edukasiId); // Asumsi relasi 'edukasi' ada di model Anak
+
+        $otherEdukasi = $anak->edukasi()
+                            ->where('id', '!=', $edukasiId)
+                            ->latest()
+                            ->limit(5)
+                            ->get();
+
+        return view('anak.detailberitaanak', compact('anak', 'edukasi', 'otherEdukasi'));
     }
 }
