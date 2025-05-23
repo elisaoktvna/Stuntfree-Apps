@@ -41,9 +41,9 @@
                 <div class="col-sm-10">
                     <select class="form-control" name="kategori" required>
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="stunting" {{ old('kategori', $template->kategori) == 'stunting' ? 'selected' : '' }}>Stunting</option>
-                        <option value="normal" {{ old('kategori', $template->kategori) == 'normal' ? 'selected' : '' }}>Normal</option>
-                        <option value="tall" {{ old('kategori', $template->kategori) == 'tall' ? 'selected' : '' }}>Tall</option>
+                        <option value="Stunting" {{ old('kategori', $template->kategori) == 'Stunting' ? 'selected' : '' }}>Stunting</option>
+                        <option value="Normal" {{ old('kategori', $template->kategori) == 'Normal' ? 'selected' : '' }}>Normal</option>
+                        <option value="Tall" {{ old('kategori', $template->kategori) == 'Tall' ? 'selected' : '' }}>Tall</option>
                     </select>
                             @error('kategori')
                             <span class="text-danger">{{ $message }}</span>

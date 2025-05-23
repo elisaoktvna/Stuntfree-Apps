@@ -31,9 +31,9 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="kategori" required>
                             <option value="">-- Pilih Kategori --</option>
-                            <option value="stunting" {{ old('kategori') == 'stunting' ? 'selected' : '' }}>Stunting</option>
-                            <option value="gizi" {{ old('kategori') == 'normal' ? 'selected' : '' }}>Normal</option>
-                            <option value="umum" {{ old('kategori') == 'tall' ? 'selected' : '' }}>Tall</option>
+                            <option value="Stunting" {{ old('kategori') == 'stunting' ? 'selected' : '' }}>Stunting</option>
+                            <option value="Normal" {{ old('kategori') == 'normal' ? 'selected' : '' }}>Normal</option>
+                            <option value="Tall" {{ old('kategori') == 'tall' ? 'selected' : '' }}>Tall</option>
                             </select>
                             @error('kategori')
                             <span class="text-danger">{{ $message }}</span>

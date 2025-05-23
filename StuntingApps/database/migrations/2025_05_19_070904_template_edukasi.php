@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('judul', 150);
             $table->text('konten');
-            $table->enum('kategori', ['stunting', 'normal', 'tall']); // kategori edukasi
+            $table->enum('kategori', ['Stunting', 'Normal', 'Tall']); // kategori edukasi
             $table->string('image')->nullable(); // opsional gambar
             $table->timestamps();
         });
