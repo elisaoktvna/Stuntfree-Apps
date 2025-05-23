@@ -38,5 +38,9 @@ class Anak extends Model
         return $this->hasMany(Edukasi::class, 'id_anak');
     }
 
+    public function latestEdukasi() {
+        return $this->hasOne(Edukasi::class, 'id_anak')->latestOfMany();
+    }
+
     public $timestamps = false;
 }

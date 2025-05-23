@@ -134,6 +134,7 @@ Route::middleware(['auth:web,ortu'])->group(function () {
     Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
     Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
     Route::patch('/anak/{anak}/verifikasi/{status}', [AnakController::class, 'verifikasi'])->name('anak.verifikasi');
+    Route::get('/anak/{id}', [AnakController::class, 'show'])->name('anak.show');
 
     Route::get('/pengukuran', [PengukuranController::class, 'index']);
     Route::get('/addpengukuran', [PengukuranController::class, 'create']);

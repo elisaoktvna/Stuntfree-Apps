@@ -13,7 +13,7 @@ class TemplateEdukasi extends Model
     // Tambahkan ini:
     protected $fillable = [
         'judul',
-        'konten',
+        'content',
         'kategori',
         'image',
     ];

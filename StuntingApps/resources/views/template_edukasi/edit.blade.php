@@ -30,9 +30,9 @@
                             </div>
                  </div>
                 <div class="row mb-3">
-                        <label for="konten" class="col-sm-2 col-form-label">Konten</label>
+                        <label for="content" class="col-sm-2 col-form-label">content</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" name="konten">{{ old('konten', $template->konten) }}</textarea>
+                            <textarea class="form-control" name="content">{{ old('content', $template->content) }}</textarea>
                         </div>
                 </div>
 

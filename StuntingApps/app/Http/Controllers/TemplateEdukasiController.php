@@ -22,12 +22,12 @@ class TemplateEdukasiController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:150',
-            'konten' => 'required',
+            'content' => 'required',
             'kategori' => 'required|in:Stunting,Normal,Tall',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = $request->only(['judul', 'konten', 'kategori']);
+        $data = $request->only(['judul', 'content', 'kategori']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('image', 'public');
@@ -48,13 +48,13 @@ class TemplateEdukasiController extends Controller
     {
         $request->validate([
             'judul' => 'required|string|max:150',
-            'konten' => 'required',
+            'content' => 'required',
             'kategori' => 'required|in:Stunting,Normal,Tall',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $template = TemplateEdukasi::findOrFail($id);
-        $data = $request->only(['judul', 'konten', 'kategori']);
+        $data = $request->only(['judul', 'content', 'kategori']);
 
         if ($request->hasFile('image')) {
             if ($template->image && Storage::disk('public')->exists($template->image)) {

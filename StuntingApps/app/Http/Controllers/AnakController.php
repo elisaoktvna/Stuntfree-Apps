@@ -81,4 +81,12 @@ class AnakController extends Controller
 
         return redirect()->back()->with('success', 'Status anak berhasil diubah menjadi ' . $status);
     }
+
+    // tampil detail anak
+    public function show($id)
+    {
+        $anak = Anak::with('ortu', 'latestEdukasi')->findOrFail($id);
+
+        return view('anak.detailanak', compact('anak'));
+    }
 }
