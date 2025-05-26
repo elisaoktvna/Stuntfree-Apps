@@ -24,7 +24,7 @@
           <table class="table datatable">
             <thead>
               <tr>
-                <th>No</th> 
+                <th>No</th>
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Telepon</th>
@@ -39,9 +39,7 @@
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->alamat }}</td>
                 <td>{{ $item->telepon }}</td>
-                <td>
-                  <a href="{{ $item->urlmaps }}" target="_blank" class="btn btn-info btn-sm">Lihat di Maps</a>
-                </td>
+                <td>{{ $item->urlmaps}}</td>
                 <td>
                   <a href="{{ route('paketgizi.edit', $item->id) }}" class="btn btn-primary btn-sm">
                     <i class="bx bx-edit"></i>
