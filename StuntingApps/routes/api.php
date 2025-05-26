@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\api\AnakApiController;
 use App\Http\Controllers\KecamatanApiController;
 use App\Http\Controllers\PengukuranApiController;
+use App\Http\Controllers\TemplateEduAPiController;
 
 
 /*
@@ -40,4 +41,7 @@ Route::get('/kecamatan', [KecamatanApiController::class, 'index']);
 // pengukuran
 Route::get('/pengukuran', [PengukuranApiController::class, 'index']);
 Route::post('/pengukuran', [PengukuranApiController::class, 'store']);
+
+// edukasi
+Route::get('/edukasi', [TemplateEduAPiController::class, 'getAll']);
 
