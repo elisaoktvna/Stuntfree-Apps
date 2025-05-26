@@ -32,10 +32,10 @@
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="konten" class="col-sm-2 col-form-label">Konten</label>
+                  <label for="content" class="col-sm-2 col-form-label">Content</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="konten" value="{{ old('konten') }}">
-                    @error('konten')
+                    <input type="text" class="form-control" name="content" value="{{ old('content') }}">
+                    @error('content')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
                   </div>
@@ -45,9 +45,9 @@
                 <div class="col-sm-10">
                     <select name="kategori" class="form-control" required>
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="stunting">Stunting</option>
-                        <option value="normal">Normal</option>
-                        <option value="tall">Tall</option>
+                        <option value="Stunting">Stunting</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Tall">Tall</option>
                     </select>
                     @error('kategori')
                     <span class="text-danger">{{ $message }}</span>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Anak;
+use App\Models\Edukasi;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -27,5 +28,10 @@ class Pengukuran extends Model
     public function anak()
     {
         return $this->belongsTo(Anak::class, 'id_anak');
+    }
+
+    public function edukasi()
+    {
+        return $this->hasOne(Edukasi::class, 'id_pengukuran');
     }
 }

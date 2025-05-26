@@ -86,6 +86,10 @@
                              </form>
                         @endif
 
+                        {{-- detail --}}
+                        <a href="{{ route('anak.show', $an->id) }}" class="btn btn-info btn-sm">Lihat Detail</a>
+
+
                         <form action="{{ route('anak.destroy', $an->id) }}" method="POST" style="display:inline;">
                           @csrf
                           @method('DELETE')

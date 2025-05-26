@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('template_edukasi', function (Blueprint $table) {
             $table->id();
             $table->string('judul', 150);
-            $table->text('konten');
-            $table->enum('kategori', ['stunting', 'normal', 'tall']); // kategori edukasi
+            $table->text('content');
+            $table->enum('kategori', ['Stunting', 'Normal', 'Tall']); // kategori edukasi
             $table->string('image')->nullable(); // opsional gambar
             $table->timestamps();
         });

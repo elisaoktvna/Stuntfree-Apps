@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anak;
+use App\Models\Edukasi;
 use App\Models\Pengukuran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class PengukuranController extends Controller
@@ -44,13 +46,13 @@ class PengukuranController extends Controller
 
         // Periksa apakah response berhasil
         if (!$response->successful()) {
-            return back()->with('eror', 'Gagal prediksi cek koneksi model flask');
+            return back()->with('error', 'Gagal prediksi cek koneksi model flask');
         }
 
         $result = $response->json();
 
             // Simpan pengukuran
-        Pengukuran::create([
+        $pengukuran = Pengukuran::create([
             'id_anak' => $request->id_anak,
             'berat' => $request->berat,
             'tinggi' => $request->tinggi,
@@ -62,6 +64,23 @@ class PengukuranController extends Controller
             'status_gizi_bmi' => $result['status_gizi_bmi'] ?? null,
             'note' => $result['note'] ?? null,
         ]);
+
+        $kategori = $result['hasil_model'] ?? null;
+
+        if($kategori) {
+            $template = DB::table('template_edukasi')->where('kategori', $kategori)->first();
+
+            if ($template) {
+                Edukasi::create([
+                    'id_anak' => $validatedData['id_anak'],
+                    'id_pengukuran' => $pengukuran->id,
+                    'judul' => $template->judul,
+                    'content' => $template->content,
+                    'kategori' => $template->kategori,
+                    'image' => $template->image,
+                ]);
+            }
+        }
 
         return redirect('/pengukuran')->with('success', 'Data pengukuran berhasil disimpan!');
 

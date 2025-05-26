@@ -67,9 +67,9 @@
                 <div class="col-sm-10">
                     <select name="kategori" class="form-control" required>
                         <option value="">-- Pilih Kategori --</option>
-                        <option value="stunting">Stunting</option>
-                        <option value="normal">Normal</option>
-                        <option value="tall">Tall</option>
+                        <option value="Stunting">Stunting</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Tall">Tall</option>
                     </select>
                     @error('kategori')
                     <span class="text-danger">{{ $message }}</span>

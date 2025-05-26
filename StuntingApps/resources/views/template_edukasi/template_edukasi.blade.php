@@ -27,7 +27,7 @@
                 <tr>
                   <th>No</th>
                   <th>Judul</th>
-                  <th>Konten</th>
+                  <th>Content</th>
                   <th>Kategori</th>
                   <th>Gambar</th>
                   <th>Aksi</th>
@@ -38,7 +38,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $template->judul }}</td>
-                    <td>{{ $template->konten }}</td>
+                    <td>{{ $template->content }}</td>
                     <td>{{ $template->kategori }}</td>
                     <td>
                         @if ($template->image)

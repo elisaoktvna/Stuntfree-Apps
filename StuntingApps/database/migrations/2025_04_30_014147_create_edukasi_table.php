@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('id_pengukuran')->constrained('pengukuran')->onDelete('cascade'); // relasi ke pengukuran
             $table->string('judul', 150);
             $table->string('content');
-            $table->enum('kategori', ['stunting', 'normal', 'tall']); // filter edukasi
+            $table->enum('kategori', ['Stunting', 'Normal', 'Tall']); // filter edukasi
             $table->string('image');
             $table->timestamps();
         });
