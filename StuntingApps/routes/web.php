@@ -76,17 +76,6 @@ route::put('/kecamatan/update/{kecamatan}', [KecamatanController::class, 'update
 route::delete('/kecamatan/delete{kecamatan}', [KecamatanController::class, 'destroy'])->name('kecamatan.destroy');
 
 
-// route anak
-// Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
-// Route::get('/addanak', [AnakController::class, 'create'])->name('anak.create');
-// Route::post('/addanakcreate', [AnakController::class, 'store'])->name('anak.store');
-// Route::get('/anak/edit/{anak}', [AnakController::class, 'edit'])->name('anak.edit');
-// Route::put('/anak/update/{anak}', [AnakController::class, 'update'])->name('anak.update');
-// Route::delete('/anak/delete/{anak}', [AnakController::class, 'destroy'])->name('anak.destroy');
-// Route::patch('/anak/{anak}/verifikasi/{status}', [AnakController::class, 'verifikasi'])->name('anak.verifikasi');
-
-
-
 // route edukasi
 Route::get('/edukasi', [EdukasiController::class, 'index'])->name('edukasi.index');
 Route::get('/edukasi/create', [EdukasiController::class, 'create'])->name('edukasi.create'); // Menampilkan form tambah edukasi
@@ -94,16 +83,6 @@ Route::post('/edukasi', [EdukasiController::class, 'store'])->name('edukasi.stor
 Route::get('edukasi/edit/{id}', [EdukasiController::class, 'edit'])->name('edukasi.edit');
 Route::put('edukasi/update/{id}', [EdukasiController::class, 'update'])->name('edukasi.update');
 Route::delete('/edukasi/{id}', [EdukasiController::class, 'destroy'])->name('edukasi.destroy');
-
-
-// route pengukuran
-// Route::get('/pengukuran', [PengukuranController::class, 'index']);
-// Route::get('/addpengukuran', [PengukuranController::class, 'create']);
-// Route::post('/addpengukur', [PengukuranController::class, 'store']);
-
-// route prediksi
-Route::get('/prediksi', [PrediksiController::class, 'index']);
-Route::get('/addprediksi', [PrediksiController::class, 'create']);
 
 // route faskes
 Route::get('/faskes', [FaskesController::class, 'index'])->name('faskes.index');
@@ -120,6 +99,14 @@ Route::post('/paketgizi', [PaketGiziController::class, 'store'])->name('paketgiz
 Route::get('/paketgizi/{id}/edit', [PaketGiziController::class, 'edit'])->name('paketgizi.edit');
 Route::put('/paketgizi/{id}', [PaketGiziController::class, 'update'])->name('paketgizi.update');
 Route::delete('/paketgizi/{id}', [PaketGiziController::class, 'destroy'])->name('paketgizi.destroy');
+
+// route template edukasi
+Route::get('/templateedukasi', [TemplateEdukasiController::class, 'index'])->name('templateedukasi.index');
+Route::get('/templateedukasi/create', [TemplateEdukasiController::class, 'create'])->name('template_edukasi.create');
+Route::post('/templateedukasi', [TemplateEdukasiController::class, 'store'])->name('template_edukasi.store');
+Route::get('/templateedukasi/edit/{id}', [TemplateEdukasiController::class, 'edit'])->name('template_edukasi.edit');
+Route::put('/templateedukasi/update/{id}', [TemplateEdukasiController::class, 'update'])->name('template_edukasi.update');
+Route::delete('/templateedukasi/{id}', [TemplateEdukasiController::class, 'destroy'])->name('template_edukasi.destroy');
 
 });
 
@@ -143,11 +130,5 @@ Route::middleware(['auth:web,ortu'])->group(function () {
     Route::post('/addpengukur', [PengukuranController::class, 'store']);
 });
 
-// route template edukasi
-    Route::get('/templateedukasi', [TemplateEdukasiController::class, 'index'])->name('templateedukasi.index');
-    Route::get('/templateedukasi/create', [TemplateEdukasiController::class, 'create'])->name('template_edukasi.create');
-    Route::post('/templateedukasi', [TemplateEdukasiController::class, 'store'])->name('template_edukasi.store');
-    Route::get('/templateedukasi/edit/{id}', [TemplateEdukasiController::class, 'edit'])->name('template_edukasi.edit');
-    Route::put('/templateedukasi/update/{id}', [TemplateEdukasiController::class, 'update'])->name('template_edukasi.update');
-    Route::delete('/templateedukasi/{id}', [TemplateEdukasiController::class, 'destroy'])->name('template_edukasi.destroy');
+
 

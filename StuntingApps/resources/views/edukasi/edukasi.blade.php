@@ -21,7 +21,6 @@
             <p>Berikut merupakan detail dari data Edukasi</p>
 
             <!-- Table with stripped rows -->
-            <a href="{{ route('edukasi.create') }}" class="btn btn-success mb-3">Tambah Data Edukasi</a>
             <table class="table datatable">
               <thead>
                 <tr>
@@ -48,9 +47,9 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('edukasi.edit', $edukasi->id) }}" class="btn btn-primary">
+                        {{-- <a href="{{ route('edukasi.edit', $edukasi->id) }}" class="btn btn-primary">
                             <i class="bx bx-edit"></i>
-                        </a>
+                        </a> --}}
                         <form action="{{ route('edukasi.destroy', $edukasi->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
