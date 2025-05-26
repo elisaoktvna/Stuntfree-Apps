@@ -12,7 +12,7 @@
       @auth('web')
       <li class="nav-item">
         <a class="nav-link collapsed" href="/kecamatan">
-          <i class="bi bi-person-circle"></i>
+          <i class="bi bi-pin-map-fill"></i>
           <span>Kecamatan</span>
         </a>
       </li>
