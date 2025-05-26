@@ -68,14 +68,14 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/faskes">
-          <i class="bi bi-file-play-fill"></i>
+          <i class="bi bi-bank2"></i>
           <span>Faskes</span>
         </a>
       </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/paketgizi">
-          <i class="bi bi-file-play-fill"></i>
+          <i class="bi bi-calendar2-plus"></i>
           <span>Tempat Paket Gizi</span>
         </a>
       </li>

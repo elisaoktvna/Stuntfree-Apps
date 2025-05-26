@@ -196,7 +196,7 @@
 
 
   <!-- Hero Section -->
-  <section class="hero-section" style="position: relative; overflow: hidden; background: #f0f8ff;">
+  {{-- <section class="hero-section" style="position: relative; overflow: hidden; background: #f0f8ff;">
     <div class="container">
       <div class="row align-items-center">
         <!-- Text Content -->
@@ -216,9 +216,9 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
-  <section class="py-5" style="min-height: 50vh; background-color: rgb(255, 255, 255);" id='fiturutama' class="fade-up">
+  {{-- <section class="py-5" style="min-height: 50vh; background-color: rgb(255, 255, 255);" id='fiturutama' class="fade-up">
     <div class="container">
       <h3 class="section-title text-center mb-5 display-6 fade-up">Fitur Utama</h3>
       <div class="row g-5">
@@ -251,10 +251,10 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
   <!-- Section: Pelayanan terbaik dari ahli medis -->
-  <section class="py-5 bg-white">
+  {{-- <section class="py-5 bg-white">
     <div class="container fade-left">
       <div class="row align-items-center mb-5">
         <div class="col-md-6">
@@ -272,9 +272,9 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
-  <section class="py-5 bg-white ">
+  {{-- <section class="py-5 bg-white ">
     <div class="container fade-right">
     <div class="row align-items-center mb-5">
         <div class="col-md-6 order-md-2">
@@ -285,17 +285,17 @@
           </div>
         </div>
         <div class="col-md-6 order-md-1">
-          <h4 class="fw-bold">Paket Gizi & Rekomendasi Catering</h4>
+          <h4 class="fw-bold">Paket Gizi Anak & Rekomendasi Catering</h4>
           <p class="text-muted">
             Dapatkan saran makanan sehat dan paket gizi sesuai kebutuhan anak Anda dari mitra terpercaya.
           </p>
-          <a href="/paket" class="btn btn-primary rounded-pill shadow">Lihat Paket</a>
+          <a href="#" class="btn btn-primary rounded-pill shadow">Lihat Paket</a>
         </div>
       </div>
     </div>
-  </section>
+  </section> --}}
 
-  <section class="py-5 bg-white ">
+  {{-- <section class="py-5 bg-white ">
     <div class="container">
   <div class="text-white rounded-4 p-5 text-center shadow-card fade-up" style="background: linear-gradient(90deg, #5e79ff, #5974f6);">
         <h5 class="fw-bold mb-3">Akses Edukasi & Fasilitas Kesehatan Terdekat</h5>
@@ -327,22 +327,22 @@
         }
         </style>
   </div>
-  </section>
+  </section> --}}
 
   <section class="py-5" style="background-color: #f8f9ff;">
   <div class="container">
-    <h3 class="text-center fw-bold mb-5 section-title">Fasilitas Kesehatan Jember</h3>
+    <h3 class="text-center fw-bold mb-5 section-title">Rekomendasi Paket Gizi dan Catering Jember</h3>
     <div class="row g-4">
-      @foreach ($faskes as $item)
+      @foreach ($paketgizi as $gizi)
         <div class="col-md-4 fade-up">
           <div class="card h-100 border-0 shadow-sm rounded-4">
                 <div class="card-body">
-              <h5 class="card-title fw-bold">{{ $item->nama }}</h5>
-              <p class="card-text text-muted">{{ $item->alamat }}</p>
-              @if ($item->telepon && $item->telepon != '-')
-                <p class="card-text"><i class="fas fa-phone-alt me-1"></i> {{ $item->telepon }}</p>
+              <h5 class="card-title fw-bold">{{ $gizi->nama }}</h5>
+              <p class="card-text text-muted">{{ $gizi->alamat }}</p>
+              @if ($gizi->telepon && $gizi->telepon != '-')
+                <p class="card-text"><i class="fas fa-phone-alt me-1"></i> {{ $gizi->telepon }}</p>
               @endif
-              <a href="{{ $item->urlmaps }}" class="btn btn-outline-primary rounded-pill" target="_blank">Lihat di Maps</a>
+              <a href="{{ $gizi->urlmaps }}" class="btn btn-outline-primary rounded-pill" target="_blank">Lihat di Maps</a>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\PaketGizi;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnakController;
 use App\Http\Controllers\OrtuController;
@@ -12,9 +13,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\PaketGiziController;
 use App\Http\Controllers\PengukuranController;
-use App\Http\Controllers\TemplateEdukasiController;
 use Illuminate\Routing\Controllers\Middleware;
-use Illuminate\Routing\RouteGroup;
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\TemplateEdukasiController;
 
 
 /*
@@ -49,6 +50,8 @@ Route::get('/', function () {
     return view('landingpage');
 })->name('landingpage');
 
+Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
+Route::get('/paket', [LandingPageController::class, 'tampilpaket']);
 
 Route::middleware(['user'])->group(function () {
 
