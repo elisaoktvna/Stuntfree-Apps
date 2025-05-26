@@ -274,6 +274,41 @@
     </div>
   </section>
 
+    <section class="py-5" style="min-height: 50vh; background-color: rgb(255, 255, 255);" id='fiturutama' class="fade-up">
+    <div class="container">
+      <h3 class="section-title text-center mb-5 display-6 fade-up">Fasilitas Kesehatan Jember</h3>
+      <div class="row g-5">
+        <div class="col-md-4 fade-left">
+          <div class="service-card text-center h-100 p-4">
+            <div class="mb-4">
+              <i class="fas fa-chart-line fa-3x gradient-icon"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Prediksi Pertumbuhan Anak</h5>
+            <p class="text-muted">Analisis data anak untuk memprediksi pertumbuhan dan risiko stunting sejak dini.</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-up">
+          <div class="service-card text-center h-100 p-4">
+            <div class="mb-4">
+              <i class="fas fa-book-open fa-3x gradient-icon"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Edukasi Stunting</h5>
+            <p class="text-muted">Pelajari penyebab, pencegahan, dan penanganan stunting melalui artikel dan video.</p>
+          </div>
+        </div>
+        <div class="col-md-4 fade-right">
+          <div class="service-card text-center h-100 p-4">
+            <div class="mb-4">
+              <i class="fas fa-hospital-alt fa-3x gradient-icon"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Rekomendasi Faskes & Gizi Anak</h5>
+            <p class="text-muted">Temukan fasilitas kesehatan dan saran gizi terbaik untuk tumbuh kembang anak.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="py-5 bg-white ">
     <div class="container fade-right">
     <div class="row align-items-center mb-5">
