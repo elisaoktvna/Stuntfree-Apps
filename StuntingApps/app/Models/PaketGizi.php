@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use MongoDB\Laravel\Eloquent\Model;
 
 class PaketGizi extends Model
 {
-    use HasFactory;
-    protected $table = 'paketgizi';
+    protected $connection = 'mongodb'; // Wajib: agar pakai MongoDB
+    protected $collection = 'paketgizi'; // Opsional: nama koleksi di MongoDB
 
     protected $fillable = [
         'nama',
