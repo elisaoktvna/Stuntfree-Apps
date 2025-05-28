@@ -105,4 +105,10 @@ class AnakController extends Controller
 
         return view('anak.detailberitaanak', compact('anak', 'edukasi', 'otherEdukasi'));
     }
+
+            public function pengukuran()
+        {
+            return $this->hasMany(Pengukuran::class, 'id_anak');
+        }
+
 }

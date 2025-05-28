@@ -27,11 +27,11 @@ class TemplateEdukasiController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = $request->only(['judul', 'content', 'kategori']);
+        $data = $request->only(['judul', 'content', 'kategori','image']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('image', 'public');
-            $data['image'] = $path;
+            $data['image'] = basename($path);
         }
 
         TemplateEdukasi::create($data);

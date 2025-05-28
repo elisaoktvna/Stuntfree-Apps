@@ -48,4 +48,4 @@ Route::post('/pengukuran', [PengukuranApiController::class, 'store']);
 Route::get('/edukasi', [TemplateEduAPiController::class, 'getAll']);
 
 // dashboard
-Route::get('/dashboard', [DashboardApiController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/dashboard', [DashboardApiController::class, 'index']);

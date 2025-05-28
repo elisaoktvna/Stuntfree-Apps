@@ -2,71 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anak;
 use Illuminate\Http\Request;
+use App\Models\Anak;
+use App\Models\Pengukuran;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardApiController extends Controller
 {
-    public function index(Request $request)
-{
-    $request->validate([
-        'id_orangtua' => 'required|integer|exists:ortus,id',
-    ]);
+    public function index()
+    {
+        $user = Auth::user();
 
-    $ortuId = $request->input('id_orangtua');
+        // Ambil semua anak milik orang tua yang sedang login
+        $anakList = Anak::where('id_ortu', $user->id)
+            ->with(['pengukuran' => function($query) {
+                $query->latest()->limit(1);
+            }])
+            ->get();
 
-    $anakList = Anak::with([
-        'ortu.kecamatan',
-        'latestEdukasi',
-        'pengukuran' => function ($query) {
-            $query->orderByDesc('usia_bulan')->limit(1);
-        }
-    ])
-    ->where('id_orangtua', $ortuId)
-    ->get();
+        // Format data untuk dashboard
+        $data = $anakList->map(function ($anak) {
+            $latest = $anak->pengukuran->first();
 
-    $data = $anakList->map(function ($anak) {
-        $pengukuran = $anak->pengukuran->first();
-        $edukasi = $anak->latestEdukasi;
+            return [
+                'id' => $anak->id,
+                'nama' => $anak->nama,
+                'jenis_kelamin' => $anak->jenis_kelamin,
+                'tanggal_lahir' => $anak->tanggal_lahir,
+                'usia_bulan' => $latest?->usia_bulan,
+                'berat' => $latest?->berat,
+                'tinggi' => $latest?->tinggi,
+                'z_score' => $latest?->zs_tbu,
+            ];
+        });
 
-        return [
-            'id' => $anak->id,
-            'nik' => $anak->nik,
-            'nama' => $anak->nama,
-            'jenis_kelamin' => $anak->jenis_kelamin,
-            'tanggal_lahir' => $anak->tanggal_lahir,
-            'status' => $anak->status,
-            'ortu' => [
-                'nama' => $anak->ortu?->nama,
-                'email' => $anak->ortu?->email,
-                'kecamatan' => $anak->ortu?->kecamatan?->nama,
-                'alamat' => $anak->ortu?->alamat,
-            ],
-            'pengukuran_terbaru' => $pengukuran ? [
-                'berat' => $pengukuran->berat,
-                'tinggi' => $pengukuran->tinggi,
-                'usia_bulan' => $pengukuran->usia_bulan,
-                'zs_tbu' => $pengukuran->zs_tbu,
-                'hasil' => $pengukuran->hasil,
-                'bmi' => $pengukuran->bmi,
-                'status_gizi_bmi' => $pengukuran->status_gizi_bmi,
-                'note' => $pengukuran->note,
-            ] : null,
-            'edukasi_terbaru' => $edukasi ? [
-                'judul' => $edukasi->judul,
-                'content' => $edukasi->content,
-                'kategori' => $edukasi->kategori,
-                'image' => $edukasi->image,
-            ] : null,
-        ];
-    });
-
-    return response()->json([
-        'success' => true,
-        'data' => $data,
-    ]);
-}
-
-
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
 }
