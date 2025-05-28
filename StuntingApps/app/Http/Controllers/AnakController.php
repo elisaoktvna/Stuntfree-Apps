@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anak;
 use App\Models\Ortu;
 use App\Models\User;
+use App\Models\Pengukuran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

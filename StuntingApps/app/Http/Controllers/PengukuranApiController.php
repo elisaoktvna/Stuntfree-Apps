@@ -56,7 +56,6 @@ class PengukuranApiController extends Controller
             'bmi' => $result['bmi'] ?? null,
             'zs_bmi_u' => $result['zscore_bmi_u'] ?? null,
             'status_gizi_bmi' => $result['status_gizi_bmi'] ?? null,
-            'note' => $result['note'] ?? null,
         ]);
 
         $kategori = $result['hasil_model'] ?? null;

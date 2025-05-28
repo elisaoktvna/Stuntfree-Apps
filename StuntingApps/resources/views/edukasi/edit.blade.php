@@ -31,9 +31,10 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="kategori" required>
                             <option value="">-- Pilih Kategori --</option>
-                            <option value="Stunting" {{ old('kategori') == 'stunting' ? 'selected' : '' }}>Stunting</option>
-                            <option value="Normal" {{ old('kategori') == 'normal' ? 'selected' : '' }}>Normal</option>
-                            <option value="Tall" {{ old('kategori') == 'tall' ? 'selected' : '' }}>Tall</option>
+                            <option value="Resiko Tinggi Stunting" {{ old('kategori') == 'Resiko Tinggi Stunting' ? 'selected' : '' }}>Resiko Tinggi Stunting</option>
+                            <option value="Stunting" {{ old('kategori') == 'Stunting' ? 'selected' : '' }}>Stunting</option>
+                            <option value="Normal" {{ old('kategori') == 'Normal' ? 'selected' : '' }}>Normal</option>
+                            <option value="Resiko Gizi Lebih" {{ old('kategori') == 'Resiko Gizi Lebih' ? 'selected' : '' }}>Resiko Gizi Lebih</option>
                             </select>
                             @error('kategori')
                             <span class="text-danger">{{ $message }}</span>

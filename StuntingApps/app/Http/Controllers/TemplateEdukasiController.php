@@ -23,7 +23,7 @@ class TemplateEdukasiController extends Controller
         $request->validate([
             'judul' => 'required|string|max:150',
             'content' => 'required',
-            'kategori' => 'required|in:Stunting,Normal,Tall',
+            'kategori' => 'required|in:Resiko Tinggi Stunting,Stunting,Normal,Resiko Gizi Lebih',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
