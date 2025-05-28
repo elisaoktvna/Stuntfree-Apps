@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('telepon');
             $table->string('urlmaps');
+            $table->foreignId('id_kecamatan')->constrained('kecamatan')->onDelete('cascade');
             $table->timestamps();
         });
     }
