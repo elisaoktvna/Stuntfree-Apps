@@ -16,7 +16,8 @@ use App\Http\Controllers\PengukuranController;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TemplateEdukasiController;
-
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\OrtuProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,5 +134,7 @@ Route::middleware(['auth:web,ortu'])->group(function () {
     Route::post('/addpengukur', [PengukuranController::class, 'store']);
 });
 
-
+    //Profile
+     Route::middleware(['auth:web'])->get('/user/profile', [UserProfileController::class, 'index'])->name('user.profile');
+     Route::middleware(['auth:ortu'])->get('/ortu/profile', [OrtuProfileController::class, 'index'])->name('ortu.profile');
 
