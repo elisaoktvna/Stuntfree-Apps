@@ -23,25 +23,8 @@ return new class extends Migration
             $table->decimal('bmi')->nullable();
             $table->decimal('zs_bmi_u')->nullable();
             $table->string('status_gizi_bmi')->nullable();
-            $table->text('note')->nullable();
             $table->timestamps();
         });
-    }
-
-    public function stunting() {
-        $dataStunting = DB::table('pengukuran')
-        ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
-        ->join('ortu', 'anak.id_ortu', '=', 'ortu.id')
-        ->join('kecamatan', 'ortu.id_kecamatan', '=', 'kecamatan.id')
-        ->select('kecamatan.nama as nama_kecamatan', DB::raw('COUNT(*) as total_stunting'))
-        ->where('pengukuran.hasil', '=', 'stunting')
-        ->groupBy('kecamatan.nama')
-        ->get();
-
-        $labels = $dataStunting->pluck('nama_kecamatan');
-        $data = $dataStunting->pluck('total_stunting');
-
-        return view('dashboard', compact('labels', 'data'));
     }
 
     /**

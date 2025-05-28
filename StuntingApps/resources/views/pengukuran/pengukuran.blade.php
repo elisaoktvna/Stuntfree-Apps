@@ -36,7 +36,6 @@
                     <th>Z-Score BMI/U</th>
                     <th>Status Gizi BMI</th>
                     <th>Hasil Model</th>
-                    <th>Catatan</th>
                     <th>Tanggal</th>
                 </tr>
               </thead>
@@ -54,7 +53,6 @@
                     <td>{{ $item->zs_bmi_u ?? '-' }}</td>
                     <td>{{ $item->status_gizi_bmi ?? '-' }}</td>
                     <td>{{ $item->hasil ?? '-' }}</td>
-                    <td>{{ $item->note ?? '-' }}</td>
                     <td>{{ $item->created_at->format('d-m-Y') }}</td>
                 </tr>
             @empty

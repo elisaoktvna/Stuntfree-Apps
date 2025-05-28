@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anak;
 use App\Models\Ortu;
 use App\Models\User;
+use App\Models\Pengukuran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -105,4 +106,10 @@ class AnakController extends Controller
 
         return view('anak.detailberitaanak', compact('anak', 'edukasi', 'otherEdukasi'));
     }
+
+            public function pengukuran()
+        {
+            return $this->hasMany(Pengukuran::class, 'id_anak');
+        }
+
 }

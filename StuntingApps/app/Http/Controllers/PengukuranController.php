@@ -36,7 +36,7 @@ class PengukuranController extends Controller
         $jenis_kelamin = $anak->jenis_kelamin;
 
         // Kirim data ke Flask API
-        $response = Http::post('http://localhost:5000/predict_stunting', [
+        $response = Http::post('http://localhost:5000/predict_gizi', [
             'jenis_kelamin' => $jenis_kelamin,
             'tinggi_badan_cm' => $request->tinggi,
             'berat_badan_kg' => $request->berat,
@@ -62,7 +62,6 @@ class PengukuranController extends Controller
             'bmi' => $result['bmi'] ?? null,
             'zs_bmi_u' => $result['zscore_bmi_u'] ?? null,
             'status_gizi_bmi' => $result['status_gizi_bmi'] ?? null,
-            'note' => $result['note'] ?? null,
         ]);
 
         $kategori = $result['hasil_model'] ?? null;

@@ -15,7 +15,8 @@ class TemplateEduAPiController extends Controller
             'judul' => $template->judul,
             'content' => $template->content,
             'kategori' => $template->kategori,
-            'image_url' => $template->image ? asset('storage/' . $template->image) : null,
+            // 'image_url' => $template->image ? asset('storage/' . $template->image) : null,
+            'image_url' => $template->image
         ];
     });
 

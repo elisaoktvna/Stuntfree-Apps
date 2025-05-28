@@ -41,7 +41,7 @@
                     <td>{{ $edukasi->kategori }}</td>
                     <td>
                         @if ($edukasi->image)
-                        <img src="{{ Storage::url($edukasi->image) }}" alt="Gambar Edukasi" width="100">
+                        <img src="{{ asset('storage/image/' . $edukasi->image) }}" alt="Gambar Edukasi" width="100">
                         @else
                             Tidak Ada Gambar
                         @endif

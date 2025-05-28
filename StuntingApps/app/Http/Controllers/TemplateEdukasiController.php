@@ -23,15 +23,15 @@ class TemplateEdukasiController extends Controller
         $request->validate([
             'judul' => 'required|string|max:150',
             'content' => 'required',
-            'kategori' => 'required|in:Stunting,Normal,Tall',
+            'kategori' => 'required|in:Resiko Tinggi Stunting,Stunting,Normal,Resiko Gizi Lebih',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = $request->only(['judul', 'content', 'kategori']);
+        $data = $request->only(['judul', 'content', 'kategori','image']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('image', 'public');
-            $data['image'] = $path;
+            $data['image'] = basename($path);
         }
 
         TemplateEdukasi::create($data);

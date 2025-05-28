@@ -22,7 +22,6 @@ class Pengukuran extends Model
         'bmi',
         'zs_bmi_u',
         'status_gizi_bmi',
-        'note',
     ];
 
     public function anak()

@@ -42,7 +42,7 @@
                     <td>{{ $template->kategori }}</td>
                     <td>
                         @if ($template->image)
-                        <img src="{{ asset('storage/' . $template->image) }}" alt="Gambar Edukasi" width="100">
+                        <img src="{{ asset('storage/image/' . $template->image) }}" alt="Gambar Edukasi" width="100">
                         @else
                             Tidak Ada Gambar
                         @endif
