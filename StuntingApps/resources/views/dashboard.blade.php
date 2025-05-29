@@ -225,7 +225,7 @@
             <div class="news">
                 @foreach ($templates as $template)
               <div class="post-item clearfix">
-                <img src="{{ Storage::url($template->image) }}" alt="Gambar Edukasi">
+                <img src="{{ asset('storage/image/' . $template->image) }}" alt="Gambar Edukasi" width="100">
                 <h4><a href="#">{{ $template->judul }}</a></h4>
                 <p>{{ Str::limit($template->content, 100) }}</p>
               </div>

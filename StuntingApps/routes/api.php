@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrtuApiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\api\AnakApiController;
 use App\Http\Controllers\DashboardApiController;
@@ -36,6 +37,10 @@ Route::delete('/anak/{id}', [AnakApiController::class, 'destroy']);
 // login
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+
+// ortu
+Route::get('/ortu/{id}', [OrtuApiController::class, 'show']);
+Route::put('/ortu/{id}', [OrtuApiController::class, 'update']);
 
 // kecamatan
 Route::get('/kecamatan', [KecamatanApiController::class, 'index']);
