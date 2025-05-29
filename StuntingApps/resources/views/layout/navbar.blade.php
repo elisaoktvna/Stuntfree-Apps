@@ -58,11 +58,16 @@
           <li><hr class="dropdown-divider"></li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-person"></i><span>My Profile</span>
+            @auth('web')
+            <a class="dropdown-item d-flex align-items-center" href="{{ route('user.profile') }}">
+            <i class="bi bi-person"></i><span>My Profile</span>
             </a>
-          </li>
-          <li><hr class="dropdown-divider"></li>
+        @elseif(auth()->guard('ortu')->check())
+            <a class="dropdown-item d-flex align-items-center" href="{{ route('ortu.profile') }}">
+            <i class="bi bi-person"></i><span>My Profile</span>
+            </a>
+        @endauth
+        </li>
 
           <li>
             <a class="dropdown-item d-flex align-items-center" href="#">

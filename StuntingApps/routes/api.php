@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardApiController;
 use App\Http\Controllers\KecamatanApiController;
 use App\Http\Controllers\PengukuranApiController;
 use App\Http\Controllers\TemplateEduAPiController;
+use App\Http\Controllers\PaketGiziApiController;
 
 
 /*
@@ -54,3 +55,6 @@ Route::get('/edukasi', [TemplateEduAPiController::class, 'getAll']);
 
 // dashboard
 Route::middleware('auth:sanctum')->get('/dashboard', [DashboardApiController::class, 'index']);
+
+
+Route::get('/paketgizi', [PaketGiziApiController::class, 'index']);
