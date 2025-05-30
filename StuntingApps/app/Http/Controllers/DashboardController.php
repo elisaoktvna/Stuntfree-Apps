@@ -15,80 +15,99 @@ use App\Models\Kecamatan;
 
 class DashboardController extends Controller
 {
-    public function index(Request $request) {
-
-        $filter = $request->query('filter', 'today');
-
-        $query = Pengukuran::query();
-
-        if ($filter === 'today') {
-            $query->whereDate('created_at', Carbon::today());
-        } elseif ($filter === 'month') {
-            $query->whereMonth('created_at', Carbon::now()->month);
-        } elseif ($filter === 'year') {
-            $query->whereYear('created_at', Carbon::now()->year);
-        }
-
-        $stuntingCount = (clone $query)->where('hasil', 'Stunting')->count();
-        $normalCount = (clone $query)->where('hasil', 'Normal')->count();
-        $tallCount = (clone $query)->where('hasil', 'Tall')->count();
-
-        $edukasis = Edukasi::all();
-
+    public function index()
+    {
+        $templates = TemplateEdukasi::all();
         $totalAnak = Anak::count();
-
         $totalOrtu = Ortu::count();
 
         $totalKecamatan = Kecamatan::count();
 
         $dataStunting = DB::table('pengukuran')
-        ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
-        ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
-        ->join('kecamatan', 'ortu.id_kecamatan', '=', 'kecamatan.id')
-        ->select('kecamatan.nama as nama_kecamatan', DB::raw('COUNT(*) as total_stunting'))
-        ->where('pengukuran.hasil', '=', 'stunting')
-        ->groupBy('kecamatan.nama')
-        ->get();
+            ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
+            ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
+            ->join('kecamatan', 'ortu.id_kecamatan', '=', 'kecamatan.id')
+            ->select('kecamatan.nama as nama_kecamatan', DB::raw('COUNT(*) as total_stunting'))
+            ->where('pengukuran.hasil', '=', 'stunting')
+            ->groupBy('kecamatan.nama')
+            ->get();
 
         $labels = $dataStunting->pluck('nama_kecamatan');
         $data = $dataStunting->pluck('total_stunting');
 
         $pengukuran = DB::table('pengukuran')
-        ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
-        ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
-        ->select(
-            'anak.nama as nama_anak',
-            'ortu.nama as nama_ortu',
-            'pengukuran.usia_bulan',
-            'pengukuran.berat',
-            'pengukuran.tinggi',
-            'pengukuran.status_gizi_bmi',
-            'pengukuran.created_at as tanggal_pengukuran'
-        )
-        ->orderBy('pengukuran.created_at', 'desc')
-        ->get();
+            ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
+            ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
+            ->select(
+                'anak.nama as nama_anak',
+                'ortu.nama as nama_ortu',
+                'pengukuran.usia_bulan',
+                'pengukuran.berat',
+                'pengukuran.tinggi',
+                'pengukuran.status_gizi_bmi',
+                'pengukuran.created_at as tanggal_pengukuran'
+            )
+            ->orderBy('pengukuran.created_at', 'desc')
+            ->get();
 
 
         return view('dashboard', compact( 'totalAnak', 'totalOrtu', 'labels', 'data', 'pengukuran', 'totalKecamatan'));
     }
 
     public function filter(Request $request)
-{
-    $filter = $request->get('filter');
-    $query = TemplateEdukasi::query();
+    {
+        $filter = $request->get('filter');
+        $query = TemplateEdukasi::query();
 
-    if ($filter == 'today') {
-        $query->whereDate('created_at', Carbon::today());
-    } elseif ($filter == 'week') {
-        $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
-    } elseif ($filter == 'month') {
-        $query->whereMonth('created_at', Carbon::now()->month);
+        if ($filter == 'today') {
+            $query->whereDate('created_at', Carbon::today());
+        } elseif ($filter == 'week') {
+            $query->whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+        } elseif ($filter == 'month') {
+            $query->whereMonth('created_at', Carbon::now()->month);
+        }
+
+        $templates = $query->get();
+
+        // Ambil kembali data lainnya agar tampilan dashboard tetap utuh
+        $totalAnak = Anak::count();
+        $totalOrtu = Ortu::count();
+
+        $dataStunting = DB::table('pengukuran')
+            ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
+            ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
+            ->join('kecamatan', 'ortu.id_kecamatan', '=', 'kecamatan.id')
+            ->select('kecamatan.nama as nama_kecamatan', DB::raw('COUNT(*) as total_stunting'))
+            ->where('pengukuran.hasil', '=', 'stunting')
+            ->groupBy('kecamatan.nama')
+            ->get();
+
+        $labels = $dataStunting->pluck('nama_kecamatan');
+        $data = $dataStunting->pluck('total_stunting');
+
+        $pengukuran = DB::table('pengukuran')
+            ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
+            ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
+            ->select(
+                'anak.nama as nama_anak',
+                'ortu.nama as nama_ortu',
+                'pengukuran.usia_bulan',
+                'pengukuran.berat',
+                'pengukuran.tinggi',
+                'pengukuran.status_gizi_bmi',
+                'pengukuran.created_at as tanggal_pengukuran'
+            )
+            ->orderBy('pengukuran.created_at', 'desc')
+            ->get();
+
+        return view('dashboard', compact(
+            'templates',
+            'totalAnak',
+            'totalOrtu',
+            'labels',
+            'data',
+            'pengukuran',
+            'filter'
+        ));
     }
-
-    $templates = $query->get();
-
-    return view('dashboard', compact('templates', 'filter'));
-
-    }
-
 }

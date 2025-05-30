@@ -21,7 +21,6 @@
             <p>Berikut merupakan detail dari data Edukasi</p>
 
             <!-- Table with stripped rows -->
-            <a href="{{ route('edukasi.create') }}" class="btn btn-success mb-3">Tambah Data Edukasi</a>
             <table class="table datatable">
               <thead>
                 <tr>
@@ -42,15 +41,15 @@
                     <td>{{ $edukasi->kategori }}</td>
                     <td>
                         @if ($edukasi->image)
-                        <img src="{{ Storage::url($edukasi->image) }}" alt="Gambar Edukasi" width="100">
+                        <img src="{{ asset('storage/image/' . $edukasi->image) }}" alt="Gambar Edukasi" width="100">
                         @else
                             Tidak Ada Gambar
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('edukasi.edit', $edukasi->id) }}" class="btn btn-primary">
+                        {{-- <a href="{{ route('edukasi.edit', $edukasi->id) }}" class="btn btn-primary">
                             <i class="bx bx-edit"></i>
-                        </a>
+                        </a> --}}
                         <form action="{{ route('edukasi.destroy', $edukasi->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

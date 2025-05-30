@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\api\AnakApiController;
+use App\Http\Controllers\DashboardApiController;
 use App\Http\Controllers\KecamatanApiController;
 use App\Http\Controllers\PengukuranApiController;
 use App\Http\Controllers\TemplateEduAPiController;
@@ -45,3 +47,5 @@ Route::post('/pengukuran', [PengukuranApiController::class, 'store']);
 // edukasi
 Route::get('/edukasi', [TemplateEduAPiController::class, 'getAll']);
 
+// dashboard
+Route::middleware('auth:sanctum')->get('/dashboard', [DashboardApiController::class, 'index']);
