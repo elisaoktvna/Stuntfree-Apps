@@ -64,6 +64,7 @@ Route::post('/addadmincreate', [AdminController::class, 'store']);
 Route::delete('/deleteadmin/{id}', [AdminController::class, 'destroy']);
 
 Route::get('/ortu', [OrtuController::class, 'index']);
+Route::get('/dataanak', [OrtuController::class, 'tampilanak']);
 Route::get('/addortu', [OrtuController::class, 'create']);
 Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);

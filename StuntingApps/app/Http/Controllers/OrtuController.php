@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ortu;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -97,5 +98,12 @@ class OrtuController extends Controller
 
         return redirect('/loginortu')->with('success', 'Daftar berhasil');
    }
+
+    //    public function tampilanak()
+    // {
+    //     $anak = DB::table('anak')->get();
+
+    //     return view('orangtua.ortu-chart', compact('anak'));
+    // }
 
 }

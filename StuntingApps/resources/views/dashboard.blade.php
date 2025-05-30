@@ -18,7 +18,7 @@
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
-                <h5 class="card-title">Total Anak</h5>
+                <h5 class="card-title">Jumlah Anak <span>| Terdaftar</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
@@ -35,7 +35,7 @@
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card revenue-card">
               <div class="card-body">
-                <h5 class="card-title">Total Orang Tua</h5>
+                <h5 class="card-title">Jumlah Orang Tua <span>| Terdaftar</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
@@ -51,7 +51,7 @@
           <div class="col-xxl-4 col-xl-12">
             <div class="card info-card customers-card">
               <div class="card-body">
-                <h5 class="card-title">Total Kecamatan</h5>
+                <h5 class="card-title">Jumlah Kecamatan <span>| Terdaftar</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-pin-map-fill"></i>

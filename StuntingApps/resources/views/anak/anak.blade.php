@@ -19,7 +19,7 @@
           <div class="card-body">
             <h5 class="card-title">Data Anak</h5>
             <p>Berikut merupakan detail dari data Anak</p>
-
+            <a href="/addanak" class="btn btn-success mb-3">Tambah Data Anak</a>
             @if(session('success'))
                         <div class="alert alert-info">
                             {{ session('success') }}
@@ -27,8 +27,7 @@
                     @endif
 
             <!-- Table with stripped rows -->
-            <a href="/addanak" class="btn btn-success mb-3">Tambah Data Anak</a>
-
+            {{-- <a href="/addanak" class="btn btn-success mb-3">Tambah Data Anak</a> --}}
             <table class="table datatable">
               <thead>
                 <tr>
@@ -103,6 +102,8 @@
                   @endforeach
               </tbody>
             </table>
+
+
 
           </div>
         </div>
