@@ -51,7 +51,7 @@ class DashboardController extends Controller
             ->get();
 
 
-        return view('dashboard', compact( 'totalAnak', 'totalOrtu', 'labels', 'data', 'pengukuran', 'totalKecamatan'));
+        return view('dashboard', compact( 'totalAnak', 'totalOrtu', 'labels', 'data', 'pengukuran', 'totalKecamatan', 'templates'));
     }
 
     public function filter(Request $request)

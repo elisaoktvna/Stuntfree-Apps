@@ -210,7 +210,7 @@
           <div class="card-body pb-0">
             <h5 class="card-title">Berita &amp; Edukasi <span>| Terkini</span></h5>
 
-            {{-- <div class="news">
+            <div class="news">
                 @foreach ($templates as $template)
               <div class="post-item clearfix">
                 <img src="{{ asset('storage/image/' . $template->image) }}" alt="Gambar Edukasi" width="100">
@@ -218,7 +218,7 @@
                 <p>{{ Str::limit($template->content, 100) }}</p>
               </div>
               @endforeach
-        </div><!-- End News & Updates --> --}}
+        </div><!-- End News & Updates -->
 
       </div><!-- End Right side columns -->
 
