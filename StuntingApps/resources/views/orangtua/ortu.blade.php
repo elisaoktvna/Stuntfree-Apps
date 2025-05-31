@@ -18,7 +18,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Data Ortu</h5>
-            <p>Berikut merupakan detail dari data admin </p>
+            <p>Berikut merupakan detail dari data Orang Tua </p>
             @if(session('success'))
             <div class="alert alert-info">
                 {{ session('success') }}
