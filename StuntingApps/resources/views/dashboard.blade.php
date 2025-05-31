@@ -18,7 +18,7 @@
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card sales-card">
               <div class="card-body">
-                <h5 class="card-title">Total Anak</h5>
+                <h5 class="card-title">Jumlah Anak <span>| Terdaftar</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
@@ -35,7 +35,7 @@
           <div class="col-xxl-4 col-md-6">
             <div class="card info-card revenue-card">
               <div class="card-body">
-                <h5 class="card-title">Total Orang Tua</h5>
+                <h5 class="card-title">Jumlah Orang Tua <span>| Terdaftar</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-people"></i>
@@ -50,26 +50,14 @@
 
           <div class="col-xxl-4 col-xl-12">
             <div class="card info-card customers-card">
-              <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                  <li class="dropdown-header text-start">
-                    <h6>Filter</h6>
-                  </li>
-                  <li><a class="dropdown-item" href="#">Today</a></li>
-                  <li><a class="dropdown-item" href="#">This Month</a></li>
-                  <li><a class="dropdown-item" href="#">This Year</a></li>
-                </ul>
-              </div>
               <div class="card-body">
-                <h5 class="card-title">Customers <span>| This Year</span></h5>
+                <h5 class="card-title">Jumlah Kecamatan <span>| Terdaftar</span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-pin-map-fill"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                    <h6>{{ $totalKecamatan }}</h6>
                   </div>
                 </div>
               </div>
@@ -222,15 +210,15 @@
           <div class="card-body pb-0">
             <h5 class="card-title">Berita &amp; Edukasi <span>| Terkini</span></h5>
 
-            <div class="news">
+            {{-- <div class="news">
                 @foreach ($templates as $template)
               <div class="post-item clearfix">
-                <img src="{{ Storage::url($template->image) }}" alt="Gambar Edukasi">
+                <img src="{{ asset('storage/image/' . $template->image) }}" alt="Gambar Edukasi" width="100">
                 <h4><a href="#">{{ $template->judul }}</a></h4>
                 <p>{{ Str::limit($template->content, 100) }}</p>
               </div>
               @endforeach
-        </div><!-- End News & Updates -->
+        </div><!-- End News & Updates --> --}}
 
       </div><!-- End Right side columns -->
 

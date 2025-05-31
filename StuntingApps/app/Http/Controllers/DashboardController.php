@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\TemplateEdukasi;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Kecamatan;
 
 class DashboardController extends Controller
 {
@@ -19,6 +20,8 @@ class DashboardController extends Controller
         $templates = TemplateEdukasi::all();
         $totalAnak = Anak::count();
         $totalOrtu = Ortu::count();
+
+        $totalKecamatan = Kecamatan::count();
 
         $dataStunting = DB::table('pengukuran')
             ->join('anak', 'pengukuran.id_anak', '=', 'anak.id')
@@ -47,14 +50,8 @@ class DashboardController extends Controller
             ->orderBy('pengukuran.created_at', 'desc')
             ->get();
 
-        return view('dashboard', compact(
-            'templates',
-            'totalAnak',
-            'totalOrtu',
-            'labels',
-            'data',
-            'pengukuran'
-        ));
+
+        return view('dashboard', compact( 'totalAnak', 'totalOrtu', 'labels', 'data', 'pengukuran', 'totalKecamatan'));
     }
 
     public function filter(Request $request)

@@ -61,7 +61,7 @@ class TemplateEdukasiController extends Controller
                 Storage::disk('public')->delete($template->image);
             }
             $path = $request->file('image')->store('image', 'public');
-            $data['image'] = $path;
+            $data['image'] = basename($path);
         }
 
         $template->update($data);

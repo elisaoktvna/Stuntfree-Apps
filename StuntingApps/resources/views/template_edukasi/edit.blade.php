@@ -58,7 +58,7 @@
                                 @if($template->image)
                                 <div class="mt-2">
                                     <p>Gambar Saat Ini:</p>
-                                    <img src="{{ asset('storage/' . $template->image) }}" width="200" class="img-thumbnail">
+                                    <img src="{{ asset('storage/image/' . $template->image) }}" width="200" class="img-thumbnail">
                                 </div>
                                 @endif
                             </div>

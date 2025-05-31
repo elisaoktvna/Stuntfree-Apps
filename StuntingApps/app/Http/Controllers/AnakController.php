@@ -17,6 +17,7 @@ class AnakController extends Controller
         return view('anak.anak', compact('anak'));
     }
 
+
     public function create()
     {
         $ortu = Ortu::all();
