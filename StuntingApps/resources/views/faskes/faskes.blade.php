@@ -27,6 +27,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
+                  <th>Kecamatan</th>
                   <th>Alamat</th>
                   <th>Telepon</th>
                   <th>Url Maps</th>
@@ -38,6 +39,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $faskes->nama }}</td>
+                    <td>{{ $faskes->kecamatan->nama }}</td>
                     <td>{{ $faskes->alamat }}</td>
                     <td>{{ $faskes->telepon }}</td>
                     <td>{{ $faskes->urlmaps }}</td>

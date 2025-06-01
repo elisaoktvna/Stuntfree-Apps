@@ -34,7 +34,7 @@
             <div class="row mb-3">
                 <label for="telepon" class="col-sm-2 col-form-label">Telepon</label>
                 <div class="col-sm-10">
-                    <input type="text" name="telepon" class="form-control" required placeholder="Nomor Telepon">
+                    <input type="number" name="telepon" class="form-control" required placeholder="Nomor Telepon">
                 </div>
             </div>
 

@@ -53,6 +53,8 @@ Route::get('/', function () {
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/paket', [LandingPageController::class, 'tampilpaket']);
+Route::get('/faskeslengkap', [LandingPageController::class, 'tampilfaskeslengkap']);
+
 
 Route::middleware(['user'])->group(function () {
 

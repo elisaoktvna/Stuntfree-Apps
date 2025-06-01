@@ -60,6 +60,7 @@ class DashboardController extends Controller
             });
 
         return view('dashboard', compact(
+            'templates',
             'totalAnak',
             'totalOrtu',
             'labels',
