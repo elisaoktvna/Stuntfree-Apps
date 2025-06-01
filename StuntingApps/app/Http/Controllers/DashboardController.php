@@ -20,7 +20,6 @@ class DashboardController extends Controller
         $templates = TemplateEdukasi::all();
         $totalAnak = Anak::count();
         $totalOrtu = Ortu::count();
-
         $totalKecamatan = Kecamatan::count();
 
         $dataStunting = DB::table('pengukuran')
@@ -28,7 +27,7 @@ class DashboardController extends Controller
             ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
             ->join('kecamatan', 'ortu.id_kecamatan', '=', 'kecamatan.id')
             ->select('kecamatan.nama as nama_kecamatan', DB::raw('COUNT(*) as total_stunting'))
-            ->where('pengukuran.hasil', '=', 'stunting')
+            ->whereIn('pengukuran.hasil', ['Stunting', 'Resiko Tinggi Stunting'])
             ->groupBy('kecamatan.nama')
             ->get();
 
@@ -50,8 +49,24 @@ class DashboardController extends Controller
             ->orderBy('pengukuran.created_at', 'desc')
             ->get();
 
+        $stuntingPerKecamatan = Pengukuran::with('anak.ortu.kecamatan')
+            ->where('hasil', 'Stunting')
+            ->get()
+            ->groupBy(function ($item) {
+                return $item->anak->ortu->kecamatan->nama ?? 'Tidak diketahui';
+            })
+            ->map(function ($group) {
+                return $group->count();
+            });
 
-        return view('dashboard', compact( 'totalAnak', 'totalOrtu', 'labels', 'data', 'pengukuran', 'totalKecamatan'));
+        return view('dashboard', compact(
+            'totalAnak',
+            'totalOrtu',
+            'labels',
+            'data',
+            'pengukuran',
+            'totalKecamatan'
+        ));
     }
 
     public function filter(Request $request)
@@ -69,7 +84,6 @@ class DashboardController extends Controller
 
         $templates = $query->get();
 
-        // Ambil kembali data lainnya agar tampilan dashboard tetap utuh
         $totalAnak = Anak::count();
         $totalOrtu = Ortu::count();
 
@@ -78,7 +92,7 @@ class DashboardController extends Controller
             ->join('ortu', 'anak.id_orangtua', '=', 'ortu.id')
             ->join('kecamatan', 'ortu.id_kecamatan', '=', 'kecamatan.id')
             ->select('kecamatan.nama as nama_kecamatan', DB::raw('COUNT(*) as total_stunting'))
-            ->where('pengukuran.hasil', '=', 'stunting')
+            ->whereIn('pengukuran.hasil', ['Stunting', 'Resiko Tinggi Stunting'])
             ->groupBy('kecamatan.nama')
             ->get();
 
