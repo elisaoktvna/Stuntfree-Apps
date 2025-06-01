@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anak;
 use App\Models\Ortu;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
@@ -13,6 +14,10 @@ class OrtuController extends Controller
 {
     public function index() {
         $ortu = Ortu::with('kecamatan')->get();
+        $ortuid = Auth::id();
+
+        $anak = Anak::where('id_orangtua', $ortuid)->get();
+
         return view('orangtua.ortu', compact('ortu'));
     }
 
@@ -98,12 +103,5 @@ class OrtuController extends Controller
 
         return redirect('/loginortu')->with('success', 'Daftar berhasil');
    }
-
-    //    public function tampilanak()
-    // {
-    //     $anak = DB::table('anak')->get();
-
-    //     return view('orangtua.ortu-chart', compact('anak'));
-    // }
 
 }
