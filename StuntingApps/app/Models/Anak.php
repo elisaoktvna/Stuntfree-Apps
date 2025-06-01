@@ -43,4 +43,6 @@ class Anak extends Model
     }
 
     public $timestamps = false;
+
+    
 }

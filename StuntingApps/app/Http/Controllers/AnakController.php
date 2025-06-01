@@ -13,7 +13,11 @@ class AnakController extends Controller
 {
     public function index()
     {
-        $anak = Anak::with('ortu')->get();
+        $ortuid = Auth::id();
+
+        $anak = Anak::where('id_orangtua', $ortuid)->get();
+
+        // $anak = Anak::with('ortu')->get();
         return view('anak.anak', compact('anak'));
     }
 
