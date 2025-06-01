@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ortu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class OrtuApiController extends Controller
 {
@@ -55,5 +56,36 @@ class OrtuApiController extends Controller
         ]);
     }
 
+    public function updatePassword(Request $request, $id)
+    {
+        $ortu = Ortu::find($id);
+
+        if (!$ortu) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data orang tua tidak ditemukan'
+            ], 404);
+        }
+
+        $validated = $request->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:6',
+        ]);
+
+        if (!Hash::check($validated['old_password'], $ortu->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Password lama salah'
+            ], 400);
+        }
+
+        $ortu->password = Hash::make($validated['new_password']);
+        $ortu->save();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Password berhasil diperbarui'
+        ]);
+    }
 
 }
