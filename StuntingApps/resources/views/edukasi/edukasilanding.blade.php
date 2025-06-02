@@ -194,141 +194,42 @@
   <!-- Navbar -->
   @include('navbarlanding')
 
+<section class="py-5" style="background-color: #f8f9ff;">
+  <div class="container">
+    <h3 class="text-center fw-bold mb-4 section-title">Edukasi Kesehatan</h3>
 
-  <!-- Hero Section -->
-  <section class="hero-section" style="position: relative; overflow: hidden; background: #f0f8ff;">
-    <div class="container">
-      <div class="row align-items-center">
-        <!-- Text Content -->
-        <div class="col-md-6 fade-left">
-          <h1 class="mb-3 display-5 fw-bold text-dark animated fadeInUp">Pantau Pertumbuhan Anak dan Prediksi Risiko Stunting Sejak Dini</h1>
-          <p class="lead text-dark mb-4 animated fadeInUp" style="animation-delay: 0.5s;">Gunakan teknologi untuk membantu memantau tumbuh kembang anak dan mendapatkan rekomendasi gizi serta layanan kesehatan.</p>
-          <a class="btn btn-primary btn-lg mt-3 animated fadeInUp" href="{{ route('signuportu') }}" style="animation-delay: 1s;">Mulai Sekarang</a>
-        </div>
-
-        <!-- Image Content -->
-        <div class="col-md-6 text-center fade-right">
-          <div class="image-container" style="position: relative;">
-            <img src="assets/img/roket.png" alt="Anak" class="img-fluid animated fadeInUp" style="animation-delay: 1.5s;">
-            <!-- Animated Background Circle -->
-            <div class="circle-background"></div>
-          </div>
+    <div class="row g-4">
+      @forelse ($edukasi as $item)
+  <div class="col-md-4 fade-up">
+    <a href="{{ route('loginortu') }}" class="text-decoration-none text-dark">
+      <div class="card h-100 border-0 shadow-sm rounded-4">
+        @if ($item->image)
+          <img src="{{ asset('storage/image/' . $item->image) }}" class="card-img-top" alt="..." style="height: 180px; object-fit: cover;">
+        @endif
+        <div class="card-body">
+          <h5 class="card-title fw-bold">{{ $item->judul }}</h5>
+          <p class="card-text text-muted">{{ Str::limit(strip_tags($item->content), 100) }}</p>
+          <span class="badge bg-primary">{{ $item->kategori }}</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="py-5" style="min-height: 50vh; background-color: rgb(255, 255, 255);" id='fiturutama' class="fade-up">
-    <div class="container">
-      <h3 class="section-title text-center mb-5 display-6 fade-up">Fitur Utama</h3>
-      <div class="row g-5">
-        <div class="col-md-4 fade-left">
-          <div class="service-card text-center h-100 p-4">
-            <div class="mb-4">
-              <i class="fas fa-chart-line fa-3x gradient-icon"></i>
-            </div>
-            <h5 class="fw-bold mb-3">Prediksi Pertumbuhan Anak</h5>
-            <p class="text-muted">Analisis data anak untuk memprediksi pertumbuhan dan risiko stunting sejak dini.</p>
-          </div>
-        </div>
-        <div class="col-md-4 fade-up">
-          <div class="service-card text-center h-100 p-4">
-            <div class="mb-4">
-              <i class="fas fa-book-open fa-3x gradient-icon"></i>
-            </div>
-            <h5 class="fw-bold mb-3">Edukasi Stunting</h5>
-            <p class="text-muted">Pelajari penyebab, pencegahan, dan penanganan stunting melalui artikel dan video.</p>
-          </div>
-        </div>
-        <div class="col-md-4 fade-right">
-          <div class="service-card text-center h-100 p-4">
-            <div class="mb-4">
-              <i class="fas fa-hospital-alt fa-3x gradient-icon"></i>
-            </div>
-            <h5 class="fw-bold mb-3">Rekomendasi Faskes & Gizi Anak</h5>
-            <p class="text-muted">Temukan fasilitas kesehatan dan saran gizi terbaik untuk tumbuh kembang anak.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section: Pelayanan terbaik dari ahli medis -->
-  <section class="py-5 bg-white">
-    <div class="container fade-left">
-      <div class="row align-items-center mb-5">
-        <div class="col-md-6">
-          <img src="assets/img/gizibaru.png" alt="dokter" class="img-fluid" />
-          <div class="bg-white p-2 d-inline-block rounded shadow position-relative" style="margin-top: -40px; margin-left: 20px;">
-            <span class="fw-bold">⭐ Fokus pada Anak Sehat</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <h4 class="fw-bold">Prediksi Risiko Stunting Secara Dini</h4>
-          <p class="text-muted">
-            StuntFree membantu orang tua memantau pertumbuhan anak melalui prediksi risiko stunting berbasis data dan teknologi.
-          </p>
-          <a href="/signuportu" class="btn btn-primary rounded-pill shadow">Coba Sekarang</a>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-5 bg-white ">
-    <div class="container fade-right">
-    <div class="row align-items-center mb-5">
-        <div class="col-md-6 order-md-2">
-          <div class="position-relative text-center">
-            <div class="position-relative d-inline-block">
-              <img src="assets/img/gizianak.png" alt="dokter" class="img-fluid" />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 order-md-1">
-          <h4 class="fw-bold">Paket Gizi & Rekomendasi Catering</h4>
-          <p class="text-muted">
-            Dapatkan saran makanan sehat dan paket gizi sesuai kebutuhan anak Anda dari mitra terpercaya.
-          </p>
-          <a href="/paket" class="btn btn-primary rounded-pill shadow">Lihat Paket</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-5 bg-white ">
-    <div class="container">
-  <div class="text-white rounded-4 p-5 text-center shadow-card fade-up" style="background: linear-gradient(90deg, #5e79ff, #5974f6);">
-        <h5 class="fw-bold mb-3">Akses Edukasi & Fasilitas Kesehatan Terdekat</h5>
-        <p class="mb-4">
-            Pelajari lebih dalam tentang stunting serta temukan fasilitas kesehatan terdekat untuk mendapatkan layanan terbaik.
-        </p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="/edukasilengkap" class="btn btn-outline-light rounded-pill">Edukasi Kesehatan</a>
-            <a href="/faskeslengkap" class="btn btn-light text-primary rounded-pill">Cari Fasilitas</a>
-        </div>
-    </div>
-
-    <style>
-        /* Styling for the card */
-        .shadow-card {
-            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-            height: 300px; /* Increase height */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Add hover effect */
-        .shadow-card:hover {
-            box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
-            transform: translateY(-5px); /* Subtle lift effect */
-            transition: all 0.3s ease-in-out;
-        }
-        </style>
+    </a>
   </div>
-  </section>
+@empty
+  <div class="col-12">
+    <div class="alert alert-warning text-center">
+      Belum ada data edukasi tersedia.
+    </div>
+  </div>
+@endforelse
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
 
   <!-- Footer -->
   <footer class="footer" id='footer'>
@@ -396,7 +297,6 @@
   </script>
 </body>
 <script src="path/to/main.js"></script>
-
 
 
 </html>

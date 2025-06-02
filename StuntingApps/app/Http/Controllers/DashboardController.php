@@ -6,17 +6,19 @@ use Carbon\Carbon;
 use App\Models\Anak;
 use App\Models\Ortu;
 use App\Models\Edukasi;
+use App\Models\Kecamatan;
 use App\Models\Pengukuran;
 use Illuminate\Http\Request;
 use App\Models\TemplateEdukasi;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Kecamatan;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        if (Auth::guard('web')->check()) {
         $templates = TemplateEdukasi::all();
         $totalAnak = Anak::count();
         $totalOrtu = Ortu::count();
@@ -68,10 +70,12 @@ class DashboardController extends Controller
             'pengukuran',
             'totalKecamatan'
         ));
+     }
     }
 
     public function filter(Request $request)
     {
+        if (Auth::guard('web')->check()) {
         $filter = $request->get('filter');
         $query = TemplateEdukasi::query();
 
@@ -124,5 +128,38 @@ class DashboardController extends Controller
             'pengukuran',
             'filter'
         ));
+      }
+    }
+
+    // ortu
+    public function dashboardOrtu()
+    {
+        $idOrtu = Auth::guard('ortu')->id();
+
+        // Ambil semua anak milik ortu yg login
+        $anak = Anak::where('id_orangtua', $idOrtu)->get();
+
+        // Ambil pengukuran terbaru per anak (ambil pengukuran terakhir tiap anak)
+        $pengukuranTerbaru = collect();
+        foreach ($anak as $a) {
+            $lastPengukuran = Pengukuran::where('id_anak', $a->id)
+                ->latest('created_at')
+                ->first();
+            if ($lastPengukuran) {
+                $pengukuranTerbaru->push($lastPengukuran);
+            }
+        }
+
+        // Hitung status gizi berdasarkan pengukuran terbaru untuk grafik
+        $statusGiziCount = $pengukuranTerbaru->groupBy('status_gizi_bmi')
+            ->map(function ($group) {
+                return $group->count();
+            });
+
+        return view('orangtua.dashboardortu', [
+            'anak' => $anak,
+            'pengukuranTerbaru' => $pengukuranTerbaru,
+            'statusGiziCount' => $statusGiziCount,
+        ]);
     }
 }

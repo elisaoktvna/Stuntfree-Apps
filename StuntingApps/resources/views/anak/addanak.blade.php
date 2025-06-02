@@ -21,7 +21,7 @@
               <form action="/addanakcreate" method="POST">
                 @csrf
 
-                {{-- @if (Auth::user()->role == 'admin') --}}
+                @if (Auth::guard('web')->check())
                 <div class="row mb-4">
                     <label class="col-sm-2 col-form-label">Pilih Data ortu</label>
                     <div class="col-sm-10">
@@ -34,7 +34,7 @@
                       </select>
                     </div>
                   </div>
-                  {{-- @endif --}}
+                @endif
 
                   <div class="row mb-3">
                     <label for="nik" class="col-sm-2 col-form-label">NIK</label>

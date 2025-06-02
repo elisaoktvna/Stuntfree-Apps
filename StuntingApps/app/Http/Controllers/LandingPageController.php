@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Faskes;
+use App\Models\TemplateEdukasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -46,5 +47,10 @@ class LandingPageController extends Controller
         'kecamatans' => $kecamatanList,
         'selectedKecamatan' => $request->kecamatan
     ]);
+    }
+
+    public function edukasilengkap() {
+        $edukasi = TemplateEdukasi::orderBy('created_at', 'desc')->get();
+        return view('edukasi.edukasilanding', compact('edukasi'));
     }
 }

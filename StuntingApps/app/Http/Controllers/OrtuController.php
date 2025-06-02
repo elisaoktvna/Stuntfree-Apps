@@ -56,7 +56,7 @@ class OrtuController extends Controller
 
     public function loginForm() {
         if(Auth::guard('ortu')->check()) {
-            return redirect('/dahsboard');
+            return redirect('/dahsboard-ortu');
         }
         return view('login_ortu');
     }
@@ -66,7 +66,7 @@ class OrtuController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('ortu')->attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/dashboard-ortu');
         }
 
         return back()->withErrors([
