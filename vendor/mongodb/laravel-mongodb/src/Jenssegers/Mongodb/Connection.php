@@ -1,27 +1,31 @@
-<?php namespace Jenssegers\Mongodb;
+<?php
 
-use MongoClient;
+namespace Jenssegers\Mongodb;
 
-class Connection extends \Illuminate\Database\Connection
+use Illuminate\Database\Connection as BaseConnection;
+use Illuminate\Support\Arr;
+use MongoDB\Client;
+
+class Connection extends BaseConnection
 {
     /**
      * The MongoDB database handler.
      *
-     * @var MongoDB
+     * @var \MongoDB\Database
      */
     protected $db;
 
     /**
-     * The MongoClient connection handler.
+     * The MongoDB connection handler.
      *
-     * @var MongoClient
+     * @var \MongoDB\Client
      */
     protected $connection;
 
     /**
      * Create a new database connection instance.
      *
-     * @param  array   $config
+     * @param  array $config
      */
     public function __construct(array $config)
     {
@@ -30,39 +34,31 @@ class Connection extends \Illuminate\Database\Connection
         // Build the connection string
         $dsn = $this->getDsn($config);
 
-        // You can pass options directly to the MongoClient constructor
-        $options = array_get($config, 'options', []);
+        // You can pass options directly to the MongoDB constructor
+        $options = Arr::get($config, 'options', []);
 
         // Create the connection
         $this->connection = $this->createConnection($dsn, $config, $options);
 
         // Select database
-        $this->db = $this->connection->{$config['database']};
+        $this->db = $this->connection->selectDatabase($config['database']);
 
         $this->useDefaultPostProcessor();
-    }
 
-    /**
-     * Get the default post processor instance.
-     *
-     * @return Query\Processor
-     */
-    protected function getDefaultPostProcessor()
-    {
-        return new Query\Processor;
+        $this->useDefaultSchemaGrammar();
+
+        $this->useDefaultQueryGrammar();
     }
 
     /**
      * Begin a fluent query against a database collection.
      *
-     * @param  string  $collection
-     * @return QueryBuilder
+     * @param  string $collection
+     * @return Query\Builder
      */
     public function collection($collection)
     {
-        $processor = $this->getPostProcessor();
-
-        $query = new Query\Builder($this, $processor);
+        $query = new Query\Builder($this, $this->getPostProcessor());
 
         return $query->from($collection);
     }
@@ -70,8 +66,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Begin a fluent query against a database collection.
      *
-     * @param  string  $table
-     * @return QueryBuilder
+     * @param  string $table
+     * @return Query\Builder
      */
     public function table($table)
     {
@@ -81,8 +77,8 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Get a MongoDB collection.
      *
-     * @param  string   $name
-     * @return MongoDB
+     * @param  string $name
+     * @return Collection
      */
     public function getCollection($name)
     {
@@ -90,9 +86,7 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * Get a schema builder instance for the connection.
-     *
-     * @return Schema\Builder
+     * @inheritdoc
      */
     public function getSchemaBuilder()
     {
@@ -102,7 +96,7 @@ class Connection extends \Illuminate\Database\Connection
     /**
      * Get the MongoDB database object.
      *
-     * @return  MongoDB
+     * @return \MongoDB\Database
      */
     public function getMongoDB()
     {
@@ -110,9 +104,9 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * return MongoClient object.
+     * return MongoDB object.
      *
-     * @return MongoClient
+     * @return \MongoDB\Client
      */
     public function getMongoClient()
     {
@@ -120,25 +114,15 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * Create a new MongoClient connection.
+     * Create a new MongoDB connection.
      *
-     * @param  string  $dsn
-     * @param  array   $config
-     * @param  array   $options
-     * @return MongoClient
+     * @param  string $dsn
+     * @param  array $config
+     * @param  array $options
+     * @return \MongoDB\Client
      */
     protected function createConnection($dsn, array $config, array $options)
     {
-        // Add credentials as options, this makes sure the connection will not fail if
-        // the username or password contains strange characters.
-        if (! empty($config['username'])) {
-            $options['username'] = $config['username'];
-        }
-
-        if (! empty($config['password'])) {
-            $options['password'] = $config['password'];
-        }
-
         // By default driver options is an empty array.
         $driverOptions = [];
 
@@ -146,55 +130,56 @@ class Connection extends \Illuminate\Database\Connection
             $driverOptions = $config['driver_options'];
         }
 
-        return new MongoClient($dsn, $options, $driverOptions);
+        // Check if the credentials are not already set in the options
+        if (!isset($options['username']) && !empty($config['username'])) {
+            $options['username'] = $config['username'];
+        }
+        if (!isset($options['password']) && !empty($config['password'])) {
+            $options['password'] = $config['password'];
+        }
+
+        return new Client($dsn, $options, $driverOptions);
     }
 
     /**
-     * Disconnect from the underlying MongoClient connection.
+     * @inheritdoc
      */
     public function disconnect()
     {
-        $this->connection->close();
+        unset($this->connection);
     }
 
     /**
      * Create a DSN string from a configuration.
      *
-     * @param  array   $config
+     * @param  array $config
      * @return string
      */
     protected function getDsn(array $config)
     {
-        // First we will create the basic DSN setup as well as the port if it is in
-        // in the configuration options. This will give us the basic DSN we will
-        // need to establish the MongoClient and return them back for use.
-        extract($config);
-
         // Check if the user passed a complete dsn to the configuration.
-        if (! empty($dsn)) {
-            return $dsn;
+        if (!empty($config['dsn'])) {
+            return $config['dsn'];
         }
 
         // Treat host option as array of hosts
-        $hosts = is_array($host) ? $host : [$host];
+        $hosts = is_array($config['host']) ? $config['host'] : [$config['host']];
 
         foreach ($hosts as &$host) {
             // Check if we need to add a port to the host
-            if (strpos($host, ':') === false and isset($port)) {
-                $host = "{$host}:{$port}";
+            if (strpos($host, ':') === false && !empty($config['port'])) {
+                $host = $host . ':' . $config['port'];
             }
         }
 
-        // The database name needs to be in the connection string, otherwise it will
-        // authenticate to the admin database, which may result in permission errors.
-        return "mongodb://" . implode(',', $hosts) . "/{$database}";
+        // Check if we want to authenticate against a specific database.
+        $auth_database = isset($config['options']) && !empty($config['options']['database']) ? $config['options']['database'] : null;
+
+        return 'mongodb://' . implode(',', $hosts) . ($auth_database ? '/' . $auth_database : '');
     }
 
     /**
-     * Get the elapsed time since a given starting point.
-     *
-     * @param  int    $start
-     * @return float
+     * @inheritdoc
      */
     public function getElapsedTime($start)
     {
@@ -202,9 +187,7 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
-     * Get the PDO driver name.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getDriverName()
     {
@@ -212,10 +195,34 @@ class Connection extends \Illuminate\Database\Connection
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getDefaultPostProcessor()
+    {
+        return new Query\Processor();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getDefaultQueryGrammar()
+    {
+        return new Query\Grammar();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getDefaultSchemaGrammar()
+    {
+        return new Schema\Grammar();
+    }
+
+    /**
      * Dynamically pass methods to the connection.
      *
-     * @param  string  $method
-     * @param  array   $parameters
+     * @param  string $method
+     * @param  array $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
