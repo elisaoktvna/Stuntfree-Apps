@@ -132,34 +132,58 @@ class DashboardController extends Controller
     }
 
     // ortu
-    public function dashboardOrtu()
-    {
-        $idOrtu = Auth::guard('ortu')->id();
+  public function dashboardOrtu()
+{
+    $idOrtu = Auth::guard('ortu')->id();
 
-        // Ambil semua anak milik ortu yg login
-        $anak = Anak::where('id_orangtua', $idOrtu)->get();
+    // Ambil semua anak milik ortu yang login
+    $listAnak = Anak::where('id_orangtua', $idOrtu)->get();
 
-        // Ambil pengukuran terbaru per anak (ambil pengukuran terakhir tiap anak)
-        $pengukuranTerbaru = collect();
-        foreach ($anak as $a) {
-            $lastPengukuran = Pengukuran::where('id_anak', $a->id)
-                ->latest('created_at')
-                ->first();
-            if ($lastPengukuran) {
-                $pengukuranTerbaru->push($lastPengukuran);
-            }
+    // Ambil pengukuran terbaru tiap anak
+    $pengukuranTerbaru = collect();
+    foreach ($listAnak as $a) {
+        $lastPengukuran = Pengukuran::where('id_anak', $a->id)
+            ->latest('created_at')
+            ->first();
+        if ($lastPengukuran) {
+            $pengukuranTerbaru->push($lastPengukuran);
         }
-
-        // Hitung status gizi berdasarkan pengukuran terbaru untuk grafik
-        $statusGiziCount = $pengukuranTerbaru->groupBy('status_gizi_bmi')
-            ->map(function ($group) {
-                return $group->count();
-            });
-
-        return view('orangtua.dashboardortu', [
-            'anak' => $anak,
-            'pengukuranTerbaru' => $pengukuranTerbaru,
-            'statusGiziCount' => $statusGiziCount,
-        ]);
     }
+
+    // Hitung status gizi berdasarkan pengukuran terbaru untuk grafik
+    $statusGiziCount = $pengukuranTerbaru->groupBy('status_gizi_bmi')
+        ->map(function ($group) {
+            return $group->count();
+        });
+
+    // Mapping status gizi ke angka untuk grafik
+    $statusMap = [
+        'Kurus' => 1,
+        'Normal' => 2,
+        'Gemuk' => 3,
+    ];
+
+    $namaAnak = [];
+    $statusGiziAngka = []; // Ganti nama agar konsisten dengan Blade
+
+    foreach ($pengukuranTerbaru as $pengukuran) {
+        if ($pengukuran->anak) {
+            $namaAnak[] = $pengukuran->anak->nama;
+
+            // Konversi status gizi ke angka
+            $statusGiziAngka[] = $statusMap[$pengukuran->status_gizi_bmi] ?? 0;
+        }
+    }
+
+    return view('orangtua.dashboardortu', [
+        'anak' => $listAnak,
+        'pengukuranTerbaru' => $pengukuranTerbaru,
+        'statusGiziCount' => $statusGiziCount,
+        'namaAnak' => $namaAnak,
+        'statusGiziAngka' => $statusGiziAngka, // kirim ke Blade
+    ]);
 }
+
+
+    }
+

@@ -76,12 +76,68 @@
       </div>
 
       {{-- Grafik Status Gizi --}}
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">Grafik Status Gizi Anak</h5>
-          <canvas id="statusGiziChart"></canvas>
+    <div class="col-12">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Laporan <span>/Status Gizi Anak</span></h5>
+
+                <!-- Area Chart -->
+                <div id="reportsChart"></div>
+
+                <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const namaAnak = {!! json_encode($namaAnak) !!};
+                    const statusGiziAngka = {!! json_encode($statusGiziAngka) !!};
+                    const statusLabels = {1: 'Kurus', 2: 'Normal', 3: 'Gemuk'};
+
+                    const chart = new ApexCharts(document.querySelector("#reportsChart"), {
+                        series: [{
+                            name: 'Status Gizi Anak',
+                            data: statusGiziAngka
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 350
+                        },
+                        xaxis: {
+                            categories: namaAnak,
+                            title: { text: 'Nama Anak' }
+                        },
+                        yaxis: {
+                            min: 1,
+                            max: 3,
+                            tickAmount: 2,
+                            labels: {
+                                formatter: (val) => statusLabels[val] || val
+                            },
+                            title: { text: 'Status Gizi' }
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: (val) => statusLabels[val] || val
+                            }
+                        },
+                        dataLabels: {
+                            formatter: (val) => statusLabels[val] || val
+                        },
+                        colors: ['#00b894', '#0984e3', '#d63031']
+                    });
+
+                    chart.render();
+                });
+                </script>
+
+
+
+                <!-- End Area Chart -->
+
+            </div>
         </div>
-      </div>
+    </div>
+</div>
+
+
 
     </div>
 
