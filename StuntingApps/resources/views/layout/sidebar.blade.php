@@ -55,12 +55,12 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="/edukasi">
           <i class="bi bi-menu-up"></i>
           <span>Edukasi</span>
         </a>
-      </li>
+      </li> --}}
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="/faskes">

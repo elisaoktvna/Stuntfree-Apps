@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_anak')->constrained('anak')->onDelete('cascade');
             $table->foreignId('id_pengukuran')->constrained('pengukuran')->onDelete('cascade');
             $table->string('judul', 150);
-            $table->string('content');
+            $table->text('content');
             $table->enum('kategori', ['Resiko Tinggi Stunting','Stunting', 'Normal', 'Resiko Gizi Lebih']);
             $table->string('image');
             $table->timestamps();

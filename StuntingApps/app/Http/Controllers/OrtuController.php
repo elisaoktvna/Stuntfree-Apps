@@ -36,16 +36,16 @@ class OrtuController extends Controller
             'id_kecamatan' => 'required',
             'alamat' => 'required',
         ]);
-        
+
         $ortu = new Ortu;
         $ortu->nama = $request->nama;
         $ortu->email = $request->email;
-        // $ortu->password = Hash::make($request->password);
-        // $ortu->id_kecamatan = $request->id_kecamatan;
+        $ortu->password = Hash::make($request->password);
+        $ortu->id_kecamatan = $request->id_kecamatan;
         $ortu->alamat = $request->alamat;
         $ortu->save();
 
-        return redirect('/orangtua.ortu')->with('success', 'Data berhasil ditambahkan');
+        return redirect('/orang')->with('success', 'Data berhasil ditambahkan');
 
     }
 
