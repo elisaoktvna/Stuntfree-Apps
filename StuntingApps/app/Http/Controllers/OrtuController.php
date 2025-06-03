@@ -30,17 +30,36 @@ class OrtuController extends Controller
             'id_kecamatan' => 'required',
             'alamat' => 'required',
         ]);
-
+        
         $ortu = new Ortu;
         $ortu->nama = $request->nama;
         $ortu->email = $request->email;
-        $ortu->password = Hash::make($request->password);
-        $ortu->id_kecamatan = $request->id_kecamatan;
+        // $ortu->password = Hash::make($request->password);
+        // $ortu->id_kecamatan = $request->id_kecamatan;
         $ortu->alamat = $request->alamat;
         $ortu->save();
 
-        return redirect('/ortu')->with('success', 'Data berhasil ditambahkan');
+        return redirect('/orangtua.ortu')->with('success', 'Data berhasil ditambahkan');
 
+    }
+
+    public function update(Request $request, $id)
+    {
+    $request->validate([
+        'nama' => 'required',
+        // 'email' => 'required|email',
+        // 'id_kecamatan' => 'required',
+        'alamat' => 'required',
+    ]);
+
+    $ortu = Ortu::findOrFail($id);
+    $ortu->nama = $request->nama;
+    // $ortu->email = $request->email;
+    // $ortu->id_kecamatan = $request->id_kecamatan;
+    $ortu->alamat = $request->alamat;
+    $ortu->save();
+
+    return redirect('/ortu')->with('success', 'Data berhasil diupdate');
     }
 
     public function edit ($id) {
