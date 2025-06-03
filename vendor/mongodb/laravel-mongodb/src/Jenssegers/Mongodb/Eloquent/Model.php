@@ -1,21 +1,20 @@
-<?php namespace Jenssegers\Mongodb\Eloquent;
+<?php
+
+namespace Jenssegers\Mongodb\Eloquent;
 
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Query\Builder as QueryBuilder;
-use Jenssegers\Mongodb\Relations\EmbedsMany;
-use Jenssegers\Mongodb\Relations\EmbedsOne;
-use Jenssegers\Mongodb\Relations\EmbedsOneOrMany;
-use MongoDate;
-use MongoId;
-use ReflectionMethod;
+use MongoDB\BSON\ObjectID;
+use MongoDB\BSON\UTCDateTime;
 
 abstract class Model extends BaseModel
 {
-
-    use HybridRelations;
+    use HybridRelations, EmbedsRelations;
 
     /**
      * The collection associated with the model.
@@ -41,19 +40,19 @@ abstract class Model extends BaseModel
     /**
      * Custom accessor for the model's id.
      *
-     * @param  mixed  $value
+     * @param  mixed $value
      * @return mixed
      */
-    public function getIdAttribute($value)
+    public function getIdAttribute($value = null)
     {
         // If we don't have a value for 'id', we will use the Mongo '_id' value.
         // This allows us to work with models in a more sql-like way.
-        if (! $value and array_key_exists('_id', $this->attributes)) {
+        if (!$value && array_key_exists('_id', $this->attributes)) {
             $value = $this->attributes['_id'];
         }
 
-        // Convert MongoId's to string.
-        if ($value instanceof MongoId) {
+        // Convert ObjectID to string.
+        if ($value instanceof ObjectID) {
             return (string) $value;
         }
 
@@ -61,9 +60,7 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Get the table qualified key name.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getQualifiedKeyName()
     {
@@ -71,116 +68,38 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Define an embedded one-to-many relationship.
-     *
-     * @param  string  $related
-     * @param  string  $localKey
-     * @param  string  $foreignKey
-     * @param  string  $relation
-     * @return \Jenssegers\Mongodb\Relations\EmbedsMany
-     */
-    protected function embedsMany($related, $localKey = null, $foreignKey = null, $relation = null)
-    {
-        // If no relation name was given, we will use this debug backtrace to extract
-        // the calling method's name and use that as the relationship name as most
-        // of the time this will be what we desire to use for the relatinoships.
-        if (is_null($relation)) {
-            list(, $caller) = debug_backtrace(false);
-
-            $relation = $caller['function'];
-        }
-
-        if (is_null($localKey)) {
-            $localKey = $relation;
-        }
-
-        if (is_null($foreignKey)) {
-            $foreignKey = snake_case(class_basename($this));
-        }
-
-        $query = $this->newQuery();
-
-        $instance = new $related;
-
-        return new EmbedsMany($query, $this, $instance, $localKey, $foreignKey, $relation);
-    }
-
-    /**
-     * Define an embedded one-to-many relationship.
-     *
-     * @param  string  $related
-     * @param  string  $localKey
-     * @param  string  $foreignKey
-     * @param  string  $relation
-     * @return \Jenssegers\Mongodb\Relations\EmbedsOne
-     */
-    protected function embedsOne($related, $localKey = null, $foreignKey = null, $relation = null)
-    {
-        // If no relation name was given, we will use this debug backtrace to extract
-        // the calling method's name and use that as the relationship name as most
-        // of the time this will be what we desire to use for the relatinoships.
-        if (is_null($relation)) {
-            list(, $caller) = debug_backtrace(false);
-
-            $relation = $caller['function'];
-        }
-
-        if (is_null($localKey)) {
-            $localKey = $relation;
-        }
-
-        if (is_null($foreignKey)) {
-            $foreignKey = snake_case(class_basename($this));
-        }
-
-        $query = $this->newQuery();
-
-        $instance = new $related;
-
-        return new EmbedsOne($query, $this, $instance, $localKey, $foreignKey, $relation);
-    }
-
-    /**
-     * Convert a DateTime to a storable MongoDate object.
-     *
-     * @param  DateTime|int  $value
-     * @return MongoDate
+     * @inheritdoc
      */
     public function fromDateTime($value)
     {
-        // If the value is already a MongoDate instance, we don't need to parse it.
-        if ($value instanceof MongoDate) {
+        // If the value is already a UTCDateTime instance, we don't need to parse it.
+        if ($value instanceof UTCDateTime) {
             return $value;
         }
 
         // Let Eloquent convert the value to a DateTime instance.
-        if (! $value instanceof DateTime) {
+        if (!$value instanceof DateTime) {
             $value = parent::asDateTime($value);
         }
 
-        return new MongoDate($value->getTimestamp());
+        return new UTCDateTime($value->getTimestamp() * 1000);
     }
 
     /**
-     * Return a timestamp as DateTime object.
-     *
-     * @param  mixed  $value
-     * @return DateTime
+     * @inheritdoc
      */
     protected function asDateTime($value)
     {
-        // Convert MongoDate instances.
-        if ($value instanceof MongoDate) {
-            return Carbon::createFromTimestamp($value->sec);
+        // Convert UTCDateTime instances.
+        if ($value instanceof UTCDateTime) {
+            return Carbon::createFromTimestamp($value->toDateTime()->getTimestamp());
         }
 
         return parent::asDateTime($value);
     }
 
     /**
-     * Get the format for database stored dates.
-     *
-     * @return string
+     * @inheritdoc
      */
     protected function getDateFormat()
     {
@@ -188,19 +107,15 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Get a fresh timestamp for the model.
-     *
-     * @return MongoDate
+     * @inheritdoc
      */
     public function freshTimestamp()
     {
-        return new MongoDate;
+        return new UTCDateTime(time() * 1000);
     }
 
     /**
-     * Get the table associated with the model.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function getTable()
     {
@@ -208,112 +123,66 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Get an attribute from the model.
-     *
-     * @param  string  $key
-     * @return mixed
+     * @inheritdoc
      */
     public function getAttribute($key)
     {
-        // Check if the key is an array dot notation.
-        if (str_contains($key, '.') and array_has($this->attributes, $key)) {
+        if (!$key) {
+            return;
+        }
+
+        // Dot notation support.
+        if (Str::contains($key, '.') && Arr::has($this->attributes, $key)) {
             return $this->getAttributeValue($key);
         }
 
-        $camelKey = camel_case($key);
-
-        // If the "attribute" exists as a method on the model, it may be an
-        // embedded model. If so, we need to return the result before it
-        // is handled by the parent method.
-        if (method_exists($this, $camelKey)) {
-            $method = new ReflectionMethod(get_called_class(), $camelKey);
-
-            // Ensure the method is not static to avoid conflicting with Eloquent methods.
-            if (! $method->isStatic()) {
-                $relations = $this->$camelKey();
-
-                // This attribute matches an embedsOne or embedsMany relation so we need
-                // to return the relation results instead of the interal attributes.
-                if ($relations instanceof EmbedsOneOrMany) {
-                    // If the key already exists in the relationships array, it just means the
-                    // relationship has already been loaded, so we'll just return it out of
-                    // here because there is no need to query within the relations twice.
-                    if (array_key_exists($key, $this->relations)) {
-                        return $this->relations[$key];
-                    }
-
-                    // Get the relation results.
-                    return $this->getRelationshipFromMethod($key, $camelKey);
-                }
-            }
+        // This checks for embedded relation support.
+        if (method_exists($this, $key) && !method_exists(self::class, $key)) {
+            return $this->getRelationValue($key);
         }
 
         return parent::getAttribute($key);
     }
 
     /**
-     * Get an attribute from the $attributes array.
-     *
-     * @param  string  $key
-     * @return mixed
+     * @inheritdoc
      */
     protected function getAttributeFromArray($key)
     {
         // Support keys in dot notation.
-        if (str_contains($key, '.')) {
-            $attributes = array_dot($this->attributes);
-
-            if (array_key_exists($key, $attributes)) {
-                return $attributes[$key];
-            }
+        if (Str::contains($key, '.')) {
+            return Arr::get($this->attributes, $key);
         }
 
         return parent::getAttributeFromArray($key);
     }
 
     /**
-     * Set a given attribute on the model.
-     *
-     * @param  string  $key
-     * @param  mixed   $value
+     * @inheritdoc
      */
     public function setAttribute($key, $value)
     {
-        // Convert _id to MongoId.
-        if ($key == '_id' and is_string($value)) {
+        // Convert _id to ObjectID.
+        if ($key == '_id' && is_string($value)) {
             $builder = $this->newBaseQueryBuilder();
 
             $value = $builder->convertKey($value);
-        }
-
-        // Support keys in dot notation.
-        elseif (str_contains($key, '.')) {
+        } // Support keys in dot notation.
+        elseif (Str::contains($key, '.')) {
             if (in_array($key, $this->getDates()) && $value) {
                 $value = $this->fromDateTime($value);
             }
 
-            array_set($this->attributes, $key, $value);
+            Arr::set($this->attributes, $key, $value);
 
             return;
         }
 
-        parent::setAttribute($key, $value);
+        return parent::setAttribute($key, $value);
     }
 
     /**
-     * Get the casts array.
-     *
-     * @return array
-     */
-    public function getCasts()
-    {
-        return $this->casts;
-    }
-
-    /**
-     * Convert the model's attributes to an array.
-     *
-     * @return array
+     * @inheritdoc
      */
     public function attributesToArray()
     {
@@ -324,15 +193,15 @@ abstract class Model extends BaseModel
         // of mimics the SQL behaviour so that dates are formatted
         // nicely when your models are converted to JSON.
         foreach ($attributes as $key => &$value) {
-            if ($value instanceof MongoId) {
+            if ($value instanceof ObjectID) {
                 $value = (string) $value;
             }
         }
 
         // Convert dot-notation dates.
         foreach ($this->getDates() as $key) {
-            if (str_contains($key, '.') and array_has($attributes, $key)) {
-                array_set($attributes, $key, (string) $this->asDateTime(array_get($attributes, $key)));
+            if (Str::contains($key, '.') && Arr::has($attributes, $key)) {
+                Arr::set($attributes, $key, (string) $this->asDateTime(Arr::get($attributes, $key)));
             }
         }
 
@@ -340,39 +209,57 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Determine if the new and old values for a given key are numerically equivalent.
-     *
-     * @param  string  $key
-     * @return bool
+     * @inheritdoc
      */
-    protected function originalIsNumericallyEquivalent($key)
+    public function getCasts()
     {
-        $current = $this->attributes[$key];
+        return $this->casts;
+    }
 
-        $original = $this->original[$key];
+    /**
+     * @inheritdoc
+     */
+    protected function originalIsEquivalent($key, $current)
+    {
+        if (!array_key_exists($key, $this->original)) {
+            return false;
+        }
 
-        // Date comparison.
-        if (in_array($key, $this->getDates())) {
-            $current = $current instanceof MongoDate ? $this->asDateTime($current) : $current;
-            $original = $original instanceof MongoDate ? $this->asDateTime($original) : $original;
+        $original = $this->getOriginal($key);
+
+        if ($current === $original) {
+            return true;
+        }
+
+        if (null === $current) {
+            return false;
+        }
+
+        if ($this->isDateAttribute($key)) {
+            $current = $current instanceof UTCDateTime ? $this->asDateTime($current) : $current;
+            $original = $original instanceof UTCDateTime ? $this->asDateTime($original) : $original;
 
             return $current == $original;
         }
 
-        return parent::originalIsNumericallyEquivalent($key);
+        if ($this->hasCast($key)) {
+            return $this->castAttribute($key, $current) ===
+                $this->castAttribute($key, $original);
+        }
+
+        return is_numeric($current) && is_numeric($original)
+            && strcmp((string) $current, (string) $original) === 0;
     }
 
     /**
      * Remove one or more fields.
      *
-     * @param  mixed  $columns
+     * @param  mixed $columns
      * @return int
      */
     public function drop($columns)
     {
-        if (! is_array($columns)) {
-            $columns = [$columns];
-        }
+        $columns = Arr::wrap($columns);
 
         // Unset attributes
         foreach ($columns as $column) {
@@ -384,25 +271,21 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Append one or more values to an array.
-     *
-     * @return mixed
+     * @inheritdoc
      */
     public function push()
     {
         if ($parameters = func_get_args()) {
             $unique = false;
 
-            if (count($parameters) == 3) {
+            if (count($parameters) === 3) {
                 list($column, $values, $unique) = $parameters;
             } else {
                 list($column, $values) = $parameters;
             }
 
             // Do batch push by default.
-            if (! is_array($values)) {
-                $values = [$values];
-            }
+            $values = Arr::wrap($values);
 
             $query = $this->setKeysForSaveQuery($this->newQuery());
 
@@ -417,16 +300,14 @@ abstract class Model extends BaseModel
     /**
      * Remove one or more values from an array.
      *
-     * @param  string  $column
-     * @param  mixed   $values
+     * @param  string $column
+     * @param  mixed $values
      * @return mixed
      */
     public function pull($column, $values)
     {
         // Do batch pull by default.
-        if (! is_array($values)) {
-            $values = [$values];
-        }
+        $values = Arr::wrap($values);
 
         $query = $this->setKeysForSaveQuery($this->newQuery());
 
@@ -438,9 +319,9 @@ abstract class Model extends BaseModel
     /**
      * Append one or more values to the underlying attribute value and sync with original.
      *
-     * @param  string  $column
-     * @param  array   $values
-     * @param  bool    $unique
+     * @param  string $column
+     * @param  array $values
+     * @param  bool $unique
      */
     protected function pushAttributeValues($column, array $values, $unique = false)
     {
@@ -448,11 +329,11 @@ abstract class Model extends BaseModel
 
         foreach ($values as $value) {
             // Don't add duplicate values when we only want unique values.
-            if ($unique and in_array($value, $current)) {
+            if ($unique && (!is_array($current) || in_array($value, $current))) {
                 continue;
             }
 
-            array_push($current, $value);
+            $current[] = $value;
         }
 
         $this->attributes[$column] = $current;
@@ -463,18 +344,20 @@ abstract class Model extends BaseModel
     /**
      * Remove one or more values to the underlying attribute value and sync with original.
      *
-     * @param  string  $column
-     * @param  array   $values
+     * @param  string $column
+     * @param  array $values
      */
     protected function pullAttributeValues($column, array $values)
     {
         $current = $this->getAttributeFromArray($column) ?: [];
 
-        foreach ($values as $value) {
-            $keys = array_keys($current, $value);
+        if (is_array($current)) {
+            foreach ($values as $value) {
+                $keys = array_keys($current, $value);
 
-            foreach ($keys as $key) {
-                unset($current[$key]);
+                foreach ($keys as $key) {
+                    unset($current[$key]);
+                }
             }
         }
 
@@ -484,9 +367,17 @@ abstract class Model extends BaseModel
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getForeignKey()
+    {
+        return Str::snake(class_basename($this)) . '_' . ltrim($this->primaryKey, '_');
+    }
+
+    /**
      * Set the parent relation.
      *
-     * @param  \Illuminate\Database\Eloquent\Relations\Relation  $relation
+     * @param  \Illuminate\Database\Eloquent\Relations\Relation $relation
      */
     public function setParentRelation(Relation $relation)
     {
@@ -504,10 +395,7 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Create a new Eloquent query builder for the model.
-     *
-     * @param  \Jenssegers\Mongodb\Query\Builder $query
-     * @return \Jenssegers\Mongodb\Eloquent\Builder|static
+     * @inheritdoc
      */
     public function newEloquentBuilder($query)
     {
@@ -515,9 +403,7 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Get a new query builder instance for the connection.
-     *
-     * @return Builder
+     * @inheritdoc
      */
     protected function newBaseQueryBuilder()
     {
@@ -527,11 +413,26 @@ abstract class Model extends BaseModel
     }
 
     /**
-     * Handle dynamic method calls into the method.
-     *
-     * @param  string  $method
-     * @param  array   $parameters
-     * @return mixed
+     * @inheritdoc
+     */
+    protected function removeTableFromKey($key)
+    {
+        return $key;
+    }
+
+    /**
+     * Checks if column exists on a table.  As this is a document model, just return true.  This also
+     * prevents calls to non-existent function Grammar::compileColumnListing()
+     * @param string $key
+     * @return bool
+     */
+    protected function isGuardableColumn($key)
+    {
+        return true;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function __call($method, $parameters)
     {

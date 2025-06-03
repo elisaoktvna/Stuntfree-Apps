@@ -11,27 +11,75 @@ use Illuminate\Support\Facades\Auth;
 
 class AnakController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //     $ortuid = Auth::id();
+
+    //     $anak = Anak::where('id_orangtua', $ortuid)->get();
+
+    //     // $anak = Anak::with('ortu')->get();
+    //     return view('anak.anak', compact('anak'));
+    // }
+
+    public function index ()
     {
-        $anak = Anak::with('ortu')->get();
-        return view('anak.anak', compact('anak'));
+        if(Auth::guard('web')->check()){
+            $anak = Anak::with('ortu')->get();
+            return view('anak.anak', compact('anak'));
+        }
+
+        if (Auth::guard('ortu')->check()){
+            $ortuid = Auth::guard('ortu')->id();
+            $anak = Anak::where('id_orangtua', $ortuid)->get();
+            return view('anak.ortu-chart', compact('anak'));
+        }
+
+        return redirect('/');
     }
 
     public function create()
     {
+        if (Auth::guard('web')->check()) {
+        // Admin bisa pilih ortu
         $ortu = Ortu::all();
         return view('anak.addanak', compact('ortu'));
+        }
+
+        if (Auth::guard('ortu')->check()) {
+            // Ortu otomatis, tanpa perlu pilih
+            return view('anak.addanak'); // tanpa data ortu
+        }
+
+        return redirect('/');
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nik' => 'required',
-            'nama' => 'required|max:100',
-            'jenis_kelamin' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'id_orangtua' => 'required',
-        ]);
+        // Kalau admin, id_orangtua wajib diisi dari form
+        // Kalau ortu, id_orangtua diisi otomatis dari user login
+
+        if (Auth::guard('web')->check()) {
+            $validated = $request->validate([
+                'nik' => 'required',
+                'nama' => 'required|max:100',
+                'jenis_kelamin' => 'required',
+                'tanggal_lahir' => 'required|date',
+                'id_orangtua' => 'required',
+            ]);
+        } elseif (Auth::guard('ortu')->check()) {
+            $validated = $request->validate([
+                'nik' => 'required',
+                'nama' => 'required|max:100',
+                'jenis_kelamin' => 'required',
+                'tanggal_lahir' => 'required|date',
+                // 'id_orangtua' tidak perlu input, karena ambil dari login
+            ]);
+
+            // Set id_orangtua dari user ortu yang login
+            $validated['id_orangtua'] = Auth::guard('ortu')->id();
+        } else {
+            return redirect('/');
+        }
 
         $validated['status'] = 'proses';
 
@@ -42,24 +90,24 @@ class AnakController extends Controller
 
 
     public function edit(Anak $anak)
-   {
-     return view('anak.editanak', compact('anak'));
-   }
+    {
+        return view('anak.editanak', compact('anak'));
+    }
 
    public function update(Request $request, Anak $anak)
    {
-    $validated = $request->validate([
-        'nik' => 'required',
-        'nama' => 'required|max:100',
-        'jenis_kelamin' => 'required',
-        'tanggal_lahir' => 'required|date',
-        'status' => 'required',
-    ]);
+        $validated = $request->validate([
+            'nik' => 'required',
+            'nama' => 'required|max:100',
+            'jenis_kelamin' => 'required',
+            'tanggal_lahir' => 'required|date',
+            'status' => 'required',
+        ]);
 
-    // Memperbarui data anak yang telah tervalidasi
-    $anak->update($validated);
+        // Memperbarui data anak yang telah tervalidasi
+        $anak->update($validated);
 
-    return redirect()->route('anak.index')->with('success', 'Data anak berhasil diperbarui');
+        return redirect()->route('anak.index')->with('success', 'Data anak berhasil diperbarui');
    }
 
    public function destroy(Anak $anak)

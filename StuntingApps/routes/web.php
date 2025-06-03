@@ -16,7 +16,8 @@ use App\Http\Controllers\PengukuranController;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TemplateEdukasiController;
-
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\OrtuProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,9 @@ Route::get('/', function () {
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingpage');
 Route::get('/paket', [LandingPageController::class, 'tampilpaket']);
+Route::get('/faskeslengkap', [LandingPageController::class, 'tampilfaskeslengkap']);
+Route::get('/edukasilengkap', [LandingPageController::class, 'edukasilengkap']);
+
 
 Route::middleware(['user'])->group(function () {
 
@@ -64,6 +68,7 @@ Route::post('/addadmincreate', [AdminController::class, 'store']);
 Route::delete('/deleteadmin/{id}', [AdminController::class, 'destroy']);
 
 Route::get('/ortu', [OrtuController::class, 'index']);
+Route::get('/dataanak', [OrtuController::class, 'tampilanak']);
 Route::get('/addortu', [OrtuController::class, 'create']);
 Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
@@ -114,8 +119,9 @@ Route::delete('/templateedukasi/{id}', [TemplateEdukasiController::class, 'destr
 
 });
 
-Route::middleware(['auth:web,ortu'])->group(function () {
+Route::middleware(['multiguard:web,ortu'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard-ortu', [DashboardController::class, 'dashboardOrtu'])->name('dashboard.ortu');
 
     // route anak
     Route::get('/anak', [AnakController::class, 'index'])->name('anak.index');
@@ -131,8 +137,13 @@ Route::middleware(['auth:web,ortu'])->group(function () {
 
     Route::get('/pengukuran', [PengukuranController::class, 'index']);
     Route::get('/addpengukuran', [PengukuranController::class, 'create']);
+    Route::get('/addpengukuran/{id}', [PengukuranController::class, 'createByOrtu'])->name('addpengukuran');;
     Route::post('/addpengukur', [PengukuranController::class, 'store']);
 });
+
+    //Profile
+Route::middleware(['auth:web'])->get('/user/profile', [UserProfileController::class, 'index'])->name('user.profile');
+Route::middleware(['auth:ortu'])->get('/ortu/profile', [OrtuProfileController::class, 'index'])->name('ortu.profile');
 
 
 

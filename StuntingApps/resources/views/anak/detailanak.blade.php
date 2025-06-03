@@ -81,7 +81,7 @@
         <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4 h-100">
                 @if($anak->latestEdukasi->image)
-                    <img src="{{ asset('storage/' . $anak->latestEdukasi->image) }}" class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
+                    <img src="{{ asset('storage/image/' . $anak->latestEdukasi->image) }}" class="card-img-top rounded-top-4" style="height: 200px; object-fit: cover;">
                 @endif
                 <div class="card-body d-flex flex-column">
                     <h3 class="card-title fw-bold text-primary" style="font-size: 2rem; margin-bottom: 0;">

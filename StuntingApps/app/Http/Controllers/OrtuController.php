@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anak;
 use App\Models\Ortu;
 use App\Models\Kecamatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,6 +14,10 @@ class OrtuController extends Controller
 {
     public function index() {
         $ortu = Ortu::with('kecamatan')->get();
+        $ortuid = Auth::id();
+
+        $anak = Anak::where('id_orangtua', $ortuid)->get();
+
         return view('orangtua.ortu', compact('ortu'));
     }
 
@@ -69,7 +75,7 @@ class OrtuController extends Controller
 
     public function loginForm() {
         if(Auth::guard('ortu')->check()) {
-            return redirect('/dahsboard');
+            return redirect('/dahsboard-ortu');
         }
         return view('login_ortu');
     }
@@ -79,7 +85,7 @@ class OrtuController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('ortu')->attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/dashboard-ortu');
         }
 
         return back()->withErrors([

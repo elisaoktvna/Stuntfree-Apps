@@ -31,4 +31,9 @@ class Ortu extends Authenticatable
     {
         return $this->belongsTo(Kecamatan::class, 'id_kecamatan');
     }
+
+    public function anak()
+    {
+        return $this->hasMany(Anak::class, 'id_orangtua');
+    }
 }

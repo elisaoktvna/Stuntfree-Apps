@@ -2,6 +2,10 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
+
+
+      @auth('web')
+
       <li class="nav-item">
         <a class="nav-link collapsed" href="/dashboard">
           <i class="bi bi-grid"></i>
@@ -9,7 +13,6 @@
         </a>
       </li>
 
-      @auth('web')
       <li class="nav-item">
         <a class="nav-link collapsed" href="/kecamatan">
           <i class="bi bi-pin-map-fill"></i>
@@ -75,6 +78,12 @@
       @endauth
 
       @auth('ortu')
+       <li class="nav-item">
+        <a class="nav-link collapsed" href="/dashboard-ortu">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="/anak">
             <i class="bi bi-menu-button-wide"></i>

@@ -268,7 +268,8 @@
           <p class="text-muted">
             StuntFree membantu orang tua memantau pertumbuhan anak melalui prediksi risiko stunting berbasis data dan teknologi.
           </p>
-          <a href="#" class="btn btn-primary rounded-pill shadow">Coba Sekarang</a>
+          <a href="/signuportu" class="btn btn-primary rounded-pill shadow">Coba Sekarang</a>
+
         </div>
       </div>
     </div>
@@ -303,8 +304,8 @@
             Pelajari lebih dalam tentang stunting serta temukan fasilitas kesehatan terdekat untuk mendapatkan layanan terbaik.
         </p>
         <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="#" class="btn btn-outline-light rounded-pill">Edukasi Kesehatan</a>
-            <a href="#" class="btn btn-light text-primary rounded-pill">Cari Fasilitas</a>
+            <a href="/edukasilengkap" class="btn btn-outline-light rounded-pill">Edukasi Kesehatan</a>
+            <a href="/faskeslengkap" class="btn btn-light text-primary rounded-pill">Cari Fasilitas</a>
         </div>
     </div>
 
@@ -328,31 +329,6 @@
         </style>
   </div>
   </section>
-
-  <section class="py-5" style="background-color: #f8f9ff;">
-  <div class="container">
-    <h3 class="text-center fw-bold mb-5 section-title">Fasilitas Kesehatan Jember</h3>
-    <div class="row g-4">
-      @foreach ($faskes as $item)
-        <div class="col-md-4 fade-up">
-          <div class="card h-100 border-0 shadow-sm rounded-4">
-                <div class="card-body">
-              <h5 class="card-title fw-bold">{{ $item->nama }}</h5>
-              <p class="card-text text-muted">{{ $item->alamat }}</p>
-              @if ($item->telepon && $item->telepon != '-')
-                <p class="card-text"><i class="fas fa-phone-alt me-1"></i> {{ $item->telepon }}</p>
-              @endif
-              <a href="{{ $item->urlmaps }}" class="btn btn-outline-primary rounded-pill" target="_blank">Lihat di Maps</a>
-            </div>
-          </div>
-        </div>
-      @endforeach
-    </div>
-  </div>
-</section>
-
-
-
 
   <!-- Footer -->
   <footer class="footer" id='footer'>
@@ -420,6 +396,7 @@
   </script>
 </body>
 <script src="path/to/main.js"></script>
+
 
 
 </html>

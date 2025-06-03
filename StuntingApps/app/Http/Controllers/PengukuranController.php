@@ -11,15 +11,43 @@ use Illuminate\Support\Facades\Http;
 
 class PengukuranController extends Controller
 {
-    public function index() {
-        $pengukuran = Pengukuran::with('anak')->latest()->get();
-        return view ('pengukuran.pengukuran', compact('pengukuran'));
+    // public function index() {
+    //     $pengukuran = Pengukuran::with('anak')->latest()->get();
+    //     return view ('pengukuran.pengukuran', compact('pengukuran'));
+    // }
+
+    public function index()
+    {
+        if (auth()->guard('web')->check()) {
+            $pengukuran = Pengukuran::with('anak')->latest()->get();
+            return view('pengukuran.pengukuran', compact('pengukuran'));
+        } elseif (auth()->guard('ortu')->check()) {
+            $idOrtu = auth()->guard('ortu')->id();
+            $anakList = Anak::with(['pengukuran' => function ($q) {
+                $q->orderBy('created_at', 'desc');
+            }])->where('id_orangtua', $idOrtu)->get();
+
+            return view('pengukuran.pengukuranortu', compact('anakList'));
+        }
     }
+
 
     public function create(){
         $anak = Anak::where('status', 'diterima')->get();
         return view('pengukuran.addpengukuran', compact('anak'));
     }
+
+   public function createByOrtu($id)
+    {
+        $anak = Anak::where('id', $id)
+                    ->where('status', 'diterima')
+                    ->where('id_orangtua', auth()->guard('ortu')->id())
+                    ->firstOrFail();
+
+        return view('pengukuran.pengukuranbyortu', compact('anak'));
+    }
+
+
 
     public function store(Request $request)
     {

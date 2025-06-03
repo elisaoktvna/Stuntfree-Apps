@@ -1,6 +1,7 @@
-<?php namespace Jenssegers\Mongodb\Schema;
+<?php
 
-use Closure;
+namespace Jenssegers\Mongodb\Schema;
+
 use Illuminate\Database\Connection;
 
 class Blueprint extends \Illuminate\Database\Schema\Blueprint
@@ -8,14 +9,14 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     /**
      * The MongoConnection object for this blueprint.
      *
-     * @var MongoConnection
+     * @var \Jenssegers\Mongodb\Connection
      */
     protected $connection;
 
     /**
      * The MongoCollection object for this blueprint.
      *
-     * @var MongoCollection
+     * @var \Jenssegers\Mongodb\Collection|\MongoDB\Collection
      */
     protected $collection;
 
@@ -27,26 +28,19 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     protected $columns = [];
 
     /**
-     * Create a new schema blueprint.
-     *
-     * @param  string   $table
-     * @param  Closure  $callback
+     * @inheritdoc
      */
     public function __construct(Connection $connection, $collection)
     {
         $this->connection = $connection;
 
-        $this->collection = $connection->getCollection($collection);
+        $this->collection = $this->connection->getCollection($collection);
     }
 
     /**
-     * Specify an index for the collection.
-     *
-     * @param  string|array  $columns
-     * @param  array         $options
-     * @return Blueprint
+     * @inheritdoc
      */
-    public function index($columns = null, $options = [])
+    public function index($columns = null, $name = null, $algorithm = null, $options = [])
     {
         $columns = $this->fluent($columns);
 
@@ -62,28 +56,25 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
             $columns = $transform;
         }
 
-        $this->collection->ensureIndex($columns, $options);
+        if ($name !== null) {
+            $options['name'] = $name;
+        }
+
+        $this->collection->createIndex($columns, $options);
 
         return $this;
     }
 
     /**
-     * Specify the primary key(s) for the table.
-     *
-     * @param  string|array  $columns
-     * @param  array         $options
-     * @return \Illuminate\Support\Fluent
+     * @inheritdoc
      */
-    public function primary($columns = null, $options = [])
+    public function primary($columns = null, $name = null, $algorithm = null, $options = [])
     {
-        return $this->unique($columns, $options);
+        return $this->unique($columns, $name, $algorithm, $options);
     }
 
     /**
-     * Indicate that the given index should be dropped.
-     *
-     * @param  string|array  $columns
-     * @return Blueprint
+     * @inheritdoc
      */
     public function dropIndex($columns = null)
     {
@@ -95,31 +86,29 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
             $transform = [];
 
             foreach ($columns as $column) {
-                $transform[$column] = 1;
+                $transform[$column] = $column . '_1';
             }
 
             $columns = $transform;
         }
 
-        $this->collection->deleteIndex($columns);
+        foreach ($columns as $column) {
+            $this->collection->dropIndex($column);
+        }
 
         return $this;
     }
 
     /**
-     * Specify a unique index for the collection.
-     *
-     * @param  string|array  $columns
-     * @param  array         $options
-     * @return Blueprint
+     * @inheritdoc
      */
-    public function unique($columns = null, $options = [])
+    public function unique($columns = null, $name = null, $algorithm = null, $options = [])
     {
         $columns = $this->fluent($columns);
 
         $options['unique'] = true;
 
-        $this->index($columns, $options);
+        $this->index($columns, $name, $algorithm, $options);
 
         return $this;
     }
@@ -127,14 +116,14 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     /**
      * Specify a non blocking index for the collection.
      *
-     * @param  string|array  $columns
+     * @param  string|array $columns
      * @return Blueprint
      */
     public function background($columns = null)
     {
         $columns = $this->fluent($columns);
 
-        $this->index($columns, ['background' => true]);
+        $this->index($columns, null, null, ['background' => true]);
 
         return $this;
     }
@@ -142,8 +131,8 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     /**
      * Specify a sparse index for the collection.
      *
-     * @param  string|array  $columns
-     * @param  array         $options
+     * @param  string|array $columns
+     * @param  array $options
      * @return Blueprint
      */
     public function sparse($columns = null, $options = [])
@@ -152,7 +141,32 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
 
         $options['sparse'] = true;
 
-        $this->index($columns, $options);
+        $this->index($columns, null, null, $options);
+
+        return $this;
+    }
+
+    /**
+     * Specify a geospatial index for the collection.
+     *
+     * @param  string|array $columns
+     * @param  string $index
+     * @param  array $options
+     * @return Blueprint
+     */
+    public function geospatial($columns = null, $index = '2d', $options = [])
+    {
+        if ($index == '2d' || $index == '2dsphere') {
+            $columns = $this->fluent($columns);
+
+            $columns = array_flip($columns);
+
+            foreach ($columns as $column => $value) {
+                $columns[$column] = $index;
+            }
+
+            $this->index($columns, null, null, $options);
+        }
 
         return $this;
     }
@@ -161,27 +175,25 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
      * Specify the number of seconds after wich a document should be considered expired based,
      * on the given single-field index containing a date.
      *
-     * @param  string|array  $columns
-     * @param  int           $seconds
+     * @param  string|array $columns
+     * @param  int $seconds
      * @return Blueprint
      */
     public function expire($columns, $seconds)
     {
         $columns = $this->fluent($columns);
 
-        $this->index($columns, ['expireAfterSeconds' => $seconds]);
+        $this->index($columns, null, null, ['expireAfterSeconds' => $seconds]);
 
         return $this;
     }
 
     /**
-     * Indicate that the table needs to be created.
-     *
-     * @return bool
+     * @inheritdoc
      */
     public function create()
     {
-        $collection = $this->collection->getName();
+        $collection = $this->collection->getCollectionName();
 
         $db = $this->connection->getMongoDB();
 
@@ -190,9 +202,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     }
 
     /**
-     * Indicate that the collection should be dropped.
-     *
-     * @return bool
+     * @inheritdoc
      */
     public function drop()
     {
@@ -200,12 +210,7 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     }
 
     /**
-     * Add a new column to the blueprint.
-     *
-     * @param  string  $type
-     * @param  string  $name
-     * @param  array   $parameters
-     * @return Blueprint
+     * @inheritdoc
      */
     public function addColumn($type, $name, array $parameters = [])
     {
@@ -215,9 +220,28 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     }
 
     /**
+     * Specify a sparse and unique index for the collection.
+     *
+     * @param  string|array $columns
+     * @param  array $options
+     * @return Blueprint
+     */
+    public function sparse_and_unique($columns = null, $options = [])
+    {
+        $columns = $this->fluent($columns);
+
+        $options['sparse'] = true;
+        $options['unique'] = true;
+
+        $this->index($columns, null, null, $options);
+
+        return $this;
+    }
+
+    /**
      * Allow fluent columns.
      *
-     * @param  string|array  $columns
+     * @param  string|array $columns
      * @return string|array
      */
     protected function fluent($columns = null)
@@ -234,6 +258,8 @@ class Blueprint extends \Illuminate\Database\Schema\Blueprint
     /**
      * Allows the use of unsupported schema methods.
      *
+     * @param $method
+     * @param $args
      * @return Blueprint
      */
     public function __call($method, $args)

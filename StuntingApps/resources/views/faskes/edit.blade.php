@@ -33,6 +33,17 @@
                   </div>
                 </div>
                 <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">Kecamatan</label>
+                    <div class="col-sm-10">
+                    <select name="id_kecamatan" class="form-select" aria-label="Default select example" name="role">
+                        <option selected>Pilih Kecamatan</option>
+                        @foreach ($kecamatan as $k)
+                        <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
                   <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" name="alamat" value="{{ old('alamat', $faskes->alamat) }}">
