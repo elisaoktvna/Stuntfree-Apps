@@ -72,7 +72,8 @@ Route::get('/dataanak', [OrtuController::class, 'tampilanak']);
 Route::get('/addortu', [OrtuController::class, 'create']);
 Route::post('/addortucreate', [OrtuController::class, 'store']);
 Route::get('/editortu/{id}', [OrtuController::class, 'edit']);
-Route::put('/update/{id}', [OrtuController::class, 'update']);
+Route::put('/update/{id}', [OrtuController::class, 'update'])->name('update');
+
 
 
 // route kecamatan

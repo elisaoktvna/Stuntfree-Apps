@@ -20,7 +20,7 @@
             <h5 class="card-title">General Form Elements</h5>
 
             <!-- General Form Elements -->
-            <form action="/update/{{ $ortu->id }}" method="POST">
+            <form action="{{ route('update', $ortu->id) }}" method="POST">
                 @csrf
                 @method('PUT')
               <div class="row mb-3">
@@ -29,12 +29,12 @@
                   <input type="text" class="form-control" name="nama" value="{{ $ortu->nama }}">
                 </div>
               </div>
-              <div class="row mb-3">
+              {{-- <div class="row mb-3">
                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                 <div class="col-sm-10">
                   <input type="email" class="form-control" name="email" value="{{ $ortu->email }}">
                 </div>
-              </div>
+              </div> --}}
               {{-- <div class="row mb-4">
                 <label class="col-sm-2 col-form-label">Kecamatan</label>
                 <div class="col-sm-10">
