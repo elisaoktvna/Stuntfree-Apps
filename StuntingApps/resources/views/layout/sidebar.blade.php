@@ -28,27 +28,6 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="/ortu">
-          <i class="bi bi-people"></i>
-          <span>Orang Tua</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="/anak">
-          <i class="bi bi-menu-button-wide"></i>
-          <span>Data Anak</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="/pengukuran">
-          <i class="bi bi-graph-up"></i>
-          <span>Pengukuran</span>
-        </a>
-      </li>
-
-        <li class="nav-item">
         <a class="nav-link collapsed" href="/templateedukasi">
           <i class="bi bi-file-play-fill"></i>
           <span>Template Edukasi</span>
@@ -75,6 +54,29 @@
           <span>Tempat Paket Gizi</span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/ortu">
+          <i class="bi bi-people"></i>
+          <span>Orang Tua</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/anak">
+          <i class="bi bi-menu-button-wide"></i>
+          <span>Data Anak</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="/pengukuran">
+          <i class="bi bi-graph-up"></i>
+          <span>Pengukuran</span>
+        </a>
+      </li>
+
+
       @endauth
 
       @auth('ortu')

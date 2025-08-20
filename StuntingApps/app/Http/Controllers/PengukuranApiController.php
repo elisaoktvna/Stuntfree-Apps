@@ -29,6 +29,7 @@ class PengukuranApiController extends Controller
             'tinggi' => 'required|numeric',
             'usia_bulan' => 'required|integer',
         ]);
+        
 
         $anak = Anak::find($validatedData['id_anak']);
         $jenis_kelamin = $anak->jenis_kelamin;

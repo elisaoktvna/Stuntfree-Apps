@@ -17,7 +17,7 @@ use Illuminate\Routing\Controllers\Middleware;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\TemplateEdukasiController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\OrtuProfileController;
+use App\Http\Controllers\OrtuProfileController; 
 
 /*
 |--------------------------------------------------------------------------
