@@ -37,18 +37,19 @@
                 </div>
 
                 <div class="row mb-3">
-                <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="kategori" required>
-                        <option value="">-- Pilih Kategori --</option>
-                        <option value="Stunting" {{ old('kategori', $template->kategori) == 'Stunting' ? 'selected' : '' }}>Stunting</option>
-                        <option value="Normal" {{ old('kategori', $template->kategori) == 'Normal' ? 'selected' : '' }}>Normal</option>
-                        <option value="Tall" {{ old('kategori', $template->kategori) == 'Tall' ? 'selected' : '' }}>Tall</option>
-                    </select>
-                            @error('kategori')
+                    <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="kategori" required>
+                            <option value="">-- Pilih Kategori --</option>
+                            <option value="Resiko Tinggi Stunting" {{ old('kategori', $template->kategori) == 'Resiko Tinggi Stunting' ? 'selected' : '' }}>Resiko Tinggi Stunting</option>
+                            <option value="Stunting" {{ old('kategori', $template->kategori) == 'Stunting' ? 'selected' : '' }}>Stunting</option>
+                            <option value="Normal" {{ old('kategori', $template->kategori) == 'Normal' ? 'selected' : '' }}>Normal</option>
+                            <option value="Resiko Gizi Lebih" {{ old('kategori', $template->kategori) == 'Resiko Gizi Lebih' ? 'selected' : '' }}>Resiko Gizi Lebih</option>
+                        </select>
+                        @error('kategori')
                             <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                </div>
+                        @enderror
+                    </div>
                 </div>
 
                 <div class="row mb-3">

@@ -45,28 +45,34 @@ class TemplateEdukasiController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'judul' => 'required|string|max:150',
-            'content' => 'required',
-            'kategori' => 'required|in:Stunting,Normal,Tall',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+{
+    $request->validate([
+        'judul'   => 'required|string|max:150',
+        'content' => 'required',
+        'kategori'=> 'required|in:Resiko Tinggi Stunting,Stunting,Normal,Resiko Gizi Lebih',
+        'image'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        $template = TemplateEdukasi::findOrFail($id);
-        $data = $request->only(['judul', 'content', 'kategori']);
+    $template = TemplateEdukasi::findOrFail($id);
 
-        if ($request->hasFile('image')) {
-            if ($template->image && Storage::disk('public')->exists($template->image)) {
-                Storage::disk('public')->delete($template->image);
-            }
-            $path = $request->file('image')->store('image', 'public');
-            $data['image'] = basename($path);
+    $data = $request->only(['judul', 'content', 'kategori']);
+
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama
+        if ($template->image && Storage::disk('public')->exists('image/'.$template->image)) {
+            Storage::disk('public')->delete('image/'.$template->image);
         }
 
-        $template->update($data);
-        return redirect()->route('templateedukasi.index')->with('success', 'Template edukasi berhasil diperbarui.');
+        // Upload gambar baru
+        $path = $request->file('image')->store('image', 'public');
+        $data['image'] = basename($path); // tetap pakai basename
     }
+
+    $template->update($data);
+
+    return redirect()->route('templateedukasi.index')
+                     ->with('success', 'Template edukasi berhasil diperbarui.');
+}
 
     public function destroy($id)
     {

@@ -38,7 +38,10 @@
                     <select name="id_kecamatan" class="form-select" aria-label="Default select example" name="role">
                         <option selected>Pilih Kecamatan</option>
                         @foreach ($kecamatan as $k)
-                        <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                        <option value="{{ $k->id }}" 
+                          {{ old('id_kecamatan', $faskes->id_kecamatan) == $k->id ? 'selected' : '' }}>
+                          {{ $k->nama }}
+                      </option>
                         @endforeach
                     </select>
                     </div>

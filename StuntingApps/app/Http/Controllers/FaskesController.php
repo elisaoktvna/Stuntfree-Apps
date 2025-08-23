@@ -22,6 +22,7 @@ class FaskesController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'nama' => 'required|max:150',
             'alamat' => 'required',  // Sesuai form
